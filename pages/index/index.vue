@@ -1,0 +1,375 @@
+<template>
+	<view class="container">
+		<u-navbar title="首页">
+			<view class="u-nav-slot" slot="left">
+				<u-icon name="arrow-left" size="19"></u-icon>
+				<u-line direction="column" :hairline="false" length="16" margin="0 8px"></u-line>
+				<u-icon name="home" size="20"></u-icon>
+			</view>
+		</u-navbar>
+		<view class="content">
+			<u-search placeholder="请输入" v-model="keyword" shape="round" margin="10px" :show-action="true"
+				actionText="搜索" bgColor="#ffffff"></u-search>
+			<!-- 头部轮播 -->
+			<view class="carousel-section">
+				<u-swiper :list="carouselList" keyName="src" circular indicator previousMargin="30" nextMargin="30"
+					height="350rpx" radius="5"></u-swiper>
+			</view>
+			<view class="category">
+				<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+					<view v-for="(item, index) in list" :key="index" class="category-item">
+						<u-image :showLoading="true" :src="item.thumb" width="50" height="50" shape="circle"></u-image>
+						<text style="margin-top: 4px;">{{item.title}}</text>
+					</view>
+					<view class="category-item">
+						<u-icon size="50" name="more-circle-fill" color="#2b85e4"></u-icon>
+						<text>查看更多</text>
+					</view>
+				</u-scroll-list>
+			</view>
+
+			<view class="ad-1">
+				<u-image :showLoading="true" src="/static/temp/ad1.jpg" width="100%" height="210rpx"
+					mode="scrollToFill"></u-image>
+			</view>
+			<!-- 秒杀楼层 -->
+			<view class="seckill-section">
+				<view class="s-header">
+					<view class="left">
+						<u-image :showLoading="true" src="/static/image/secskill-img.jpg" width="140rpx" height="30rpx"
+							mode="widthFix"></u-image>
+						<text class="tip">倒计时开始:</text>
+						<u-count-down :time="30 * 60 * 60 * 1000" format="HH:mm:ss" autoStart millisecond
+							@change="onChange">
+							<view class="time">
+								<view class="time__custom">
+									<text
+										class="time__custom__item">{{ timeData.hours>10?timeData.hours:'0'+timeData.hours}}</text>
+								</view>
+								<text class="time__doc">:</text>
+								<view class="time__custom">
+									<text class="time__custom__item">{{ timeData.minutes }}</text>
+								</view>
+								<text class="time__doc">:</text>
+								<view class="time__custom">
+									<text class="time__custom__item">{{ timeData.seconds }}</text>
+								</view>
+							</view>
+						</u-count-down>
+					</view>
+					<u-icon name="arrow-right"></u-icon>
+				</view>
+				<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+					<view v-for="(item, index) in goodsList" :key="index" class="floor-item"
+						@click="navToDetailPage(item)">
+						<u-image :showLoading="true" :src="item.image" width="150rpx" height="150rpx" radius="4px">
+						</u-image>
+						<text class="title u-line-1" style="display: block;font-size:13px;">{{item.title}}</text>
+						<view>
+							<text class="price">￥{{item.price}}</text>
+						</view>
+					</view>
+				</u-scroll-list>
+			</view>
+
+			<!-- 分类精选 -->
+			<view class="hot-header">
+				<u-image :showLoading="true" src="/static/image/h1.png" width="80rpx" height="80rpx"
+					style="margin-right:20rpx;"></u-image>
+				<view class="tit-box">
+					<text class="tit">分类精选</text>
+				</view>
+				<u-icon name="arrow-right"></u-icon>
+			</view>
+			<view class="category-section">
+				<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+					<view v-for="(item, index) in goodsList" :key="index" class="cate-item"
+						@click="navToDetailPage(item)">
+						<view class="image-wrapper">
+							<u-image :showLoading="true" :src="item.image" width="100%" height="330rpx" radius="4px">
+							</u-image>
+						</view>
+						<text class="title u-line-1" style="display: block;">{{item.title}}</text>
+						<view>
+							<text class="price">￥{{item.price}}</text>
+							<text class="originPrice">￥{{item.price}}</text>
+						</view>
+					</view>
+				</u-scroll-list>
+			</view>
+
+			<!-- 推荐 -->
+			<view class="hot-header">
+				<u-image :showLoading="true" src="/static/image/h1.png" width="80rpx" height="80rpx"
+					style="margin-right:20rpx;"></u-image>
+				<view class="tit-box">
+					<text class="tit">热门推荐</text>
+				</view>
+				<u-icon name="arrow-right"></u-icon>
+			</view>
+
+			<view class="hot-section">
+				<view v-for="(item, index) in goodsList" :key="index" class="hot-item" @click="navToDetailPage(item)">
+					<view class="image-wrapper">
+						<u-image :showLoading="true" :src="item.image" width="100%" height="330rpx" radius="4px">
+						</u-image>
+					</view>
+					<text class="title u-line-2" style="display: block;">{{item.title}}</text>
+					<view>
+						<text class="price">￥{{item.price}}</text>
+						<text class="originPrice">￥{{item.price}}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+
+		data() {
+			return {
+				timeData: {},
+				carouselList: [],
+				goodsList: [],
+				keyword: '',
+				indicator: true,
+				list: [{
+					thumb: "/static/temp/c3.png",
+					title: "分类1"
+				}, {
+					thumb: "/static/temp/c5.png",
+					title: "分类2"
+				}, {
+					thumb: "/static/temp/c6.png",
+					title: "分类3"
+				}, {
+					thumb: "/static/temp/c7.png",
+					title: "分类4"
+				}, {
+					thumb: "/static/temp/c8.png",
+					title: "分类5"
+				}, {
+					thumb: "/static/temp/c3.png",
+					title: "分类6"
+				}]
+			};
+		},
+
+		onLoad() {
+			console.log(this.$json)
+			this.carouselList = this.$json.carouselList
+			this.goodsList = this.$json.goodsList
+		},
+		methods: {
+			onChange(e) {
+				this.timeData = e
+			}
+		}
+
+	}
+</script>
+
+<style lang="scss" scoped>
+	.time {
+		@include flex;
+		align-items: center;
+
+		&__custom {
+			width: 22px;
+			height: 22px;
+			background-color: $price-color;
+			border-radius: 4px;
+			/* #ifndef APP-NVUE */
+			display: flex;
+			/* #endif */
+			justify-content: center;
+			align-items: center;
+
+			&__item {
+				color: #fff;
+				font-size: 12px;
+				text-align: center;
+			}
+		}
+
+		&__doc {
+			color: $price-color;
+			padding: 0px 4px;
+		}
+
+		&__item {
+			color: #606266;
+			font-size: 15px;
+			margin-right: 4px;
+		}
+	}
+
+	.u-nav-slot {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		border-radius: 100px;
+		border: .5px solid #dadbde;
+		padding: 3px 7px;
+		opacity: .8;
+	}
+
+	.carousel-section {
+		margin-bottom: 10px;
+	}
+
+	.category {
+		padding: 10px 0;
+		background: #fff;
+	}
+
+	.category-item {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: calc(20% - 20rpx);
+		margin: 0 10rpx;
+		flex-shrink: 0;
+		text-align: center;
+	}
+
+	.ad-1 {
+		height: 210rpx;
+		padding: 10rpx 20rpx;
+		background: #fff;
+	}
+
+	/* 秒杀专区 */
+	.seckill-section {
+		margin: 10px 0;
+		padding: 0 20rpx;
+		background: #fff;
+
+		.s-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			height: 92rpx;
+			line-height: 1;
+
+			.left {
+				display: flex;
+				align-items: center;
+			}
+
+			.tip {
+				margin: 0 20rpx 0 40rpx;
+			}
+		}
+
+		.floor-item {
+			width: 150rpx;
+			margin-right: 20rpx;
+			
+			.title {
+				padding: 10rpx 0;
+			}
+
+			.price {
+				color: $price-color;
+			}
+		}
+	}
+
+	.hot-header {
+		display: flex;
+		align-items: center;
+		height: 100rpx;
+		margin: 10px 0 0;
+		padding: 10rpx 20rpx;
+		background: #fff;
+
+		.tit-box {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.tit {
+			font-size: 16px;
+		}
+
+		.tit2 {
+			font-size: 12px;
+			color: $u-tips-color;
+		}
+
+	}
+
+	.category-section {
+		background-color: #fff;
+
+		.cate-item {
+			display: flex;
+			flex-direction: column;
+			width: calc(50% - 20rpx);
+			margin: 0 10rpx;
+			flex-shrink: 0;
+
+			.title {
+				padding: 10rpx 0;
+			}
+
+			.image-wrapper {
+				width: 100%;
+				height: 330rpx;
+				overflow: hidden;
+			}
+
+			.price {
+				line-height: 1;
+				color: $price-color;
+			}
+			
+			.originPrice{
+				margin-left: 10rpx;
+				text-decoration:line-through;
+				color: $u-light-color;
+			}
+		}
+	}
+
+	/* 推荐 */
+	.hot-section {
+		column-count: 2;
+		column-gap: 20rpx;
+		padding: 0 20rpx;
+		background: #fff;
+
+		.hot-item {
+			display: flex;
+			flex-direction: column;
+			padding-bottom: 40rpx;
+		}
+
+		.image-wrapper {
+			width: 100%;
+			height: 330rpx;
+			overflow: hidden;
+		}
+
+		.title {
+			padding: 10rpx 0;
+		}
+
+		.price {
+			line-height: 1;
+			color: $price-color;
+		}
+		
+		.originPrice{
+			margin-left: 10rpx;
+			text-decoration:line-through;
+			color: $u-light-color;
+		}
+	}
+</style>
