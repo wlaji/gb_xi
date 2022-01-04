@@ -15,6 +15,7 @@
 <style lang="scss">
 	/*每个页面公共css */
 	@import "uview-ui/index.scss";
+	@import "./icon.scss";
 	page {
 		background-color: $u-bg-color;
 		color:$u-main-color;

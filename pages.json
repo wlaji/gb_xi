@@ -1,6 +1,15 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/login/login",
+			"name": "login",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
 			"path": "pages/index/index",
 			"name": "home",
 			"style": {
@@ -26,6 +35,15 @@
 			"name": "cart",
 			"style": {
 				"navigationBarTitleText": "购物车"
+			}
+
+		}, {
+			"path": "pages/register/register",
+			"name": "register",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "注册",
+				"enablePullDownRefresh": false
 			}
 
 		}
