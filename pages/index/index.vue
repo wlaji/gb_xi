@@ -1,18 +1,17 @@
 <template>
 	<view class="container">
-		<u-navbar title="首页">
+		<!-- <u-navbar title="首页">
 			<view class="u-nav-slot" slot="left">
 				<u-icon name="arrow-left" size="19"></u-icon>
 				<u-line direction="column" :hairline="false" length="16" margin="0 8px"></u-line>
 				<u-icon name="home" size="20"></u-icon>
 			</view>
-		</u-navbar>
+		</u-navbar> -->
 		<view class="content">
-			<u-search placeholder="请输入" v-model="keyword" shape="round" margin="10px" :show-action="true"
-				actionText="搜索" bgColor="#ffffff"></u-search>
+			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false"></u-search>
 			<!-- 头部轮播 -->
 			<view class="carousel-section">
-				<u-swiper :list="carouselList" keyName="src" circular indicator previousMargin="30" nextMargin="30"
+				<u-swiper :list="carouselList" keyName="src" circular indicator previousMargin="40" nextMargin="40"
 					height="350rpx" radius="5"></u-swiper>
 			</view>
 			<view class="category">
@@ -28,37 +27,21 @@
 				</u-scroll-list>
 			</view>
 
-			<view class="ad-1">
+<!-- 			<view class="ad-1">
 				<u-image :showLoading="true" src="/static/temp/ad1.jpg" width="100%" height="210rpx"
 					mode="scrollToFill"></u-image>
-			</view>
-			<!-- 秒杀楼层 -->
-			<view class="seckill-section">
-				<view class="s-header">
-					<view class="left">
-						<u-image :showLoading="true" src="/static/image/secskill-img.jpg" width="140rpx" height="30rpx"
-							mode="widthFix"></u-image>
-						<text class="tip">倒计时开始:</text>
-						<u-count-down :time="30 * 60 * 60 * 1000" format="HH:mm:ss" autoStart millisecond
-							@change="onChange">
-							<view class="time">
-								<view class="time__custom">
-									<text
-										class="time__custom__item">{{ timeData.hours>10?timeData.hours:'0'+timeData.hours}}</text>
-								</view>
-								<text class="time__doc">:</text>
-								<view class="time__custom">
-									<text class="time__custom__item">{{ timeData.minutes }}</text>
-								</view>
-								<text class="time__doc">:</text>
-								<view class="time__custom">
-									<text class="time__custom__item">{{ timeData.seconds }}</text>
-								</view>
-							</view>
-						</u-count-down>
-					</view>
-					<u-icon name="arrow-right"></u-icon>
+			</view> -->
+			
+			<!-- 0元购 -->
+			<view class="hot-header">
+				<u-image :showLoading="true" src="/static/image/h1.png" width="80rpx" height="80rpx"
+					style="margin-right:20rpx;"></u-image>
+				<view class="tit-box">
+					<text class="tit">0元购专区</text>
 				</view>
+				<u-icon name="arrow-right"></u-icon>
+			</view>
+			<view class="seckill-section">
 				<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
 					<view v-for="(item, index) in goodsList" :key="index" class="floor-item"
 						@click="navToDetailPage(item)">
@@ -66,7 +49,7 @@
 						</u-image>
 						<text class="title u-line-1" style="display: block;font-size:13px;">{{item.title}}</text>
 						<view>
-							<text class="price">￥{{item.price}}</text>
+							<text class="price">￥0</text>
 						</view>
 					</view>
 				</u-scroll-list>
@@ -133,7 +116,6 @@
 				timeData: {},
 				carouselList: [],
 				goodsList: [],
-				keyword: '',
 				indicator: true,
 				list: [{
 					thumb: "/static/temp/c3.png",
@@ -172,51 +154,6 @@
 </script>
 
 <style lang="scss" scoped>
-	.time {
-		@include flex;
-		align-items: center;
-
-		&__custom {
-			width: 22px;
-			height: 22px;
-			background-color: $price-color;
-			border-radius: 4px;
-			/* #ifndef APP-NVUE */
-			display: flex;
-			/* #endif */
-			justify-content: center;
-			align-items: center;
-
-			&__item {
-				color: #fff;
-				font-size: 12px;
-				text-align: center;
-			}
-		}
-
-		&__doc {
-			color: $price-color;
-			padding: 0px 4px;
-		}
-
-		&__item {
-			color: #606266;
-			font-size: 15px;
-			margin-right: 4px;
-		}
-	}
-
-	.u-nav-slot {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-		border-radius: 100px;
-		border: .5px solid #dadbde;
-		padding: 3px 7px;
-		opacity: .8;
-	}
-
 	.carousel-section {
 		margin-bottom: 10px;
 	}

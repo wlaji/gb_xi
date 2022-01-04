@@ -21,7 +21,7 @@
 				</view>
 			</u-empty>
 		</view>
-		<view v-else>
+		<view v-else style="padding:20rpx;">
 			<!-- 列表 -->
 			<view class="cart-list">
 				<block v-for="(item, index) in cartList" :key="item.id">
@@ -226,7 +226,6 @@
 
 <style lang="scss">
 	.container {
-		background-color: #fff;
 		padding-bottom: 120rpx;
 
 		/* 空白页 */
@@ -261,6 +260,8 @@
 		align-items: center;
 		position: relative;
 		padding: 20rpx;
+		margin:20rpx 0;
+		background-color:#fff;
 
 		.rightContent {
 			display: flex;

@@ -4,7 +4,6 @@
 			"path": "pages/index/index",
 			"name": "home",
 			"style": {
-				"navigationStyle": "custom",
 				"navigationBarTitleText": "首页"
 			}
 		}, {
@@ -18,6 +17,7 @@
 			"path": "pages/my/my",
 			"name": "my",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "个人中心"
 			}
 

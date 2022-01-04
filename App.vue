@@ -21,4 +21,14 @@
 		font-size:14px;
 		font-family: '微软雅黑';
 	}
+	.u-nav-slot {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		border-radius: 100px;
+		border: .5px solid #dadbde;
+		padding: 3px 7px;
+		opacity: .8;
+	}
 </style>

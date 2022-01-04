@@ -1,18 +1,23 @@
 <template>
 	<view class="container">
-		<view class="left-aside">
-			<view v-for="(item,index) in flist" :key="item.id" class="f-item" :class="{active: index === currentIndex}"
-				@click="tabtap(item,index)">
-				{{item.name}}
-			</view>
+		<view>
+			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false"></u-search>
 		</view>
 		<view class="content">
-			<view v-for="item in slist" :key="item.id" class="s-list">
-				<text class="s-item">{{item.name}}</text>
-				<view class="t-list">
-					<view class="t-item" v-for="titem in item.productList" :key="titem.id">
-						<u-image :showLoading="true" :src="titem.picture" width="140rpx" height="140rpx"></u-image>
-						<text style="margin-top: 4px;">{{titem.name}}</text>
+			<view class="left-aside">
+				<view v-for="(item,index) in flist" :key="item.id" class="f-item" :class="{active: index === currentIndex}"
+					@click="tabtap(item,index)">
+					{{item.name}}
+				</view>
+			</view>
+			<view class="right-content">
+				<view v-for="item in slist" :key="item.id" class="s-list">
+					<text class="s-item">{{item.name}}</text>
+					<view class="t-list">
+						<view class="t-item" v-for="titem in item.productList" :key="titem.id">
+							<u-image :showLoading="true" :src="titem.picture" width="140rpx" height="140rpx"></u-image>
+							<text style="margin-top: 4px;">{{titem.name}}</text>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -47,16 +52,19 @@
 	page {
 		height: 100%;
 	}
-
-	.container {
+	.container{
+		display:flex;
+		flex-direction:column;
+		height:100%
+	}
+	.content {
+		overflow:auto;
+		flex:1;
 		display: flex;
-		height: 100%;
-
 		.left-aside {
 			overflow: auto;
 			flex-shrink: 0;
 			width: 200rpx;
-			height: 100%;
 			background-color: #fff;
 
 			.f-item {
@@ -89,7 +97,7 @@
 			}
 		}
 		
-		.content{
+		.right-content{
 			overflow: auto;
 			flex:1;
 			margin-left: 20rpx;
