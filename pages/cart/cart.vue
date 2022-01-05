@@ -354,8 +354,8 @@
 			top: 0;
 			z-index: 4;
 			width: 0;
-			height: 52rpx;
-			line-height: 52rpx;
+			height: 26px;
+			line-height: 26px;
 			padding-left: 38rpx;
 			color: #fff;
 			background: $u-disabled-color;
@@ -365,7 +365,7 @@
 
 			&.show {
 				opacity: 1;
-				width: 80rpx;
+				width: 120rpx;
 			}
 		}
 

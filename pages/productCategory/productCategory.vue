@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view>
-			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false"></u-search>
+			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false" @click="toSearch"></u-search>
 		</view>
 		<view class="content">
 			<view class="left-aside">
@@ -11,7 +11,7 @@
 				</view>
 			</view>
 			<view class="right-content">
-				<view v-for="item in slist" :key="item.id" class="s-list">
+				<view v-for="item in slist" :key="item.id" class="s-list" @click="toProductList">
 					<text class="s-item">{{item.name}}</text>
 					<view class="t-list">
 						<view class="t-item" v-for="titem in item.productList" :key="titem.id">
@@ -40,6 +40,16 @@
 			this.slist = this.flist[this.currentIndex].children;
 		},
 		methods: {
+			toProductList(){
+				uni.navigateTo({
+					url:'/pages/productList/productList'
+				})
+			},
+			toSearch(){
+				uni.navigateTo({
+					url:'/pages/search/search'
+				})
+			},
 			tabtap(item, index) {
 				this.currentIndex = index;
 				this.slist = this.flist[this.currentIndex].children;
@@ -49,13 +59,10 @@
 </script>
 
 <style lang="scss" scoped>
-	page {
-		height: 100%;
-	}
 	.container{
 		display:flex;
 		flex-direction:column;
-		height:100%
+		height:100vh;
 	}
 	.content {
 		overflow:auto;

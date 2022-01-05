@@ -8,7 +8,7 @@
 			</view>
 		</u-navbar> -->
 		<view class="content">
-			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false"></u-search>
+			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false" @click="toSearch"></u-search>
 			<!-- 头部轮播 -->
 			<view class="carousel-section">
 				<u-swiper :list="carouselList" keyName="src" circular indicator previousMargin="40" nextMargin="40"
@@ -16,11 +16,11 @@
 			</view>
 			<view class="category">
 				<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
-					<view v-for="(item, index) in list" :key="index" class="category-item">
+					<view v-for="(item, index) in list" :key="index" class="category-item" @click="toCategory">
 						<u-image :showLoading="true" :src="item.thumb" width="50" height="50" shape="circle"></u-image>
 						<text style="margin-top: 4px;">{{item.title}}</text>
 					</view>
-					<view class="category-item">
+					<view class="category-item" @click="toCategory">
 						<u-icon size="50" name="more-circle-fill" color="#2b85e4"></u-icon>
 						<text>查看更多</text>
 					</view>
@@ -145,6 +145,21 @@
 			this.goodsList = this.$json.goodsList
 		},
 		methods: {
+			navToDetailPage(){
+				uni.navigateTo({
+					url:'/pages/productDetail/productDetail'
+				})
+			},
+			toCategory(){
+				uni.switchTab({
+					url:'/pages/productCategory/productCategory'
+				})
+			},
+			toSearch(){
+				uni.navigateTo({
+					url:'/pages/search/search'
+				})
+			},
 			onChange(e) {
 				this.timeData = e
 			}

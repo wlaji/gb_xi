@@ -1,0 +1,132 @@
+@charset "UTF-8";
+.carousel-section.data-v-57280228 {
+  margin-bottom: 10px;
+}
+.category.data-v-57280228 {
+  padding: 10px 0;
+  background: #fff;
+}
+.category-item.data-v-57280228 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: calc(20% - 20rpx);
+  margin: 0 10rpx;
+  flex-shrink: 0;
+  text-align: center;
+}
+.ad-1.data-v-57280228 {
+  height: 210rpx;
+  padding: 10rpx 20rpx;
+  background: #fff;
+}
+/* 秒杀专区 */
+.seckill-section.data-v-57280228 {
+  margin: 10px 0;
+  padding: 0 20rpx;
+  background: #fff;
+}
+.seckill-section .s-header.data-v-57280228 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 92rpx;
+  line-height: 1;
+}
+.seckill-section .s-header .left.data-v-57280228 {
+  display: flex;
+  align-items: center;
+}
+.seckill-section .s-header .tip.data-v-57280228 {
+  margin: 0 20rpx 0 40rpx;
+}
+.seckill-section .floor-item.data-v-57280228 {
+  width: 150rpx;
+  margin-right: 20rpx;
+}
+.seckill-section .floor-item .title.data-v-57280228 {
+  padding: 10rpx 0;
+}
+.seckill-section .floor-item .price.data-v-57280228 {
+  color: #fa436a;
+}
+.hot-header.data-v-57280228 {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  margin: 10px 0 0;
+  padding: 10rpx 20rpx;
+  background: #fff;
+}
+.hot-header .tit-box.data-v-57280228 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.hot-header .tit.data-v-57280228 {
+  font-size: 16px;
+}
+.hot-header .tit2.data-v-57280228 {
+  font-size: 12px;
+  color: #909193;
+}
+.category-section.data-v-57280228 {
+  background-color: #fff;
+}
+.category-section .cate-item.data-v-57280228 {
+  display: flex;
+  flex-direction: column;
+  width: calc(50% - 20rpx);
+  margin: 0 10rpx;
+  flex-shrink: 0;
+}
+.category-section .cate-item .title.data-v-57280228 {
+  padding: 10rpx 0;
+}
+.category-section .cate-item .image-wrapper.data-v-57280228 {
+  width: 100%;
+  height: 330rpx;
+  overflow: hidden;
+}
+.category-section .cate-item .price.data-v-57280228 {
+  line-height: 1;
+  color: #fa436a;
+}
+.category-section .cate-item .originPrice.data-v-57280228 {
+  margin-left: 10rpx;
+  text-decoration: line-through;
+  color: #c0c4cc;
+}
+/* 推荐 */
+.hot-section.data-v-57280228 {
+  -webkit-column-count: 2;
+          column-count: 2;
+  -webkit-column-gap: 20rpx;
+          column-gap: 20rpx;
+  padding: 0 20rpx;
+  background: #fff;
+}
+.hot-section .hot-item.data-v-57280228 {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 40rpx;
+}
+.hot-section .image-wrapper.data-v-57280228 {
+  width: 100%;
+  height: 330rpx;
+  overflow: hidden;
+}
+.hot-section .title.data-v-57280228 {
+  padding: 10rpx 0;
+}
+.hot-section .price.data-v-57280228 {
+  line-height: 1;
+  color: #fa436a;
+}
+.hot-section .originPrice.data-v-57280228 {
+  margin-left: 10rpx;
+  text-decoration: line-through;
+  color: #c0c4cc;
+}
+

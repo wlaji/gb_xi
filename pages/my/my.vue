@@ -1,14 +1,6 @@
 <template>
 	<view class="container">
-		<view class="topHeader u-border-bottom" v-if="showTop">
-			<view class="nickname">
-				小鱼人
-			</view>
-			<view class="right">
-				<u-icon name="share-square" size="24" color="#F66D74"></u-icon>
-				<u-icon name="setting" size="24" color="#F66D74"></u-icon>
-			</view>
-		</view>
+		<u-modal :show="showModal1" :showCancelButton="true" closeOnClickOverlay content='确定要退出登陆吗?' @confirm="toLogOut" @cancel="showModal1 = false;" @close="showModal1=false"></u-modal>
 		<view class="avatar">
 			<u-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="70"></u-avatar>
 			<view class="rightArea">
@@ -78,50 +70,73 @@
 		</view>
 		<view class="part part3">
 			<u-grid :border="false" col="4">
-				<u-grid-item class="list-item">
-					<u-icon name="man-add" size="24" color="#F66D74"></u-icon>
-					<text class="grid-text">我要加盟</text>
+				<u-grid-item>
+					<view class="list-item">
+						<u-icon name="man-add" size="24" color="#F66D74"></u-icon>
+						<text class="grid-text">我要加盟</text>
+					</view>
 				</u-grid-item>
-				<u-grid-item class="list-item">
-					<u-icon name="car-fill" size="24" color="#5FCDA2"></u-icon>
-					<text class="grid-text">地址管理</text>
+				<u-grid-item>
+					<view class="list-item">
+						<u-icon name="car-fill" size="24" color="#5FCDA2"></u-icon>
+						<text class="grid-text">地址管理</text>
+					</view>
 				</u-grid-item>
-				<u-grid-item class="list-item">
-					<u-icon name="share" size="24" color="#9789F7"></u-icon>
-					<text class="grid-text">分享</text>
+				<u-grid-item>
+					<view class="list-item">
+						<u-icon name="share" size="24" color="#9789F7"></u-icon>
+						<text class="grid-text">分享</text>
+					</view>
 				</u-grid-item>
-				<u-grid-item class="list-item">
-					<u-icon name="rmb-circle" size="24" color="#F66D74"></u-icon>
-					<text class="grid-text">营销业绩</text>
+				<u-grid-item>
+					<view class="list-item">
+						<u-icon name="rmb-circle" size="24" color="#F66D74"></u-icon>
+						<text class="grid-text">营销业绩</text>
+					</view>
 				</u-grid-item>
-				<u-grid-item class="list-item">
-					<u-icon name="red-packet" size="24" color="#F66D74"></u-icon>
-					<text class="grid-text">积分转账</text>
+				<u-grid-item>
+					<view class="list-item">
+						<u-icon name="red-packet" size="24" color="#F66D74"></u-icon>
+						<text class="grid-text">积分转账</text>
+					</view>
 				</u-grid-item>
-				<u-grid-item class="list-item">
-					<u-icon name="rmb" size="24" color="#F66D74"></u-icon>
-					<text class="grid-text">积分提现</text>
+				<u-grid-item>
+					<view class="list-item">
+						<u-icon name="rmb" size="24" color="#F66D74"></u-icon>
+						<text class="grid-text">积分提现</text>
+					</view>
 				</u-grid-item>
-				<u-grid-item class="list-item">
-					<u-icon name="plus-people-fill" size="24" color="#FFB273"></u-icon>
-					<text class="grid-text">团队成员</text>
+				<u-grid-item>
+					<view class="list-item">
+						<u-icon name="plus-people-fill" size="24" color="#FFB273"></u-icon>
+						<text class="grid-text">团队成员</text>
+					</view>
 				</u-grid-item>
-				<u-grid-item class="list-item">
-					<u-icon name="bell" size="24" color="#54B4EF"></u-icon>
-					<text class="grid-text">留言管理</text>
+				<u-grid-item>
+					<view class="list-item">
+						<view style="position: relative;">
+							<u-icon name="bell" size="24" color="#54B4EF"></u-icon>
+							<u-badge max="99" value="99" absolute :offset="[-8,-10]"></u-badge>
+						</view>
+						<text class="grid-text">留言管理 </text>
+					</view>
 				</u-grid-item>
-				<u-grid-item class="list-item">
-					<u-icon name="server-fill" size="24" color="#EE883B"></u-icon>
-					<text class="grid-text">联系客服</text>
+				<u-grid-item>
+					<view class="list-item">
+						<u-icon name="server-fill" size="24" color="#EE883B"></u-icon>
+						<text class="grid-text">联系客服</text>
+					</view>
 				</u-grid-item>
-				<u-grid-item class="list-item">
-					<u-icon name="setting" size="24" color="#2b85e4"></u-icon>
-					<text class="grid-text">设置</text>
+				<u-grid-item>
+					<view class="list-item">
+						<u-icon name="setting" size="24" color="#2b85e4"></u-icon>
+						<text class="grid-text">设置</text>
+					</view>
 				</u-grid-item>
 			</u-grid>
 		</view>
 		<view class="part part4">
-			<u-button type="default" text="退出登录"></u-button>
+			<u-button type="default" text="退出登录" @click="showModal1 = true"></u-button>
 		</view>
 	</view>
 </template>
@@ -133,65 +148,48 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello',
-				showTop:false,
+				showModal1: false,
 			}
 		},
 		onLoad() {
 
 		},
-		onPageScroll(res) {
-			console.log(res)
-			if(res.scrollTop>100){
-				this.showTop = true;
-			}else{
-				this.showTop = false;
-			}
-		},
 		methods: {
-
+			toLogOut() {
+				this.showModal1 = false;
+				uni.navigateTo({
+					url: '/pages/login/login'
+				});
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.topHeader{
-		position: fixed;
-		top:0;
-		left:0;
-		right:0;
-		background-color: #fff;
-		height:100rpx;
-		line-height: 100rpx;
-		z-index: 100;
-		text-align: center;
-		.right{
-			position: absolute;
-			top: 0;
-			bottom:0;
-			right:20rpx;
-			display: flex;
-			align-items: center;
-			.u-icon{
-				margin:0 10rpx;
-			}
-		}
+	.container {
+		padding: 20rpx;
 	}
+	
 	.avatar {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		padding: 40rpx 0;
 		margin-left: 20rpx;
-		.rightArea{
+		/* #ifdef APP-PLUS */
+		padding-top:calc(var(--status-bar-height) + 40px);
+		/* #endif */
+		.rightArea {
 			margin-left: 20rpx;
-			.nickname{
-				font-size:16px;
+
+			.nickname {
+				font-size: 16px;
 			}
-			.bh{
-				color:#909399;
-				font-size:12px;
-				margin-top:10rpx;
+
+			.bh {
+				color: #909399;
+				font-size: 12px;
+				margin-top: 10rpx;
 			}
 		}
 	}
@@ -201,7 +199,7 @@
 		overflow: hidden;
 		border-radius: 10px;
 		background-color: #fff;
-		margin: 20rpx;
+		margin: 20rpx 0;
 	}
 
 	.part1 {
@@ -220,7 +218,8 @@
 			align-items: center;
 			justify-content: center;
 			height: 250rpx;
-			.b1{
+
+			.b1 {
 				display: flex;
 				flex-direction: column;
 				align-items: center;
@@ -266,7 +265,16 @@
 
 	.part3 {
 		.list-item {
-			padding: 30rpx 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
+			padding: 20rpx 0;
+			.grid-text{
+				margin-top:10rpx;
+			}
 		}
 	}
 </style>

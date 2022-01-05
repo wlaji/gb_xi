@@ -16,12 +16,41 @@
 	/*每个页面公共css */
 	@import "uview-ui/index.scss";
 	@import "./icon.scss";
+
 	page {
 		background-color: $u-bg-color;
-		color:$u-main-color;
-		font-size:14px;
+		color: $u-main-color;
+		font-size: 14px;
 		font-family: '微软雅黑';
 	}
+
+	view,
+	scroll-view,
+	swiper,
+	swiper-item,
+	cover-view,
+	cover-image,
+	icon,
+	text,
+	rich-text,
+	progress,
+	button,
+	checkbox,
+	form,
+	input,
+	label,
+	radio,
+	slider,
+	switch,
+	textarea,
+	navigator,
+	audio,
+	camera,
+	image,
+	video {
+		box-sizing: border-box;
+	}
+
 	.u-nav-slot {
 		display: flex;
 		flex-direction: row;

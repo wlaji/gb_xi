@@ -1,7 +1,9 @@
 <template>
 	<view class="container">
 		<view class="left-bottom-sign"></view>
-		<u-icon class="back-btn" name="arrow-leftward" size="40rpx" color="#333" bold @click="navBack"></u-icon>
+		<view class="back-btn">
+			<u-icon name="arrow-leftward" size="40rpx" color="#333" bold @click="navBack"></u-icon>
+		</view>
 		<view class="right-top-sign"></view>
 		<view class="wrapper">
 			<view class="left-top-sign">LOGIN</view>
@@ -9,11 +11,22 @@
 				欢迎回来！
 			</view>
 			<view class="input-content">
-
-			</view>
-			<button class="confirm-btn" @click="toLogin" :disabled="logining">登录</button>
-			<view class="forget-section">
-				忘记密码?
+				<u-form labelPosition="top" :model="form" ref="form1" labelWidth="auto" errorType="toast" borderBottom>
+					<u-form-item label="手机号" prop="phone" borderBottom>
+						<u-input type="number" placeholder="请输入手机号" v-model="form.phone" border="none"></u-input>
+					</u-form-item>
+					<u-form-item label="验证码" prop="code" borderBottom>
+						<u-input type="number" placeholder="请输入验证码" v-model="form.code" border="none">
+							<template slot="suffix">
+								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
+								<u-button @tap="getCode" :text="tips" type="success" size="mini"></u-button>
+							</template>
+						</u-input>
+					</u-form-item>
+				</u-form>
+				<view style="margin-top:40rpx;">
+					<u-button @click="toLogin" :loading="loading" loadingText="正在登录" type="primary">登录</u-button>
+				</view>
 			</view>
 		</view>
 		<view class="register-section">
@@ -31,70 +44,101 @@
 	export default {
 		data() {
 			return {
-				mobile: '',
-				password: '',
-				logining: false
+				tips: '',
+				loading: false,
+				form: {
+					phone: '',
+					code: '',
+				},
+				rules: {
+					'phone': [{
+							required: true,
+							message: '请输入手机号',
+							trigger: ['change', 'blur'],
+						},
+						{
+							validator: (rule, value, callback) => {
+								return uni.$u.test.mobile(value);
+							},
+							message: '手机号码不正确',
+							trigger: ['change', 'blur'],
+						}
+					],
+					'code': [{
+							required: true,
+							message: '请输入验证码',
+							trigger: ['change', 'blur'],
+						},
+						{
+							validator: (rule, value, callback) => {
+								return uni.$u.test.code(value, 6);
+							},
+							message: '验证码格式不正确',
+							trigger: ['change', 'blur'],
+						}
+					]
+				},
 			}
 		},
 		onLoad() {
 
 		},
+		onReady() {
+			this.$refs.form1.setRules(this.rules);
+		},
 		methods: {
-			...mapMutations(['login']),
-			inputChange(e) {
-				const key = e.currentTarget.dataset.key;
-				this[key] = e.detail.value;
-			},
 			navBack() {
 				uni.navigateBack();
 			},
 			toRegist() {
-				this.$api.msg('去注册');
+				uni.navigateTo({
+					url: '/pages/register/register'
+				});
 			},
-			async toLogin() {
-				this.logining = true;
-				const {
-					mobile,
-					password
-				} = this;
-				/* 数据验证模块
-				if(!this.$api.match({
-					mobile,
-					password
-				})){
-					this.logining = false;
-					return;
-				}
-				*/
-				const sendData = {
-					mobile,
-					password
-				};
-				const result = await this.$api.json('userInfo');
-				if (result.status === 1) {
-					this.login(result.data);
-					uni.navigateBack();
+			toLogin() {
+				this.$refs.form1.validate().then(() => {
+					uni.$u.toast('表单验证成功');
+					this.loading = true;
+					setTimeout(() => {
+						this.loading = false;
+						uni.switchTab({
+						    url: '/pages/index/index'
+						});
+					}, 1000)
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			codeChange(text) {
+				this.tips = text;
+			},
+			getCode() {
+				if (this.$refs.uCode.canGetCode) {
+					// 模拟向后端请求验证码
+					uni.showLoading({
+						title: '正在获取验证码'
+					})
+					setTimeout(() => {
+						uni.hideLoading();
+						// 这里此提示会被this.start()方法中的提示覆盖
+						uni.$u.toast('验证码已发送');
+						// 通知验证码组件内部开始倒计时
+						this.$refs.uCode.start();
+					}, 2000);
 				} else {
-					this.$api.msg(result.msg);
-					this.logining = false;
+					uni.$u.toast('倒计时结束后再发送');
 				}
-			}
+			},
 		},
 
 	}
 </script>
 
-<style lang='scss'>
-	page {
-		height: 100%;
-		background: #fff;
-	}
-
+<style lang="scss" scoped>
 	.container {
 		padding-top: 115px;
 		position: relative;
-		width: 100%;
-		height: 100%;
+		min-height: 100vh;
 		overflow: hidden;
 		background: #fff;
 		box-sizing: border-box;
@@ -110,9 +154,9 @@
 	.back-btn {
 		position: absolute;
 		left: 40rpx;
+		top:0;
 		z-index: 9999;
-		padding-top: var(--status-bar-height);
-		top: 40rpx;
+		padding-top: calc(var(--status-bar-height) + 50px);
 	}
 
 	.left-top-sign {
@@ -172,60 +216,21 @@
 
 	.input-content {
 		padding: 0 60rpx;
-	}
 
-	.input-item {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		justify-content: center;
-		padding: 0 30rpx;
-		height: 120rpx;
-		border-radius: 4px;
-		margin-bottom: 50rpx;
-
-		&:last-child {
-			margin-bottom: 0;
+		/deep/ .u-line {
+			margin: 0 !important;
 		}
-
-		.tit {
-			height: 50rpx;
-			line-height: 56rpx;
-		}
-
-		input {
-			height: 60rpx;
-			width: 100%;
-		}
-	}
-
-	.confirm-btn {
-		width: 630rpx;
-		height: 76rpx;
-		line-height: 76rpx;
-		border-radius: 50px;
-		margin-top: 70rpx;
-		color: #fff;
-
-		&:after {
-			border-radius: 100px;
-		}
-	}
-
-	.forget-section {
-		text-align: center;
-		margin-top: 40rpx;
-		color: $u-primary;
 	}
 
 	.register-section {
 		position: absolute;
 		left: 0;
-		bottom: 50rpx;
+		bottom: 80rpx;
 		width: 100%;
 		text-align: center;
-		font-size:12px;
-		color:$u-tips-color;
+		font-size: 12px;
+		color: $u-tips-color;
+
 		text {
 			margin-left: 10rpx;
 			color: $u-primary;

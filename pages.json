@@ -1,6 +1,18 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/my/my",
+			"name": "my",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+
+		}, {
 			"path": "pages/login/login",
 			"name": "login",
 			"style": {
@@ -23,14 +35,6 @@
 			}
 
 		}, {
-			"path": "pages/my/my",
-			"name": "my",
-			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTitleText": "个人中心"
-			}
-
-		}, {
 			"path": "pages/cart/cart",
 			"name": "cart",
 			"style": {
@@ -46,8 +50,46 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/search/search",
+			"name": "search",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/productDetail/productDetail",
+			"name": "productDetail",
+			"style": {
+				"navigationBarTitleText": "产品详情",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+
+		}, {
+			"path": "pages/productList/productList",
+			"name": "productList",
+			"style": {
+				"navigationBarTitleText": "产品列表",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	],
+	    ,{
+            "path" : "pages/checkout/checkout",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"tabBar": {
 		"color": "#606266",
 		"selectedColor": "#E44273",
