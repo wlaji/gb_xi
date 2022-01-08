@@ -1,6 +1,6 @@
 @charset "UTF-8";
 .container {
-  padding-bottom: 120rpx;
+  padding-bottom: 140rpx;
   /* 空白页 */
 }
 .container .empty {
@@ -30,8 +30,11 @@
   align-items: center;
   position: relative;
   padding: 20rpx;
-  margin: 20rpx 0;
+  margin: 0 0 10rpx;
   background-color: #fff;
+}
+.cart-item:last-child {
+  margin-bottom: 0;
 }
 .cart-item .rightContent {
   display: flex;
@@ -86,7 +89,7 @@
   z-index: 95;
   display: flex;
   align-items: center;
-  width: 660rpx;
+  width: 700rpx;
   height: 100rpx;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);

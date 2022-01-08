@@ -1,13 +1,93 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/index/index",
+			"name": "home",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+								"fontSrc": "/static/font/1.ttf",
+								"text": "\ue651",
+								"fontSize": "24px",
+								"fontWeight": "bold",
+								"color": "#303133",
+								"background": "rgba(0,0,0,0)",
+								"float": "left"
+							},
+							{
+								"fontSrc": "/static/font/1.ttf",
+								"text": "\ue711",
+								"fontSize": "27px",
+								"color": "#303133",
+								"background": "rgba(0,0,0,0)",
+								"redDot": "true"
+							}
+						],
+						"titleText": "首页"
+					}
+				}
+			}
+		}, {
+			"path": "pages/productDetail/productDetail",
+			"name": "productDetail",
+			"style": {
+				"navigationBarTitleText": "产品详情",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": {
+						"searchInput": {
+							"backgroundColor": "rgba(231, 231, 231,.7)",
+							"borderRadius": "16px",
+							"placeholder": "请输入搜索关键字",
+							"disabled": true,
+							"placeholderColor": "#606266"
+						},
+						"buttons": [{
+								"fontSrc": "/static/font/1.ttf",
+								"text": "\ue7a5",
+								"fontSize": "27px",
+								"color": "#303133",
+								"background": "rgba(0,0,0,0)"
+							},
+							{
+								"fontSrc": "/static/font/1.ttf",
+								"text": "\ue640",
+								"fontSize": "24px",
+								"color": "#303133",
+								"background": "rgba(0,0,0,0)"
+							}
+						]
+					}
+				}
+			}
+
+		}, {
 			"path": "pages/my/my",
 			"name": "my",
 			"style": {
 				"navigationBarTitleText": "个人中心",
 				"app-plus": {
 					"titleNView": {
-						"type": "transparent"
+						"buttons": [{
+								"fontSrc": "/static/font/1.ttf",
+								"text": "\ue603",
+								"fontSize": "27px",
+								"fontWeight": "bold",
+								"color": "#303133",
+								"background": "rgba(0,0,0,0)"
+							},
+							{
+								"fontSrc": "/static/font/1.ttf",
+								"text": "\ue711",
+								"fontSize": "27px",
+								"color": "#303133",
+								"redDot": "true",
+								"background": "rgba(0,0,0,0)"
+							}
+						],
+						"titleText": "个人中心"
 					}
 				}
 			}
@@ -22,12 +102,6 @@
 			}
 
 		}, {
-			"path": "pages/index/index",
-			"name": "home",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		}, {
 			"path": "pages/productCategory/productCategory",
 			"name": "productCategory",
 			"style": {
@@ -38,6 +112,7 @@
 			"path": "pages/cart/cart",
 			"name": "cart",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "购物车"
 			}
 
@@ -59,19 +134,6 @@
 			}
 
 		}, {
-			"path": "pages/productDetail/productDetail",
-			"name": "productDetail",
-			"style": {
-				"navigationBarTitleText": "产品详情",
-				"enablePullDownRefresh": false,
-				"app-plus": {
-					"titleNView": {
-						"type": "transparent"
-					}
-				}
-			}
-
-		}, {
 			"path": "pages/productList/productList",
 			"name": "productList",
 			"style": {
@@ -79,17 +141,31 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/checkout/checkout",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/set/set",
+			"name": "set",
+			"style": {
+				"navigationBarTitleText": "设置",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/msg/msg",
+			"name": "msg",
+			"style": {
+				"navigationBarTitleText": "留言",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/checkout/checkout",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"tabBar": {
 		"color": "#606266",
 		"selectedColor": "#E44273",

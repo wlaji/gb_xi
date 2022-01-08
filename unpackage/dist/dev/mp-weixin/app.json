@@ -1,15 +1,17 @@
 {
   "pages": [
+    "pages/index/index",
+    "pages/productDetail/productDetail",
     "pages/my/my",
     "pages/login/login",
-    "pages/index/index",
     "pages/productCategory/productCategory",
     "pages/cart/cart",
     "pages/register/register",
     "pages/search/search",
-    "pages/productDetail/productDetail",
     "pages/productList/productList",
-    "pages/checkout/checkout"
+    "pages/checkout/checkout",
+    "pages/set/set/set",
+    "pages/msg/msg"
   ],
   "subPackages": [],
   "window": {

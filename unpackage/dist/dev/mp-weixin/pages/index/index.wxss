@@ -1,4 +1,7 @@
 @charset "UTF-8";
+.container.data-v-57280228 {
+  padding: 10rpx;
+}
 .carousel-section.data-v-57280228 {
   margin-bottom: 10px;
 }

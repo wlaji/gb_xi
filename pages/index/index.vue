@@ -1,18 +1,13 @@
 <template>
 	<view class="container">
-		<!-- <u-navbar title="首页">
-			<view class="u-nav-slot" slot="left">
-				<u-icon name="arrow-left" size="19"></u-icon>
-				<u-line direction="column" :hairline="false" length="16" margin="0 8px"></u-line>
-				<u-icon name="home" size="20"></u-icon>
-			</view>
-		</u-navbar> -->
 		<view class="content">
+			<!-- #ifdef MP-WEIXIN -->
 			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false" @click="toSearch"></u-search>
+			<!-- #endif -->
 			<!-- 头部轮播 -->
 			<view class="carousel-section">
-				<u-swiper :list="carouselList" keyName="src" circular indicator previousMargin="40" nextMargin="40"
-					height="350rpx" radius="5"></u-swiper>
+				<u-swiper :list="carouselList" keyName="src" circular indicator
+					height="400rpx" radius="5"></u-swiper>
 			</view>
 			<view class="category">
 				<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
@@ -163,12 +158,29 @@
 			onChange(e) {
 				this.timeData = e
 			}
+		},
+		// #ifndef MP
+		onNavigationBarButtonTap(e) {
+			const index = e.index;
+			if (index === 0) {
+				this.toSearch()
+			} else if (index === 1) {
+				uni.navigateTo({
+					url: '/pages/msg/msg'
+				});
+			}
+		},
+		// #endif
+		onShareAppMessage(){
+			
 		}
-
 	}
 </script>
 
 <style lang="scss" scoped>
+	.container{
+		padding:10rpx;
+	}
 	.carousel-section {
 		margin-bottom: 10px;
 	}
