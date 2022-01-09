@@ -8,8 +8,6 @@
     "u-cell-group": "/node-modules/uview-ui/components/u-cell-group/u-cell-group",
     "u-cell": "/node-modules/uview-ui/components/u-cell/u-cell",
     "u-grid": "/node-modules/uview-ui/components/u-grid/u-grid",
-    "u-grid-item": "/node-modules/uview-ui/components/u-grid-item/u-grid-item",
-    "u-badge": "/node-modules/uview-ui/components/u-badge/u-badge",
-    "u-button": "/node-modules/uview-ui/components/u-button/u-button"
+    "u-grid-item": "/node-modules/uview-ui/components/u-grid-item/u-grid-item"
   }
 }

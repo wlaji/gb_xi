@@ -112,7 +112,7 @@
 						<text class="grid-text">团队成员</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item>
+<!-- 				<u-grid-item>
 					<view class="list-item">
 						<view style="position: relative;">
 							<u-icon name="bell" size="24" color="#54B4EF"></u-icon>
@@ -120,24 +120,24 @@
 						</view>
 						<text class="grid-text">留言管理 </text>
 					</view>
-				</u-grid-item>
+				</u-grid-item> -->
 				<u-grid-item>
 					<view class="list-item">
 						<u-icon name="server-fill" size="24" color="#EE883B"></u-icon>
 						<text class="grid-text">联系客服</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item>
+<!-- 				<u-grid-item>
 					<view class="list-item">
 						<u-icon name="setting" size="24" color="#2b85e4"></u-icon>
 						<text class="grid-text">设置</text>
 					</view>
-				</u-grid-item>
+				</u-grid-item> -->
 			</u-grid>
 		</view>
-		<view class="part part4">
+<!-- 		<view class="part part4">
 			<u-button type="default" text="退出登录" @click="showModal1 = true"></u-button>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -160,6 +160,23 @@
 				uni.navigateTo({
 					url: '/pages/login/login'
 				});
+			},
+			// #ifndef MP
+			onNavigationBarButtonTap(e) {
+				const index = e.index;
+				if (index === 0) {
+					uni.navigateTo({
+						url: '/pages/set/set/set'
+					});
+				} else if (index === 1) {
+					uni.navigateTo({
+						url: '/pages/msg/msg'
+					});
+				}
+			},
+			// #endif
+			onShareAppMessage(){
+				
 			}
 		}
 	}
@@ -176,9 +193,6 @@
 		align-items: center;
 		padding: 40rpx 0;
 		margin-left: 20rpx;
-		/* #ifdef APP-PLUS */
-		padding-top:calc(var(--status-bar-height) + 40px);
-		/* #endif */
 		.rightArea {
 			margin-left: 20rpx;
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["node-modules/uview-ui/components/u--text/u--text"],{451:
 /*!************************************************************************************************************!*\
   !*** C:/Users/小鱼人/Documents/HBuilderProjects/gbStore/node_modules/uview-ui/components/u--text/u--text.vue ***!
@@ -19,12 +20,19 @@
   !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/小鱼人/Documents/HBuilderProjects/gbStore/node_modules/uview-ui/components/u--text/u--text.vue?vue&type=script&lang=js& ***!
   \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */function(e,n,t){"use strict";(function(e){Object.defineProperty(n,"__esModule",{value:!0}),n.default=void 0;var u=r(t(/*! ../u-text/props.js */456));function r(e){return e&&e.__esModule?e:{default:e}}var o=function(){Promise.all(/*! require.ensure | node-modules/uview-ui/components/u-text/u-text */[t.e("common/vendor"),t.e("node-modules/uview-ui/components/u-text/u-text")]).then(function(){return resolve(t(/*! ../u-text/u-text.vue */507))}.bind(null,t)).catch(t.oe)},c={name:"u--text",mixins:[e.$u.mpMixin,u.default,e.$u.mixin],components:{uvText:o}};n.default=c}).call(this,t(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */1)["default"])}}]);
+=======
+(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["node-modules/uview-ui/components/u--text/u--text"],{367:function(t,e,n){"use strict";n.r(e);var u=n(368),o=n.n(u);for(var i in u)"default"!==i&&function(t){n.d(e,t,(function(){return u[t]}))}(i);e["default"]=o.a},368:function(t,e,n){"use strict";(function(t){Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0;var u=o(n(251));function o(t){return t&&t.__esModule?t:{default:t}}var i=function(){Promise.all([n.e("common/vendor"),n.e("node-modules/uview-ui/components/u-text/u-text")]).then(function(){return resolve(n(417))}.bind(null,n)).catch(n.oe)},r={name:"u--text",mixins:[t.$u.mpMixin,u.default,t.$u.mixin],components:{uvText:i}};e.default=r}).call(this,n(0)["default"])},448:function(t,e,n){"use strict";var u;n.d(e,"b",(function(){return o})),n.d(e,"c",(function(){return i})),n.d(e,"a",(function(){return u}));var o=function(){var t=this,e=t.$createElement;t._self._c},i=[];o._withStripped=!0},482:function(t,e,n){"use strict";n.r(e);var u=n(448),o=n(367);for(var i in o)"default"!==i&&function(t){n.d(e,t,(function(){return o[t]}))}(i);var r,c=n(1),l=Object(c["a"])(o["default"],u["b"],u["c"],!1,null,null,null,!1,u["a"],r);l.options.__file="node_modules/uview-ui/components/u--text/u--text.vue",e["default"]=l.exports}}]);
+>>>>>>> b10647ea53d5aa4a69820fd8f3b2584fdf6010b2
 //# sourceMappingURL=../../../../../.sourcemap/mp-weixin/node-modules/uview-ui/components/u--text/u--text.js.map
 ;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
     'node-modules/uview-ui/components/u--text/u--text-create-component',
     {
         'node-modules/uview-ui/components/u--text/u--text-create-component':(function(module, exports, __webpack_require__){
+<<<<<<< HEAD
             __webpack_require__('1')['createComponent'](__webpack_require__(451))
+=======
+            __webpack_require__('0')['createComponent'](__webpack_require__(482))
+>>>>>>> b10647ea53d5aa4a69820fd8f3b2584fdf6010b2
         })
     },
     [['node-modules/uview-ui/components/u--text/u--text-create-component']]

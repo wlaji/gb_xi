@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["node-modules/uview-ui/components/u-grid/u-grid"],{297:
 /*!**********************************************************************************************************!*\
   !*** C:/Users/小鱼人/Documents/HBuilderProjects/gbStore/node_modules/uview-ui/components/u-grid/u-grid.vue ***!
@@ -27,12 +28,19 @@
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/小鱼人/Documents/HBuilderProjects/gbStore/node_modules/uview-ui/components/u-grid/u-grid.vue?vue&type=style&index=0&id=50bc7b32&lang=scss&scoped=true& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */function(t,e,n){}}]);
+=======
+(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["node-modules/uview-ui/components/u-grid/u-grid"],{317:function(t,e,n){"use strict";n.r(e);var i=n(318),u=n.n(i);for(var r in i)"default"!==r&&function(t){n.d(e,t,(function(){return i[t]}))}(r);e["default"]=u.a},318:function(t,e,n){"use strict";(function(t){Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0;var i=u(n(263));function u(t){return t&&t.__esModule?t:{default:t}}var r={name:"u-grid",mixins:[t.$u.mpMixin,t.$u.mixin,i.default],data:function(){return{index:0,width:0}},watch:{parentData:function(){this.children.length&&this.children.map((function(t){"function"==typeof t.updateParentData&&t.updateParentData()}))}},created:function(){this.children=[]},computed:{parentData:function(){return[this.hoverClass,this.col,this.size,this.border]},gridStyle:function(){var e={};switch(this.align){case"left":e.justifyContent="flex-start";break;case"center":e.justifyContent="center";break;case"right":e.justifyContent="flex-end";break;default:e.justifyContent="flex-start"}return t.$u.deepMerge(e,t.$u.addStyle(this.customStyle))}},methods:{childClick:function(t){this.$emit("click",t)}}};e.default=r}).call(this,n(0)["default"])},319:function(t,e,n){},397:function(t,e,n){"use strict";var i=n(319),u=n.n(i);u.a},431:function(t,e,n){"use strict";var i;n.d(e,"b",(function(){return u})),n.d(e,"c",(function(){return r})),n.d(e,"a",(function(){return i}));var u=function(){var t=this,e=t.$createElement,n=(t._self._c,t.__get_style([t.gridStyle]));t.$mp.data=Object.assign({},{$root:{s0:n}})},r=[];u._withStripped=!0},465:function(t,e,n){"use strict";n.r(e);var i=n(431),u=n(317);for(var r in u)"default"!==r&&function(t){n.d(e,t,(function(){return u[t]}))}(r);n(397);var a,c=n(1),o=Object(c["a"])(u["default"],i["b"],i["c"],!1,null,"50bc7b32",null,!1,i["a"],a);o.options.__file="node_modules/uview-ui/components/u-grid/u-grid.vue",e["default"]=o.exports}}]);
+>>>>>>> b10647ea53d5aa4a69820fd8f3b2584fdf6010b2
 //# sourceMappingURL=../../../../../.sourcemap/mp-weixin/node-modules/uview-ui/components/u-grid/u-grid.js.map
 ;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
     'node-modules/uview-ui/components/u-grid/u-grid-create-component',
     {
         'node-modules/uview-ui/components/u-grid/u-grid-create-component':(function(module, exports, __webpack_require__){
+<<<<<<< HEAD
             __webpack_require__('1')['createComponent'](__webpack_require__(297))
+=======
+            __webpack_require__('0')['createComponent'](__webpack_require__(465))
+>>>>>>> b10647ea53d5aa4a69820fd8f3b2584fdf6010b2
         })
     },
     [['node-modules/uview-ui/components/u-grid/u-grid-create-component']]

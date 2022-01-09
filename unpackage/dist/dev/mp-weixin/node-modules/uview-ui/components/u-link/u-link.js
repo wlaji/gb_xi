@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["node-modules/uview-ui/components/u-link/u-link"],{515:
 /*!**********************************************************************************************************!*\
   !*** C:/Users/小鱼人/Documents/HBuilderProjects/gbStore/node_modules/uview-ui/components/u-link/u-link.vue ***!
@@ -27,12 +28,19 @@
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/小鱼人/Documents/HBuilderProjects/gbStore/node_modules/uview-ui/components/u-link/u-link.vue?vue&type=style&index=0&id=8a7be032&lang=scss&scoped=true& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */function(n,t,e){}}]);
+=======
+(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["node-modules/uview-ui/components/u-link/u-link"],{384:function(t,n,e){"use strict";e.r(n);var i=e(385),u=e.n(i);for(var o in i)"default"!==o&&function(t){e.d(n,t,(function(){return i[t]}))}(o);n["default"]=u.a},385:function(t,n,e){"use strict";(function(t){Object.defineProperty(n,"__esModule",{value:!0}),n.default=void 0;var i=u(e(286));function u(t){return t&&t.__esModule?t:{default:t}}var o={name:"u-link",mixins:[t.$u.mpMixin,t.$u.mixin,i.default],computed:{linkStyle:function(){var n={color:this.color,fontSize:t.$u.addUnit(this.fontSize),lineHeight:t.$u.addUnit(t.$u.getPx(this.fontSize)+2),textDecoration:this.underLine?"underline":"none"};return n}},methods:{openLink:function(){var n=this;t.setClipboardData({data:this.href,success:function(){t.hideToast(),n.$nextTick((function(){t.$u.toast(n.mpTips)}))}}),this.$emit("click")}}};n.default=o}).call(this,e(0)["default"])},386:function(t,n,e){},419:function(t,n,e){"use strict";var i=e(386),u=e.n(i);u.a},454:function(t,n,e){"use strict";var i;e.d(n,"b",(function(){return u})),e.d(n,"c",(function(){return o})),e.d(n,"a",(function(){return i}));var u=function(){var t=this,n=t.$createElement,e=(t._self._c,t.__get_style([t.linkStyle,t.$u.addStyle(t.customStyle)]));t.$mp.data=Object.assign({},{$root:{s0:e}})},o=[];u._withStripped=!0},487:function(t,n,e){"use strict";e.r(n);var i=e(454),u=e(384);for(var o in u)"default"!==o&&function(t){e.d(n,t,(function(){return u[t]}))}(o);e(419);var a,r=e(1),c=Object(r["a"])(u["default"],i["b"],i["c"],!1,null,"8a7be032",null,!1,i["a"],a);c.options.__file="node_modules/uview-ui/components/u-link/u-link.vue",n["default"]=c.exports}}]);
+>>>>>>> b10647ea53d5aa4a69820fd8f3b2584fdf6010b2
 //# sourceMappingURL=../../../../../.sourcemap/mp-weixin/node-modules/uview-ui/components/u-link/u-link.js.map
 ;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
     'node-modules/uview-ui/components/u-link/u-link-create-component',
     {
         'node-modules/uview-ui/components/u-link/u-link-create-component':(function(module, exports, __webpack_require__){
+<<<<<<< HEAD
             __webpack_require__('1')['createComponent'](__webpack_require__(515))
+=======
+            __webpack_require__('0')['createComponent'](__webpack_require__(487))
+>>>>>>> b10647ea53d5aa4a69820fd8f3b2584fdf6010b2
         })
     },
     [['node-modules/uview-ui/components/u-link/u-link-create-component']]

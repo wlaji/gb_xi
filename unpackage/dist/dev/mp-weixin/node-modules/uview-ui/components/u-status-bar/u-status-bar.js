@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["node-modules/uview-ui/components/u-status-bar/u-status-bar"],{491:
 /*!**********************************************************************************************************************!*\
   !*** C:/Users/小鱼人/Documents/HBuilderProjects/gbStore/node_modules/uview-ui/components/u-status-bar/u-status-bar.vue ***!
@@ -27,12 +28,19 @@
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/小鱼人/Documents/HBuilderProjects/gbStore/node_modules/uview-ui/components/u-status-bar/u-status-bar.vue?vue&type=style&index=0&id=3c8c2ae7&lang=scss&scoped=true& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */function(t,n,e){}}]);
+=======
+(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["node-modules/uview-ui/components/u-status-bar/u-status-bar"],{369:function(t,u,e){"use strict";e.r(u);var n=e(370),a=e.n(n);for(var r in n)"default"!==r&&function(t){e.d(u,t,(function(){return n[t]}))}(r);u["default"]=a.a},370:function(t,u,e){"use strict";(function(t){Object.defineProperty(u,"__esModule",{value:!0}),u.default=void 0;var n=a(e(281));function a(t){return t&&t.__esModule?t:{default:t}}var r={name:"u-status-bar",mixins:[t.$u.mpMixin,t.$u.mixin,n.default],data:function(){return{}},computed:{style:function(){var u={};return u.height=t.$u.addUnit(t.$u.sys().statusBarHeight,"px"),u.backgroundColor=this.bgColor,t.$u.deepMerge(u,t.$u.addStyle(this.customStyle))}}};u.default=r}).call(this,e(0)["default"])},371:function(t,u,e){},413:function(t,u,e){"use strict";var n=e(371),a=e.n(n);a.a},449:function(t,u,e){"use strict";var n;e.d(u,"b",(function(){return a})),e.d(u,"c",(function(){return r})),e.d(u,"a",(function(){return n}));var a=function(){var t=this,u=t.$createElement,e=(t._self._c,t.__get_style([t.style]));t.$mp.data=Object.assign({},{$root:{s0:e}})},r=[];a._withStripped=!0},483:function(t,u,e){"use strict";e.r(u);var n=e(449),a=e(369);for(var r in a)"default"!==r&&function(t){e.d(u,t,(function(){return a[t]}))}(r);e(413);var i,o=e(1),s=Object(o["a"])(a["default"],n["b"],n["c"],!1,null,"3c8c2ae7",null,!1,n["a"],i);s.options.__file="node_modules/uview-ui/components/u-status-bar/u-status-bar.vue",u["default"]=s.exports}}]);
+>>>>>>> b10647ea53d5aa4a69820fd8f3b2584fdf6010b2
 //# sourceMappingURL=../../../../../.sourcemap/mp-weixin/node-modules/uview-ui/components/u-status-bar/u-status-bar.js.map
 ;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
     'node-modules/uview-ui/components/u-status-bar/u-status-bar-create-component',
     {
         'node-modules/uview-ui/components/u-status-bar/u-status-bar-create-component':(function(module, exports, __webpack_require__){
+<<<<<<< HEAD
             __webpack_require__('1')['createComponent'](__webpack_require__(491))
+=======
+            __webpack_require__('0')['createComponent'](__webpack_require__(483))
+>>>>>>> b10647ea53d5aa4a69820fd8f3b2584fdf6010b2
         })
     },
     [['node-modules/uview-ui/components/u-status-bar/u-status-bar-create-component']]

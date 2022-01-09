@@ -1,5 +1,6 @@
 <template>
 	<view class="container">
+		<u-navbar title="购物车" :autoBack="true"></u-navbar>
 		<u-toast ref="uToast"></u-toast>
 		<u-modal :show="showDelModal" width="500rpx" :showCancelButton="true" closeOnClickOverlay content='确认删除该宝贝?'
 			confirmText="删除" cancelText="我再想想" confirmColor="#E44273" @confirm="confirmDel" @cancel="showDelModal = false;"
@@ -21,7 +22,7 @@
 				</view>
 			</u-empty>
 		</view>
-		<view v-else style="padding:20rpx;">
+		<view v-else style="padding:10rpx;">
 			<!-- 列表 -->
 			<view class="cart-list">
 				<block v-for="(item, index) in cartList" :key="item.id">
@@ -226,7 +227,7 @@
 
 <style lang="scss">
 	.container {
-		padding-bottom: 120rpx;
+		padding-bottom: 140rpx;
 
 		/* 空白页 */
 		.empty {
@@ -260,8 +261,11 @@
 		align-items: center;
 		position: relative;
 		padding: 20rpx;
-		margin:20rpx 0;
+		margin:0 0 10rpx;
 		background-color:#fff;
+		&:last-child{
+			margin-bottom: 0;
+		}
 
 		.rightContent {
 			display: flex;
@@ -328,7 +332,7 @@
 		z-index: 95;
 		display: flex;
 		align-items: center;
-		width: 660rpx;
+		width: 700rpx;
 		height: 100rpx;
 		transform: translateX(-50%);
 		padding: 0 30rpx;

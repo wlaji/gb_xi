@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group"],{411:
 /*!******************************************************************************************************************************!*\
   !*** C:/Users/小鱼人/Documents/HBuilderProjects/gbStore/node_modules/uview-ui/components/u-checkbox-group/u-checkbox-group.vue ***!
@@ -27,12 +28,19 @@
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/小鱼人/Documents/HBuilderProjects/gbStore/node_modules/uview-ui/components/u-checkbox-group/u-checkbox-group.vue?vue&type=style&index=0&id=3d1b15f2&lang=scss&scoped=true& ***!
   \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */function(n,e,t){}}]);
+=======
+(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group"],{346:function(t,e,n){"use strict";n.r(e);var i=n(347),u=n.n(i);for(var o in i)"default"!==o&&function(t){n.d(e,t,(function(){return i[t]}))}(o);e["default"]=u.a},347:function(t,e,n){"use strict";(function(t){Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0;var i=u(n(273));function u(t){return t&&t.__esModule?t:{default:t}}var o={name:"u-checkbox-group",mixins:[t.$u.mpMixin,t.$u.mixin,i.default],computed:{parentData:function(){return[this.value,this.disabled,this.inactiveColor,this.activeColor,this.size,this.labelDisabled,this.shape,this.iconSize,this.borderBottom,this.placement]},bemClass:function(){return this.bem("checkbox-group",["placement"])}},watch:{parentData:function(){this.children.length&&this.children.map((function(t){"function"===typeof t.init&&t.init()}))}},data:function(){return{}},created:function(){this.children=[]},methods:{unCheckedOther:function(t){var e=[];this.children.map((function(t){t.isChecked&&e.push(t.name)})),this.$emit("change",e),this.$emit("input",e)}}};e.default=o}).call(this,n(0)["default"])},348:function(t,e,n){},406:function(t,e,n){"use strict";var i=n(348),u=n.n(i);u.a},441:function(t,e,n){"use strict";var i;n.d(e,"b",(function(){return u})),n.d(e,"c",(function(){return o})),n.d(e,"a",(function(){return i}));var u=function(){var t=this,e=t.$createElement;t._self._c},o=[];u._withStripped=!0},475:function(t,e,n){"use strict";n.r(e);var i=n(441),u=n(346);for(var o in u)"default"!==o&&function(t){n.d(e,t,(function(){return u[t]}))}(o);n(406);var c,r=n(1),a=Object(r["a"])(u["default"],i["b"],i["c"],!1,null,"3d1b15f2",null,!1,i["a"],c);a.options.__file="node_modules/uview-ui/components/u-checkbox-group/u-checkbox-group.vue",e["default"]=a.exports}}]);
+>>>>>>> b10647ea53d5aa4a69820fd8f3b2584fdf6010b2
 //# sourceMappingURL=../../../../../.sourcemap/mp-weixin/node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group.js.map
 ;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
     'node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group-create-component',
     {
         'node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group-create-component':(function(module, exports, __webpack_require__){
+<<<<<<< HEAD
             __webpack_require__('1')['createComponent'](__webpack_require__(411))
+=======
+            __webpack_require__('0')['createComponent'](__webpack_require__(475))
+>>>>>>> b10647ea53d5aa4a69820fd8f3b2584fdf6010b2
         })
     },
     [['node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group-create-component']]
