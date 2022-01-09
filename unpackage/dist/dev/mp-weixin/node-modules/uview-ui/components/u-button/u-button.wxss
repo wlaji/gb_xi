@@ -1,3 +1,4 @@
+
 view.data-v-3bf2dba7, scroll-view.data-v-3bf2dba7, swiper-item.data-v-3bf2dba7 {
   display: flex;
   flex-direction: column;
@@ -55,7 +56,9 @@ view.data-v-3bf2dba7, scroll-view.data-v-3bf2dba7, swiper-item.data-v-3bf2dba7 {
   position: relative;
   align-items: center;
   justify-content: center;
+
   display: flex;
+
   flex-direction: row;
   box-sizing: border-box;
   flex-direction: row;
@@ -127,7 +130,9 @@ view.data-v-3bf2dba7, scroll-view.data-v-3bf2dba7, swiper-item.data-v-3bf2dba7 {
   border-style: solid;
 }
 .u-button--block.data-v-3bf2dba7 {
+
   display: flex;
+
   flex-direction: row;
   width: 100%;
 }

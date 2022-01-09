@@ -1,3 +1,4 @@
+
 view.data-v-e2a26316, scroll-view.data-v-e2a26316, swiper-item.data-v-e2a26316 {
   display: flex;
   flex-direction: column;
@@ -11,15 +12,21 @@ view.data-v-e2a26316, scroll-view.data-v-e2a26316, swiper-item.data-v-e2a26316 {
   padding-bottom: 10px;
 }
 .u-scroll-list__scroll-view.data-v-e2a26316 {
+
   display: flex;
+
   flex-direction: row;
 }
 .u-scroll-list__scroll-view__content.data-v-e2a26316 {
+
   display: flex;
+
   flex-direction: row;
 }
 .u-scroll-list__indicator.data-v-e2a26316 {
+
   display: flex;
+
   flex-direction: row;
   justify-content: center;
   margin-top: 15px;

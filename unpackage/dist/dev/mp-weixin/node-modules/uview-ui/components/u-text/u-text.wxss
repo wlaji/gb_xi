@@ -1,3 +1,4 @@
+
 view.data-v-15831087, scroll-view.data-v-15831087, swiper-item.data-v-15831087 {
   display: flex;
   flex-direction: column;
@@ -8,7 +9,9 @@ view.data-v-15831087, scroll-view.data-v-15831087, swiper-item.data-v-15831087 {
   align-content: flex-start;
 }
 .u-text.data-v-15831087 {
+
   display: flex;
+
   flex-direction: row;
   align-items: center;
   flex-wrap: nowrap;
@@ -20,7 +23,9 @@ view.data-v-15831087, scroll-view.data-v-15831087, swiper-item.data-v-15831087 {
 }
 .u-text__value.data-v-15831087 {
   font-size: 14px;
+
   display: flex;
+
   flex-direction: row;
   color: #606266;
   flex-wrap: wrap;

@@ -1,3 +1,4 @@
+
 view.data-v-662d25bf, scroll-view.data-v-662d25bf, swiper-item.data-v-662d25bf {
   display: flex;
   flex-direction: column;
@@ -12,7 +13,9 @@ view.data-v-662d25bf, scroll-view.data-v-662d25bf, swiper-item.data-v-662d25bf {
   border-top-left-radius: 100px;
   border-bottom-left-radius: 100px;
   border-bottom-right-radius: 100px;
+
   display: flex;
+
   flex-direction: row;
   line-height: 11px;
   text-align: center;
