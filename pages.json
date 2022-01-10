@@ -112,7 +112,6 @@
 			"path": "pages/cart/cart",
 			"name": "cart",
 			"style": {
-				"navigationStyle": "custom",
 				"navigationBarTitleText": "购物车"
 			}
 
