@@ -8,7 +8,6 @@ view.data-v-39e33bf2, scroll-view.data-v-39e33bf2, swiper-item.data-v-39e33bf2 {
   align-items: stretch;
   align-content: flex-start;
 }
-
 /**
  * vue版本动画内置的动画模式有如下：
  * fade：淡入

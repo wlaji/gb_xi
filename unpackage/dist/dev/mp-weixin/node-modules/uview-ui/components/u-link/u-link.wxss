@@ -1,4 +1,3 @@
-
 view.data-v-8a7be032, scroll-view.data-v-8a7be032, swiper-item.data-v-8a7be032 {
   display: flex;
   flex-direction: column;
@@ -10,9 +9,7 @@ view.data-v-8a7be032, scroll-view.data-v-8a7be032, swiper-item.data-v-8a7be032 {
 }
 .u-link.data-v-8a7be032 {
   line-height: 1;
-
   display: flex;
-
   flex-direction: row;
   flex-wrap: wrap;
   flex: 1;

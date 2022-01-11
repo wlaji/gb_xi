@@ -1,4 +1,3 @@
-
 view.data-v-1a326067, scroll-view.data-v-1a326067, swiper-item.data-v-1a326067 {
   display: flex;
   flex-direction: column;
@@ -9,17 +8,13 @@ view.data-v-1a326067, scroll-view.data-v-1a326067, swiper-item.data-v-1a326067 {
   align-content: flex-start;
 }
 .u-search.data-v-1a326067 {
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
   flex: 1;
 }
 .u-search__content.data-v-1a326067 {
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
   padding: 0 10px;
@@ -30,9 +25,7 @@ view.data-v-1a326067, scroll-view.data-v-1a326067, swiper-item.data-v-1a326067 {
   border-style: solid;
 }
 .u-search__content__icon.data-v-1a326067 {
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
 }
@@ -49,9 +42,7 @@ view.data-v-1a326067, scroll-view.data-v-1a326067, swiper-item.data-v-1a326067 {
   border-bottom-left-radius: 100px;
   border-bottom-right-radius: 100px;
   background-color: #C6C7CB;
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
   justify-content: center;

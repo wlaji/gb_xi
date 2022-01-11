@@ -1,4 +1,3 @@
-
 view.data-v-5e7216f1, scroll-view.data-v-5e7216f1, swiper-item.data-v-5e7216f1 {
   display: flex;
   flex-direction: column;
@@ -9,32 +8,24 @@ view.data-v-5e7216f1, scroll-view.data-v-5e7216f1, swiper-item.data-v-5e7216f1 {
   align-content: flex-start;
 }
 .u-form-item.data-v-5e7216f1 {
-
   display: flex;
-
   flex-direction: column;
   font-size: 14px;
   color: #303133;
 }
 .u-form-item__body.data-v-5e7216f1 {
-
   display: flex;
-
   flex-direction: row;
   padding: 10px 0;
 }
 .u-form-item__body__left.data-v-5e7216f1 {
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
 }
 .u-form-item__body__left__content.data-v-5e7216f1 {
   position: relative;
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
   padding-right: 10rpx;
@@ -52,9 +43,7 @@ view.data-v-5e7216f1, scroll-view.data-v-5e7216f1, swiper-item.data-v-5e7216f1 {
   top: 3px;
 }
 .u-form-item__body__left__content__label.data-v-5e7216f1 {
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
   flex: 1;
@@ -65,9 +54,7 @@ view.data-v-5e7216f1, scroll-view.data-v-5e7216f1, swiper-item.data-v-5e7216f1 {
   flex: 1;
 }
 .u-form-item__body__right__content.data-v-5e7216f1 {
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
   flex: 1;

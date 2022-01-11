@@ -2,8 +2,8 @@
 	<view class="container">
 		<u-toast ref="uToast"></u-toast>
 		<u-modal :show="showDelModal" width="500rpx" :showCancelButton="true" closeOnClickOverlay content='确认删除该宝贝?'
-			confirmText="删除" cancelText="我再想想" confirmColor="#E44273" @confirm="confirmDel" @cancel="showDelModal = false;"
-			@close="showDelModal=false"></u-modal>
+			confirmText="删除" cancelText="我再想想" confirmColor="#E44273" @confirm="confirmDel"
+			@cancel="showDelModal = false;" @close="showDelModal=false"></u-modal>
 		<u-modal :show="showDelModal2" width="500rpx" :showCancelButton="true" closeOnClickOverlay content='确认清空购物车吗?'
 			confirmText="清空" cancelText="我再想想" confirmColor="#E44273" @confirm="clearCart" @cancel="showDelModal2=false"
 			@close="showDelModal2=false"></u-modal>
@@ -88,15 +88,17 @@
 		data() {
 			return {
 				showDelModal: false,
-				showDelModal2:false,
+				showDelModal2: false,
 				currentIndex: '',
 				total: 0, //总价格
 				allChecked: false, //全选状态  true|false
 				empty: false, //空白页现实  true|false
 				cartList: [],
+				statusHeight:''
 			};
 		},
-		onLoad() {
+		onLoad(options) {
+			console.log(options)
 			this.loadData();
 		},
 		watch: {
@@ -112,6 +114,9 @@
 			...mapGetters(['isLogin'])
 		},
 		methods: {
+			goBack(){
+				
+			},
 			confirmDel() {
 				let index = this.currentIndex;
 				let list = this.cartList;
@@ -220,6 +225,15 @@
 				})
 				this.$api.msg('跳转下一页 sendData');
 			}
+		},
+		onReady() {
+			let that = this;
+			uni.getSystemInfo({
+				success(res){
+					console.log(res)
+					that.statusHeight = res.statusBarHeight + 44 +'px'
+				}
+			})
 		}
 	}
 </script>
@@ -227,7 +241,6 @@
 <style lang="scss">
 	.container {
 		padding-bottom: 140rpx;
-
 		/* 空白页 */
 		.empty {
 			position: fixed;
@@ -260,9 +273,10 @@
 		align-items: center;
 		position: relative;
 		padding: 20rpx;
-		margin:0 0 10rpx;
-		background-color:#fff;
-		&:last-child{
+		margin: 0 0 10rpx;
+		background-color: #fff;
+
+		&:last-child {
 			margin-bottom: 0;
 		}
 
@@ -305,10 +319,10 @@
 				line-height: 50rpx;
 				color: $price-color;
 			}
-			
-			.originPrice{
+
+			.originPrice {
 				margin-left: 10rpx;
-				text-decoration:line-through;
+				text-decoration: line-through;
 				color: $u-light-color;
 			}
 		}
@@ -343,12 +357,13 @@
 			height: 52rpx;
 			position: relative;
 
-			image {
-				width: 52rpx;
-				height: 100%;
+			/* #ifdef MP-WEIXIN */
+			.u-checkbox-group {
 				position: relative;
-				z-index: 5;
+				z-index: 100;
 			}
+
+			/* #endif */
 		}
 
 		.clear-btn {
@@ -389,6 +404,7 @@
 			}
 		}
 
+		/* #ifndef MP */
 		.confirm-btn {
 			width: auto;
 			border: none;
@@ -401,5 +417,23 @@
 			color: #fff;
 			box-shadow: 1px 2px 5px rgba(217, 60, 93, 0.72)
 		}
+
+		/* #endif */
+
+		/* #ifdef MP-WEIXIN */
+		button {
+			width: auto !important;
+			border: none;
+			padding: 0 38rpx !important;
+			margin: 0;
+			border-radius: 100px !important;
+			height: 76rpx;
+			line-height: 76rpx;
+			background-color: $price-color;
+			color: #fff;
+			box-shadow: 1px 2px 5px rgba(217, 60, 93, 0.72)
+		}
+
+		/* #endif */
 	}
 </style>

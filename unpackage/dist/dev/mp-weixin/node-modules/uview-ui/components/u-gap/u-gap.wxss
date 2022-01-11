@@ -1,4 +1,3 @@
-
 view.data-v-f69acc36, scroll-view.data-v-f69acc36, swiper-item.data-v-f69acc36 {
   display: flex;
   flex-direction: column;
@@ -8,5 +7,4 @@ view.data-v-f69acc36, scroll-view.data-v-f69acc36, swiper-item.data-v-f69acc36 {
   align-items: stretch;
   align-content: flex-start;
 }
-
 

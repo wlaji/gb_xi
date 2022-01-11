@@ -11,6 +11,8 @@
 				</view>
 			</view>
 			<view class="right-content">
+				<u-swiper :list="carouselList" keyName="src" circular indicator indicatorMode="dot"
+					height="250rpx" radius="5"></u-swiper>
 				<view v-for="item in slist" :key="item.id" class="s-list" @click="toProductList">
 					<text class="s-item">{{item.name}}</text>
 					<view class="t-list">
@@ -32,12 +34,13 @@
 				currentIndex: 0,
 				slist: [],
 				flist: [],
-
+				carouselList:[]
 			}
 		},
 		onLoad() {
 			this.flist = this.$json.productList;
 			this.slist = this.flist[this.currentIndex].children;
+			this.carouselList = this.$json.carouselList
 		},
 		methods: {
 			toProductList(){
@@ -108,6 +111,7 @@
 			overflow: auto;
 			flex:1;
 			margin-left: 20rpx;
+			margin-right: 20rpx;
 			.s-item{
 				display: flex;
 				align-items: center;
@@ -133,7 +137,8 @@
 				justify-content: center;
 				align-items: center;
 				flex-direction: column;
-				width: 176rpx;
+				width: calc(100% / 3);
+				padding:5rpx;
 				font-size: 26rpx;
 				color: #666;
 				padding-bottom: 20rpx;

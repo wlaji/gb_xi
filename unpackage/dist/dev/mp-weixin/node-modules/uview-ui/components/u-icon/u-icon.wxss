@@ -1,4 +1,3 @@
-
 view.data-v-172979f2, scroll-view.data-v-172979f2, swiper-item.data-v-172979f2 {
   display: flex;
   flex-direction: column;
@@ -35,9 +34,7 @@ view.data-v-172979f2, scroll-view.data-v-172979f2, swiper-item.data-v-172979f2 {
 .u-icon__icon.data-v-172979f2 {
   font-family: uicon-iconfont;
   position: relative;
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
 }

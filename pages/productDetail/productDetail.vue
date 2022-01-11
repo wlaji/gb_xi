@@ -73,7 +73,8 @@
 					<u-icon name="arrow-right"></u-icon>
 				</view>
 				<view class="eva-box">
-					<image class="portrait" src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg"
+					<image class="portrait"
+						src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg"
 						mode="aspectFill"></image>
 					<view class="right">
 						<text class="name">Leo yo</text>
@@ -85,7 +86,8 @@
 					</view>
 				</view>
 				<view class="eva-box">
-					<image class="portrait" src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg"
+					<image class="portrait"
+						src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg"
 						mode="aspectFill"></image>
 					<view class="right">
 						<text class="name">Leo yo</text>
@@ -103,6 +105,35 @@
 					<text>图文详情</text>
 				</view>
 				<rich-text :nodes="desc"></rich-text>
+			</view>
+
+			<!-- 组合按钮 -->
+			<view class="buttonGroup">
+				<view class="b1" @click="goHome">
+					<u-icon name="home" size="24"></u-icon>
+					首页
+				</view>
+				<view class="b1" @click="goCart">
+					<u-icon name="shopping-cart" size="24"></u-icon>
+					购物车
+				</view>
+				<view class="b1" @click="collect">
+				<!-- 	<u-icon name="heart" size="24"></u-icon> -->
+					<u-icon name="heart-fill" size="24" color="#fa436a"></u-icon>
+					收藏
+				</view>
+				<view class="action-btn">
+					<u-button class="btn1" type="primary" :customStyle="{backgroundColor: '#FFBC49',
+					border: 'none',
+					borderRadius:'0',
+					borderTopLeftRadius: '20px',
+					borderBottomLeftRadius: '20px'}" text="加入购物车"></u-button>
+					<u-button class="btn2" type="primary" :customStyle="{backgroundColor: '#FE696D',
+					border: 'none',
+					borderRadius:'0',
+					borderTopRightRadius: '20px',
+					borderBottomRightRadius: '20px'}" text="立即购买"></u-button>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -122,39 +153,48 @@
 						src: 'https://gd2.alicdn.com/imgextra/i2/38832490/O1CN01IYq7gu1UGShvbEFnd_!!38832490.jpg_400x400.jpg'
 					}
 				],
+				desc: `
+					<div style="width:100%">
+						<img style="width:100%;display:block;" src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg" />
+						<img style="width:100%;display:block;" src="https://gd2.alicdn.com/imgextra/i2/479184430/O1CN01gwbN931iaz4TzqzmG_!!479184430.jpg_400x400.jpg" />
+						<img style="width:100%;display:block;" src="https://gd3.alicdn.com/imgextra/i3/479184430/O1CN018wVjQh1iaz4aupv1A_!!479184430.jpg_400x400.jpg" />
+						<img style="width:100%;display:block;" src="https://gd4.alicdn.com/imgextra/i4/479184430/O1CN01tWg4Us1iaz4auqelt_!!479184430.jpg_400x400.jpg" />
+						<img style="width:100%;display:block;" src="https://gd1.alicdn.com/imgextra/i1/479184430/O1CN01Tnm1rU1iaz4aVKcwP_!!479184430.jpg_400x400.jpg" />
+					</div>
+				`,
 			};
 		},
 		onLoad() {
 
 		},
 		methods: {
-
+			goHome(){
+				uni.switchTab({
+					url: '/pages/index/index'
+				})
+			},
+			goCart(){
+				uni.switchTab({
+					url: '/pages/cart/cart'
+				})
+			},
+			collect(){
+				
+			}
 		},
 		// #ifndef MP
 		onNavigationBarSearchInputClicked: async function(e) {
 			uni.navigateTo({
-				url:'/pages/search/search'
+				url: '/pages/search/search'
 			})
-		},
-		onNavigationBarButtonTap(e) {
-			const index = e.index;
-			if (index === 0) {
-				
-			} else if (index === 1) {
-				uni.switchTab({
-					url: '/pages/cart/cart'
-				});
-			}
-		},
+		}
 		// #endif
 	}
 </script>
 
 <style lang="scss" scoped>
 	.container {
-		/* #ifdef APP-PLUS */
-		padding-top: var(--status-bar-height);
-		/* #endif */
+		padding-bottom: 120rpx;
 
 		.content {
 			padding: 20rpx 10rpx;
@@ -264,57 +304,127 @@
 					}
 				}
 			}
-			
+
 			/* 评价 */
-			.eva-section{
+			.eva-section {
 				display: flex;
 				flex-direction: column;
 				padding: 20rpx 30rpx;
 				background: #fff;
 				margin-top: 16rpx;
-				.e-header{
+
+				.e-header {
 					display: flex;
 					align-items: center;
 					height: 70rpx;
 					color: $u-tips-color;
-					.tit{
+
+					.tit {
 						margin-right: 4rpx;
 						color: $u-main-color;
 					}
-					.tip{
+
+					.tip {
 						flex: 1;
 						text-align: right;
 					}
 				}
 			}
-			.eva-box{
+
+			.eva-box {
 				display: flex;
 				padding: 20rpx 0;
-				.portrait{
+
+				.portrait {
 					flex-shrink: 0;
 					width: 80rpx;
 					height: 80rpx;
 					border-radius: 100px;
 				}
-				.right{
+
+				.right {
 					flex: 1;
 					display: flex;
 					flex-direction: column;
 					padding-left: 26rpx;
 					color: $u-tips-color;
-					.con{
+
+					.con {
 						padding: 20rpx 0;
 						color: $u-main-color;
 					}
-					.bot{
+
+					.bot {
 						display: flex;
 						justify-content: space-between;
-						font-size:12px;
+						font-size: 12px;
 					}
 				}
 			}
 		}
 
+		/*  详情 */
+		.detail-desc {
+			background: #fff;
+			margin-top: 16rpx;
+
+			.d-header {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 80rpx;
+				position: relative;
+
+				text {
+					padding: 0 20rpx;
+					background: #fff;
+					position: relative;
+					z-index: 1;
+				}
+
+				&:after {
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					transform: translateX(-50%);
+					width: 300rpx;
+					height: 0;
+					content: '';
+					border-bottom: 1px solid #ccc;
+				}
+			}
+		}
+
 		.carousel-section {}
+
+		.buttonGroup {
+			position: fixed;
+			left: 20px;
+			right: 20px;
+			bottom: 15px;
+			height: 52px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background: rgba(255, 255, 255, 0.9);
+			box-shadow: 0 0 10px 0 rgba(0, 0, 0, .35);
+			border-radius: 8px;
+			padding: 0 10rpx;
+
+			.b1 {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				margin: 0 15rpx;
+			}
+
+			.action-btn {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-left: 20rpx;
+			}
+		}
 	}
 </style>

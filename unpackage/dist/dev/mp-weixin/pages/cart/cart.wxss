@@ -102,11 +102,9 @@
   height: 52rpx;
   position: relative;
 }
-.action-section .checkbox image {
-  width: 52rpx;
-  height: 100%;
+.action-section .checkbox .u-checkbox-group {
   position: relative;
-  z-index: 5;
+  z-index: 100;
 }
 .action-section .clear-btn {
   position: absolute;
@@ -141,12 +139,12 @@
 .action-section .total-box .coupon {
   color: #fa436a;
 }
-.action-section .confirm-btn {
-  width: auto;
+.action-section button {
+  width: auto !important;
   border: none;
-  padding: 0 38rpx;
+  padding: 0 38rpx !important;
   margin: 0;
-  border-radius: 100px;
+  border-radius: 100px !important;
   height: 76rpx;
   line-height: 76rpx;
   background-color: #fa436a;

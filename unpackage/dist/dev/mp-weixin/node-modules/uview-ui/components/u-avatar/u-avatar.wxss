@@ -1,4 +1,3 @@
-
 view.data-v-b36130f2, scroll-view.data-v-b36130f2, swiper-item.data-v-b36130f2 {
   display: flex;
   flex-direction: column;
@@ -9,9 +8,7 @@ view.data-v-b36130f2, scroll-view.data-v-b36130f2, swiper-item.data-v-b36130f2 {
   align-content: flex-start;
 }
 .u-avatar.data-v-b36130f2 {
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
   justify-content: center;

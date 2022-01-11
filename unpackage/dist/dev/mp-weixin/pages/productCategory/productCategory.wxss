@@ -45,6 +45,7 @@
   overflow: auto;
   flex: 1;
   margin-left: 20rpx;
+  margin-right: 20rpx;
 }
 .content .right-content .s-item.data-v-e6ad25bc {
   display: flex;
@@ -71,7 +72,8 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 176rpx;
+  width: calc(100% / 3);
+  padding: 5rpx;
   font-size: 26rpx;
   color: #666;
   padding-bottom: 20rpx;

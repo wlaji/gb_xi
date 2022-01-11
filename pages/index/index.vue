@@ -6,7 +6,7 @@
 			<!-- #endif -->
 			<!-- 头部轮播 -->
 			<view class="carousel-section">
-				<u-swiper :list="carouselList" keyName="src" circular indicator
+				<u-swiper class="swiper" :list="carouselList" keyName="src" previousMargin="30px" nextMargin="30px" circular indicator
 					height="400rpx" radius="5"></u-swiper>
 			</view>
 			<view class="category">
@@ -105,7 +105,6 @@
 
 <script>
 	export default {
-
 		data() {
 			return {
 				timeData: {},

@@ -1,4 +1,3 @@
-
 view.data-v-fdbb9fe6, scroll-view.data-v-fdbb9fe6, swiper-item.data-v-fdbb9fe6 {
   display: flex;
   flex-direction: column;
@@ -9,9 +8,7 @@ view.data-v-fdbb9fe6, scroll-view.data-v-fdbb9fe6, swiper-item.data-v-fdbb9fe6 {
   align-content: flex-start;
 }
 .u-input.data-v-fdbb9fe6 {
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -28,18 +25,14 @@ view.data-v-fdbb9fe6, scroll-view.data-v-fdbb9fe6, swiper-item.data-v-fdbb9fe6 {
 }
 .u-input__content.data-v-fdbb9fe6 {
   flex: 1;
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
 .u-input__content__field-wrapper.data-v-fdbb9fe6 {
   position: relative;
-
   display: flex;
-
   flex-direction: row;
   margin: 0;
   flex: 1;
@@ -57,9 +50,7 @@ view.data-v-fdbb9fe6, scroll-view.data-v-fdbb9fe6, swiper-item.data-v-fdbb9fe6 {
   height: 20px;
   border-radius: 100px;
   background-color: #c6c7cb;
-
   display: flex;
-
   flex-direction: row;
   align-items: center;
   justify-content: center;

@@ -1,4 +1,3 @@
-
 view.data-v-7c5492c7, scroll-view.data-v-7c5492c7, swiper-item.data-v-7c5492c7 {
   display: flex;
   flex-direction: column;
@@ -9,9 +8,7 @@ view.data-v-7c5492c7, scroll-view.data-v-7c5492c7, swiper-item.data-v-7c5492c7 {
   align-content: flex-start;
 }
 .u-toast__content.data-v-7c5492c7 {
-
   display: flex;
-
   flex-direction: row;
   padding: 12px 20px;
   border-radius: 4px;

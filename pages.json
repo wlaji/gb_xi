@@ -43,22 +43,7 @@
 							"placeholder": "请输入搜索关键字",
 							"disabled": true,
 							"placeholderColor": "#606266"
-						},
-						"buttons": [{
-								"fontSrc": "/static/font/1.ttf",
-								"text": "\ue7a5",
-								"fontSize": "27px",
-								"color": "#303133",
-								"background": "rgba(0,0,0,0)"
-							},
-							{
-								"fontSrc": "/static/font/1.ttf",
-								"text": "\ue640",
-								"fontSize": "24px",
-								"color": "#303133",
-								"background": "rgba(0,0,0,0)"
-							}
-						]
+						}
 					}
 				}
 			}
