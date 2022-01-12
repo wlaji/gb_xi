@@ -1,5 +1,10 @@
 {
-  "navigationBarTitleText": "搜索",
+  "navigationBarTitleText": "产品搜索",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "u-search": "/node-modules/uview-ui/components/u-search/u-search",
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal"
+  }
 }

@@ -1,0 +1,34 @@
+.container.data-v-4cedc0c6 {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.container .content.data-v-4cedc0c6 {
+  overflow: auto;
+  flex: 1;
+  height: 0;
+  padding: 0 10px;
+}
+.container .history .title.data-v-4cedc0c6 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  font-weight: 700;
+}
+.container .history .con.data-v-4cedc0c6 {
+  display: flex;
+  flex-wrap: wrap;
+}
+.container .history .con .his-item.data-v-4cedc0c6 {
+  padding: 10rpx;
+  background-color: #E6E6E6;
+  color: #606266;
+  white-space: nowrap;
+  margin-right: 20rpx;
+  margin-bottom: 20rpx;
+  border-radius: 20px;
+  min-width: 80px;
+  text-align: center;
+}
+

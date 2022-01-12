@@ -1,9 +1,9 @@
 @charset "UTF-8";
 .container.data-v-57280228 {
-  padding: 10rpx;
+  padding: 0 10rpx 10rpx;
 }
 .carousel-section.data-v-57280228 {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .category.data-v-57280228 {
   padding: 10px 0;
@@ -69,10 +69,6 @@
 }
 .hot-header .tit.data-v-57280228 {
   font-size: 16px;
-}
-.hot-header .tit2.data-v-57280228 {
-  font-size: 12px;
-  color: #909193;
 }
 .category-section.data-v-57280228 {
   background-color: #fff;

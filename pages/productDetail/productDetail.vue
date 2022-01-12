@@ -17,6 +17,7 @@
 					<text>浏览量: 768</text>
 				</view>
 			</view>
+			
 			<view class="part c-list">
 				<view class="c-row" @click="toggleSpec">
 					<text class="tit">购买类型</text>

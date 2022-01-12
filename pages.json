@@ -7,15 +7,7 @@
 				"navigationBarTitleText": "首页",
 				"app-plus": {
 					"titleNView": {
-						"buttons": [{
-								"fontSrc": "/static/font/1.ttf",
-								"text": "\ue651",
-								"fontSize": "24px",
-								"fontWeight": "bold",
-								"color": "#303133",
-								"background": "rgba(0,0,0,0)",
-								"float": "left"
-							},
+						"buttons": [
 							{
 								"fontSrc": "/static/font/1.ttf",
 								"text": "\ue711",
@@ -113,7 +105,7 @@
 			"path": "pages/search/search",
 			"name": "search",
 			"style": {
-				"navigationBarTitleText": "搜索",
+				"navigationBarTitleText": "产品搜索",
 				"enablePullDownRefresh": false
 			}
 
@@ -145,6 +137,15 @@
 			"name": "msg",
 			"style": {
 				"navigationBarTitleText": "留言",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/searchResult/searchResult",
+			"name": "searchResult",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "搜索结果",
 				"enablePullDownRefresh": false
 			}
 
@@ -185,7 +186,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#ffffff"
 	}
 }

@@ -62,10 +62,22 @@
 </script>
 
 <style lang="scss" scoped>
+	/* #ifdef H5 */
+	page {
+		height: 100%;
+	}
+	
+	.container {
+		height: 100%
+	}
+	
+	/* #endif */
 	.container{
 		display:flex;
 		flex-direction:column;
-		height:100vh;
+		/* #ifndef H5 */
+		height: 100vh;
+		/* #endif */
 	}
 	.content {
 		overflow:auto;

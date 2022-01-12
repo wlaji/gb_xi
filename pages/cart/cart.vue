@@ -94,7 +94,6 @@
 				allChecked: false, //全选状态  true|false
 				empty: false, //空白页现实  true|false
 				cartList: [],
-				statusHeight:''
 			};
 		},
 		onLoad(options) {
@@ -225,15 +224,6 @@
 				})
 				this.$api.msg('跳转下一页 sendData');
 			}
-		},
-		onReady() {
-			let that = this;
-			uni.getSystemInfo({
-				success(res){
-					console.log(res)
-					that.statusHeight = res.statusBarHeight + 44 +'px'
-				}
-			})
 		}
 	}
 </script>

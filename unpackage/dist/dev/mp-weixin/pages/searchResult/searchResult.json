@@ -1,0 +1,13 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "搜索结果",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-navbar": "/node-modules/uview-ui/components/u-navbar/u-navbar",
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "u-line": "/node-modules/uview-ui/components/u-line/u-line",
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
+    "u-loadmore": "/node-modules/uview-ui/components/u-loadmore/u-loadmore",
+    "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty"
+  }
+}

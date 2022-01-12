@@ -2,6 +2,8 @@ import App from './App'
 import Vue from 'vue'
 import store from './store'
 import Json from './Json' //测试用数据
+import share from '@/utils/share.js'
+Vue.mixin(share)
 // main.js
 import uView from "uview-ui";
 Vue.config.productionTip = false

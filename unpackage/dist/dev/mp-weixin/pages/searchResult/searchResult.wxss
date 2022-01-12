@@ -1,0 +1,63 @@
+.no-result.data-v-015237b4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 800rpx;
+}
+.container.data-v-015237b4 {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.container .search-area.data-v-015237b4 {
+  position: fixed;
+  top: 44px;
+  left: 0;
+  right: 0;
+  background-color: #f3f4f6;
+  z-index: 10;
+}
+.container .searchCon.data-v-015237b4 {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10rpx;
+}
+.container .searchCon .product-item.data-v-015237b4 {
+  display: flex;
+  flex-direction: column;
+  margin: 10rpx;
+  width: calc(50% - 20rpx);
+  background-color: #fff;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.container .searchCon .product-item .btm.data-v-015237b4 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container .searchCon .image-wrapper.data-v-015237b4 {
+  width: 100%;
+  height: 330rpx;
+  overflow: hidden;
+}
+.container .searchCon .title.data-v-015237b4 {
+  padding: 10rpx 0;
+  line-height: 30px;
+}
+.container .searchCon .price.data-v-015237b4 {
+  line-height: 1;
+  color: #fa436a;
+  font-weight: 700;
+}
+.container .searchCon .num.data-v-015237b4 {
+  color: #909193;
+  font-size: 12px;
+}
+.container .searchCon .originPrice.data-v-015237b4 {
+  margin-left: 10rpx;
+  text-decoration: line-through;
+  color: #c0c4cc;
+}
+

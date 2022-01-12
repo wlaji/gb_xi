@@ -18,7 +18,7 @@
 			<u-icon name="grid" size="30px" @click="showDialog = true"></u-icon>
 		</view>
 		<view class="content">
-			<view v-for="(item, index) in productList" :key="index" class="hot-item" @click="navToDetailPage(item)">
+			<view v-for="(item, index) in productList" :key="index" class="product-item" @click="navToDetailPage(item)">
 				<view class="image-wrapper">
 					<u-image :showLoading="true" :src="item.image" width="100%" height="330rpx" radius="4px">
 					</u-image>
@@ -27,16 +27,32 @@
 					<text class="title u-line-1" style="display: block;">{{item.title}}</text>
 					<view class="btm">
 						<text class="price">￥{{item.price}}</text>
-						<text>已售: 10</text>
+						<text class="num">已售: 10</text>
 					</view>
 				</view>
 			</view>
+			<u-loadmore :status="status" />
 		</view>
 		<view>
-			<u-popup :show="showDialog" safeAreaInsetTop mode="right" :customStyle="{width:'600rpx'}"
+			<u-popup class="popupConWrap" :show="showDialog" mode="right" :customStyle="{width:'600rpx'}"
 				@close="showDialog=false">
-				<view>
-					<text>出淤泥而不染，濯清涟而不妖</text>
+				<view class="popupCon">
+					<view>
+						<view class="cate-item two">手机通讯</view>
+						<view class="cate-item active">全面屏手机</view>
+						<view class="cate-item">游戏手机</view>
+						<view class="cate-item">老人机</view>
+						<view class="cate-item">拍照手机</view>
+						<view class="cate-item">女性手机</view>
+					</view>
+					<view>
+						<view class="cate-item two">手机通讯</view>
+						<view class="cate-item active">全面屏手机</view>
+						<view class="cate-item">游戏手机</view>
+						<view class="cate-item">老人机</view>
+						<view class="cate-item">拍照手机</view>
+						<view class="cate-item">女性手机</view>
+					</view>
 				</view>
 			</u-popup>
 		</view>
@@ -47,6 +63,7 @@
 	export default {
 		data() {
 			return {
+				status: 'loadmore',
 				showDialog: false,
 				priceType: 0,
 				activeIndex: 0,
@@ -62,10 +79,16 @@
 					des: '',
 					num: 10,
 					price: '240'
-				}]
+				}],
+				page: 0
 			};
 		},
 		methods: {
+			navToDetailPage() {
+				uni.navigateTo({
+					url: '/pages/productDetail/productDetail'
+				})
+			},
 			changeTab(index) {
 				console.log(index)
 				this.activeIndex = index;
@@ -80,6 +103,19 @@
 						this.priceType = 1
 					}
 				}
+			},
+			onReachBottom() {
+				console.log(321321)
+				if (this.page >= 3) return;
+				this.status = 'loading';
+				this.page = ++this.page;
+				setTimeout(() => {
+					if (this.page >= 3) {
+						this.status = 'nomore';
+					} else {
+						this.status = 'loading';
+					}
+				}, 2000)
 			}
 		},
 		onLoad() {
@@ -100,17 +136,42 @@
 
 	/* #endif */
 	.container {
-		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		/* #ifndef H5 */
-		height: 100vh;
+		min-height: 100vh;
 		/* #endif */
+		padding-top: 44px;
+
+		.popupCon {
+			.cate-item {
+				display: flex;
+				align-items: center;
+				height: 46px;
+				padding-left: 15px;
+				position: relative;
+				border-bottom: 1px solid #E4E7ED;
+			}
+
+			.cate-item.two {
+				height: 33px;
+				font-size: 16px;
+				background: #f8f8f8;
+			}
+
+			.cate-item.active {
+				color: $price-color;
+			}
+		}
 
 		.tab {
+			position: fixed;
+			top: var(--window-top);
+			left: 0;
+			right: 0;
 			display: flex;
 			align-items: center;
-			height: 80rpx;
+			height: 40px;
 			padding: 0 20rpx;
 			font-size: 16px;
 			background: #fff;
@@ -151,19 +212,19 @@
 		}
 
 		.content {
-			overflow: auto;
 			display: flex;
 			flex-wrap: wrap;
 			padding: 10rpx;
 
-			.hot-item {
+			.product-item {
 				display: flex;
 				flex-direction: column;
-				margin:10rpx;
+				margin: 10rpx;
 				width: calc(50% - 20rpx);
 				background-color: #fff;
 				box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
-				.btm{
+				border-radius: 4px;
+				.btm {
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
@@ -178,12 +239,18 @@
 
 			.title {
 				padding: 10rpx 0;
+				line-height: 30px;
 			}
 
 			.price {
 				line-height: 1;
 				color: $price-color;
 				font-weight: 700;
+			}
+
+			.num {
+				color: $u-tips-color;
+				font-size: 12px;
 			}
 
 			.originPrice {
