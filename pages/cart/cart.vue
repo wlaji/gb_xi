@@ -1,5 +1,6 @@
 <template>
-	<view class="container">
+	<view class="container" :style="{paddingTop:customBar+'px'}">
+		<u-navbar title="购物车" fixed :leftIcon="leftIcon" @leftClick="goDetail"></u-navbar>
 		<u-toast ref="uToast"></u-toast>
 		<u-modal :show="showDelModal" width="500rpx" :showCancelButton="true" closeOnClickOverlay content='确认删除该宝贝?'
 			confirmText="删除" cancelText="我再想想" confirmColor="#E44273" @confirm="confirmDel"
@@ -94,6 +95,8 @@
 				allChecked: false, //全选状态  true|false
 				empty: false, //空白页现实  true|false
 				cartList: [],
+				customBar:this.customBar,
+				leftIcon:''
 			};
 		},
 		onLoad(options) {
@@ -113,8 +116,11 @@
 			...mapGetters(['isLogin'])
 		},
 		methods: {
-			goBack(){
-				
+			goDetail(){
+				let id = uni.getStorageSync('productId');
+				uni.navigateTo({
+					url:'/pages/productDetail/productDetail?id='+id
+				})
 			},
 			confirmDel() {
 				let index = this.currentIndex;
@@ -224,6 +230,16 @@
 				})
 				this.$api.msg('跳转下一页 sendData');
 			}
+		},
+		onShow() {
+			if(uni.getStorageSync('productId')){
+				this.leftIcon = 'arrow-left'
+			}else{
+				this.leftIcon = ''
+			}
+		},
+		onHide(){
+			uni.removeStorageSync('productId')
 		}
 	}
 </script>

@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "首页",
+  "navigationBarTitleText": "国本健康商城",
   "usingComponents": {
     "u-search": "/node-modules/uview-ui/components/u-search/u-search",
     "u-swiper": "/node-modules/uview-ui/components/u-swiper/u-swiper",

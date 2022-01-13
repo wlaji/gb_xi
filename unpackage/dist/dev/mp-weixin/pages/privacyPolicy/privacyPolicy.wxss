@@ -1,0 +1,11 @@
+.conWrap.data-v-0a9443fc {
+  margin-top: 20rpx;
+}
+.conWrap .title.data-v-0a9443fc {
+  font-weight: 700;
+  text-indent: 2rem;
+}
+.conWrap .con.data-v-0a9443fc {
+  text-indent: 2rem;
+}
+

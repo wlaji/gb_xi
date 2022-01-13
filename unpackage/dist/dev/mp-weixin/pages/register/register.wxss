@@ -92,4 +92,24 @@
   margin-left: 10rpx;
   color: #3c9cff;
 }
+.ys.data-v-891c2434 {
+  display: flex;
+  font-size: 12px;
+  color: #909193;
+  margin-top: 40rpx;
+}
+.ys .t1.data-v-891c2434 {
+  display: flex;
+}
+.ys .t1 navigator.data-v-891c2434 {
+  color: #303133;
+}
+.modalContent.data-v-891c2434 {
+  font-size: 12px;
+  color: #909193;
+}
+.modalContent navigator.data-v-891c2434 {
+  display: inline-block;
+  color: #303133;
+}
 

@@ -12,14 +12,16 @@
     "pages/checkout/checkout",
     "pages/set/set/set",
     "pages/msg/msg",
-    "pages/searchResult/searchResult"
+    "pages/searchResult/searchResult",
+    "pages/privacyPolicy/privacyPolicy",
+    "pages/userAgreement/userAgreement"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#ffffff",
-    "backgroundColor": "#ffffff"
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
   },
   "tabBar": {
     "color": "#606266",

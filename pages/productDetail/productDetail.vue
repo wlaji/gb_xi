@@ -19,7 +19,7 @@
 			</view>
 			
 			<view class="part c-list">
-				<view class="c-row" @click="toggleSpec">
+				<view class="c-row">
 					<text class="tit">购买类型</text>
 					<view class="con">
 						<text class="selected-text">
@@ -144,6 +144,7 @@
 	export default {
 		data() {
 			return {
+				productId:1,
 				imgList: [{
 						src: 'https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg'
 					},
@@ -165,8 +166,8 @@
 				`,
 			};
 		},
-		onLoad() {
-
+		onLoad(options) {
+		
 		},
 		methods: {
 			goHome(){
@@ -175,6 +176,7 @@
 				})
 			},
 			goCart(){
+				uni.setStorageSync('productId',this.productId)
 				uni.switchTab({
 					url: '/pages/cart/cart'
 				})

@@ -96,6 +96,12 @@
 				</view>
 			</view>
 		</view>
+		<view class="login-alert" v-if="!isLogin">
+			<view class="left">
+				登录国本商城打开精彩世界
+			</view>
+			<button type="default" class="u-reset-button" @click="toLogin">立即登录</button>
+		</view>
 	</view>
 </template>
 
@@ -128,6 +134,12 @@
 				}]
 			};
 		},
+		
+		computed:{
+			isLogin(){
+				return this.$store.getters.isLogin
+			}
+		},
 
 		onLoad() {
 			console.log(this.$json)
@@ -135,6 +147,11 @@
 			this.goodsList = this.$json.goodsList
 		},
 		methods: {
+			toLogin(){
+				uni.navigateTo({
+					url:'/pages/login/login'
+				})
+			},
 			navToDetailPage() {
 				uni.navigateTo({
 					url: '/pages/productDetail/productDetail'
@@ -168,6 +185,33 @@
 </script>
 
 <style lang="scss" scoped>
+	.login-alert {
+		position: fixed;
+		bottom: var(--window-bottom);
+		left: 0;
+		right: 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height:40px;
+		padding:0 20rpx;
+		background-color: rgba(0,0,0,.7);
+		color:#fff;
+		.left{
+			flex:1;
+		}
+		button{
+			width:100px;
+			height:30px;
+			line-height: 30px;
+			margin-left:20px;
+			border-radius: 20px;
+			background-color: #EF6339;
+			color:#fff;
+			text-align: center;
+		}
+	}
+
 	.container {
 		padding: 0 10rpx 10rpx;
 	}

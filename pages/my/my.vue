@@ -1,6 +1,5 @@
 <template>
 	<view class="container">
-		<u-modal :show="showModal1" :showCancelButton="true" closeOnClickOverlay content='确定要退出登陆吗?' @confirm="toLogOut" @cancel="showModal1 = false;" @close="showModal1=false"></u-modal>
 		<view class="avatar">
 			<u-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="70"></u-avatar>
 			<view class="rightArea">
@@ -12,7 +11,6 @@
 				</view>
 			</view>
 		</view>
-
 		<view class="part part1">
 			<view class="top">
 				<u-icon name="level" size="25" color="#c2a160"></u-icon>
@@ -114,6 +112,13 @@
 				</u-grid-item>
 				<u-grid-item>
 					<view class="list-item">
+						<u-icon name="server-fill" size="24" color="#EE883B"></u-icon>
+						<text class="grid-text">联系客服</text>
+					</view>
+				</u-grid-item>
+				<!-- #ifdef MP || H5 -->
+				<u-grid-item>
+					<view class="list-item">
 						<view style="position: relative;">
 							<u-icon name="bell" size="24" color="#54B4EF"></u-icon>
 							<u-badge max="99" value="99" absolute :offset="[-8,-10]"></u-badge>
@@ -123,21 +128,18 @@
 				</u-grid-item>
 				<u-grid-item>
 					<view class="list-item">
-						<u-icon name="server-fill" size="24" color="#EE883B"></u-icon>
-						<text class="grid-text">联系客服</text>
-					</view>
-				</u-grid-item>
-				<u-grid-item>
-					<view class="list-item">
 						<u-icon name="setting" size="24" color="#2b85e4"></u-icon>
 						<text class="grid-text">设置</text>
 					</view>
 				</u-grid-item>
+				<!-- #endif -->
 			</u-grid>
 		</view>
 		<view class="part part4">
 			<u-button type="default" text="退出登录" @click="showModal1 = true"></u-button>
 		</view>
+		<u-modal :show="showModal1" :showCancelButton="true" closeOnClickOverlay content='确定要退出登陆吗?' @confirm="toLogOut"
+			@cancel="showModal1 = false;" @close="showModal1=false"></u-modal>
 	</view>
 </template>
 
@@ -149,6 +151,7 @@
 		data() {
 			return {
 				showModal1: false,
+				count: 2
 			}
 		},
 		onLoad() {
@@ -157,9 +160,59 @@
 		methods: {
 			toLogOut() {
 				this.showModal1 = false;
-				uni.navigateTo({
-					url: '/pages/login/login'
+				this.$store.commit('logout');
+				uni.switchTab({
+					url: '/pages/index/index'
 				});
+			},
+			// 未读消息数量
+			setBadgeText(count,index){
+				if (this.count == 0) {
+					//隐藏
+					// #ifdef APP-PLUS
+					const pages = getCurrentPages();
+					const page = pages[pages.length - 1];
+					const currentWebview = page.$getAppWebview();
+					currentWebview.removeTitleNViewButtonBadge({
+						index
+					});
+					// #endif
+				} else {
+					//显示
+					// #ifdef APP-PLUS
+					const pages = getCurrentPages();
+					const page = pages[pages.length - 1];
+					const currentWebview = page.$getAppWebview();
+					currentWebview.setTitleNViewButtonBadge({
+						index,
+						text: this.count
+					});
+					// #endif
+				}
+			},
+			// 设置按钮角标
+			setRedDot(count,index){
+				if (this.count == 0) {
+					//隐藏
+					// #ifdef APP-PLUS
+					const pages = getCurrentPages();
+					const page = pages[pages.length - 1];
+					const currentWebview = page.$getAppWebview();
+					currentWebview.hideTitleNViewButtonRedDot({
+						index
+					});
+					// #endif
+				} else {
+					//显示
+					// #ifdef APP-PLUS
+					const pages = getCurrentPages();
+					const page = pages[pages.length - 1];
+					const currentWebview = page.$getAppWebview();
+					currentWebview.showTitleNViewButtonRedDot({
+						index,
+					});
+					// #endif
+				}
 			},
 			// #ifndef MP
 			onNavigationBarButtonTap(e) {
@@ -175,9 +228,13 @@
 				}
 			},
 			// #endif
-			onShareAppMessage(){
-				
+			onShareAppMessage() {
+
 			}
+		},
+		onShow() {
+			this.setBadgeText(this.count,1);
+			this.setRedDot(this.count,0)
 		}
 	}
 </script>
@@ -186,13 +243,13 @@
 	.container {
 		padding: 20rpx;
 	}
-	
+
 	.avatar {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		padding: 40rpx 0;
-		margin-left: 20rpx;
+
 		.rightArea {
 			margin-left: 20rpx;
 
@@ -286,8 +343,9 @@
 			width: 100%;
 			height: 100%;
 			padding: 20rpx 0;
-			.grid-text{
-				margin-top:10rpx;
+
+			.grid-text {
+				margin-top: 10rpx;
 			}
 		}
 	}

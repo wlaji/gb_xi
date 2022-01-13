@@ -45,6 +45,11 @@
 			};
 		},
 		methods: {
+			navToDetailPage() {
+				uni.navigateTo({
+					url: '/pages/productDetail/productDetail'
+				})
+			},
 			toSearch() {
 				uni.navigateTo({
 					url: '/pages/search/search'

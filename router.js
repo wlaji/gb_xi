@@ -27,8 +27,8 @@ const router = createRouter({
 const whiteList = ['login'];
 //全局路由前置守卫
 router.beforeEach((to, from, next) => {
-	const hasToken = uni.getStorageSync('token')
-	if (hasToken) {
+	const isLogin = uni.getStorageSync('token') ;
+	if (isLogin) {
 		next()
 	} else {
 		if (to.meta.loginAuth) {

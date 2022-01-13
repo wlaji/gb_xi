@@ -1,5 +1,18 @@
 <template>
 	<view class="container">
+		<u-modal :show="showModal" title="服务协议及隐私保护" :showCancelButton="true" closeOnClickOverlay confirmText="同意"
+			cancelText="不同意" confirmColor="#E44273" @confirm="confirmChecked" @cancel="showModal = false;"
+			@close="showModal=false">
+			<view class="modalContent" slot="default">
+				<text>为了更好的保障您的合法权益,请您阅读并同意以下协议</text>
+				<navigator url="/pages/userAgreement/userAgreement" hover-class="navigator-hover">
+					《用户协议》
+				</navigator>
+				<navigator url="/pages/privacyPolicy/privacyPolicy" hover-class="navigator-hover">
+					《隐私政策》
+				</navigator>
+			</view>
+		</u-modal>
 		<view class="left-bottom-sign"></view>
 		<view class="back-btn">
 			<u-icon name="arrow-leftward" size="40rpx" color="#333" bold @click="navBack"></u-icon>
@@ -32,6 +45,28 @@
 					<u-button @click="toRegister" :loading="loading" loadingText="正在注册中" type="primary"
 						>注册</u-button>
 				</view>
+				<!-- #ifndef H5 -->
+				<view style="margin-top:40rpx;">
+					<u-button type="success" icon="weixin-fill" open-type="getPhoneNumber"
+						@getphonenumber="getPhoneNumber" text="微信一键登录"></u-button>
+				</view>
+				<!-- #endif -->
+				<view class="ys">
+					<view class="box">
+						<u-checkbox-group @change="changeStatus">
+							<u-checkbox :checked="checked" shape="circle"></u-checkbox>
+						</u-checkbox-group>
+					</view>
+					<view class="t1">
+						<text>已阅读并同意以下协议:</text>
+						<navigator url="/pages/userAgreement/userAgreement" hover-class="navigator-hover">
+							《用户协议》
+						</navigator>
+						<navigator url="/pages/privacyPolicy/privacyPolicy" hover-class="navigator-hover">
+							《隐私政策》
+						</navigator>
+					</view>
+				</view>
 			</view>
 		</view>
 		<view class="register-section">
@@ -49,6 +84,9 @@
 	export default {
 		data() {
 			return {
+				beforeStatus:'',
+				showModal: false,
+				checked: false,
 				tips: '',
 				loading: false,
 				form: {
@@ -90,13 +128,54 @@
 
 		},
 		methods: {
+			confirmChecked() {
+				this.checked = true;
+				this.showModal = false;
+				console.log(this.checked)
+				if(this.beforeStatus === 'getCode'){
+					this.getCode()
+				}else if(this.beforeStatus === 'toRegister'){
+					this.toRegister()
+				}
+			},
+			getPhoneNumber(e) {
+				if (!this.checked) {
+					this.showModal = true;
+					return;
+				}
+				// 获取到微信服务器返回的加密数据
+				const iv = e.detail.iv;
+				const encryptedData = e.detail.encryptedData;
+				let that = this;
+				if (!encryptedData) {
+					return false;
+				}
+				uni.login({
+					//获取code
+					provider: 'weixin',
+					success: async function(res) {
+						console.log({
+							code: res.code,
+							encrypData: encryptedData,
+							ivData: iv
+						})
+						//调用开发服务器，服务器先通过code获取openid和session_key，然后再解密好加密数据
+			
+					}
+				})
+			},
+			changeStatus(e) {
+				this.checked = !this.checked;
+			},
 			navBack() {
 				uni.navigateBack();
 			},
-			toFindPwd() {
-
-			},
 			toRegister() {
+				if(!this.checked){
+					this.showModal = true;
+					this.beforeStatus = 'toRegister';
+					return;
+				}
 				this.$refs.form1.validate().then(() => {
 					uni.$u.toast('表单验证成功');
 					this.loading = true;
@@ -119,6 +198,11 @@
 				this.tips = text;
 			},
 			getCode() {
+				if(!this.checked){
+					this.showModal = true;
+					this.beforeStatus = 'getCode';
+					return;
+				}
 				if (this.$refs.uCode.canGetCode) {
 					// 模拟向后端请求验证码
 					uni.showLoading({
@@ -246,6 +330,30 @@
 		text {
 			margin-left: 10rpx;
 			color: $u-primary;
+		}
+	}
+	.ys {
+		display: flex;
+		font-size: 12px;
+		color: $u-tips-color;
+		margin-top: 40rpx;
+	
+		.t1 {
+			display: flex;
+	
+			navigator {
+				color: $u-main-color;
+			}
+		}
+	}
+	
+	.modalContent {
+		font-size: 12px;
+		color: $u-tips-color;
+	
+		navigator {
+			display: inline-block;
+			color: $u-main-color;
 		}
 	}
 </style>

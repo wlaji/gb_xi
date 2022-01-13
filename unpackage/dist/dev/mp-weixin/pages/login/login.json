@@ -3,11 +3,15 @@
   "navigationBarTitleText": "登录",
   "enablePullDownRefresh": false,
   "usingComponents": {
+    "login-u-modal-default": "/pages/login/login-u-modal-default",
+    "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal",
     "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
     "u-form": "/node-modules/uview-ui/components/u-form/u-form",
     "u-form-item": "/node-modules/uview-ui/components/u-form-item/u-form-item",
     "u-input": "/node-modules/uview-ui/components/u-input/u-input",
     "u-code": "/node-modules/uview-ui/components/u-code/u-code",
-    "u-button": "/node-modules/uview-ui/components/u-button/u-button"
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "u-checkbox-group": "/node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group",
+    "u-checkbox": "/node-modules/uview-ui/components/u-checkbox/u-checkbox"
   }
 }

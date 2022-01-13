@@ -1,7 +1,20 @@
 <script>
 	import Vue from 'vue';
+	import store from './store'
 	export default {
 		onLaunch: function(options) {
+			let token = uni.getStorageSync('token') // 判断有没有token，有则说明登录过了，重新把缓存存进vuex
+			if (token) {
+				uni.getStorage({
+					key: 'userinfo',
+					success: (res) => {
+						store.commit('login',{
+							token,
+							userInfo:res.data
+						})
+					}
+				})
+			}
 			uni.getSystemInfo({
 				success: function(e) {
 					Vue.prototype.statusBar = e.statusBarHeight

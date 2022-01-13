@@ -6,7 +6,6 @@
   justify-content: center;
   align-items: center;
   padding: 40rpx 0;
-  margin-left: 20rpx;
 }
 .avatar .rightArea.data-v-0be17cc6 {
   margin-left: 20rpx;

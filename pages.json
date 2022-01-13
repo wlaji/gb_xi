@@ -4,22 +4,7 @@
 			"path": "pages/index/index",
 			"name": "home",
 			"style": {
-				"navigationBarTitleText": "首页",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [
-							{
-								"fontSrc": "/static/font/1.ttf",
-								"text": "\ue711",
-								"fontSize": "27px",
-								"color": "#303133",
-								"background": "rgba(0,0,0,0)",
-								"redDot": "true"
-							}
-						],
-						"titleText": "首页"
-					}
-				}
+				"navigationBarTitleText": "国本健康商城"
 			}
 		}, {
 			"path": "pages/productDetail/productDetail",
@@ -43,8 +28,13 @@
 		}, {
 			"path": "pages/my/my",
 			"name": "my",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
-				"navigationBarTitleText": "个人中心",
+				"navigationBarTitleText": "个人中心"
+					// #ifdef APP-PLUS
+					,
 				"app-plus": {
 					"titleNView": {
 						"buttons": [{
@@ -53,6 +43,7 @@
 								"fontSize": "27px",
 								"fontWeight": "bold",
 								"color": "#303133",
+								"redDot": true,
 								"background": "rgba(0,0,0,0)"
 							},
 							{
@@ -60,13 +51,14 @@
 								"text": "\ue711",
 								"fontSize": "27px",
 								"color": "#303133",
-								"redDot": "true",
+								"badgeText": "99",
 								"background": "rgba(0,0,0,0)"
 							}
 						],
 						"titleText": "个人中心"
 					}
 				}
+				// #endif
 			}
 
 		}, {
@@ -88,7 +80,11 @@
 		}, {
 			"path": "pages/cart/cart",
 			"name": "cart",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "购物车"
 			}
 
@@ -119,14 +115,20 @@
 
 		}, {
 			"path": "pages/checkout/checkout",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "订单结算",
 				"enablePullDownRefresh": false
 			}
 
 		}, {
 			"path": "pages/set/set/set",
 			"name": "set",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
 				"navigationBarTitleText": "设置",
 				"enablePullDownRefresh": false
@@ -135,6 +137,9 @@
 		}, {
 			"path": "pages/msg/msg",
 			"name": "msg",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
 				"navigationBarTitleText": "留言",
 				"enablePullDownRefresh": false
@@ -146,6 +151,22 @@
 			"style": {
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "搜索结果",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/privacyPolicy/privacyPolicy",
+			"name": "privacyPolicy",
+			"style": {
+				"navigationBarTitleText": "隐私政策",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/userAgreement/userAgreement",
+			"name": "userAgreement",
+			"style": {
+				"navigationBarTitleText": "用户协议",
 				"enablePullDownRefresh": false
 			}
 
@@ -186,7 +207,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#ffffff",
-		"backgroundColor": "#ffffff"
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
 	}
 }
