@@ -9,6 +9,8 @@ const store = new Vuex.Store({
 	state: {
 		hasLogin: false,
 		userInfo: null,
+		newVersionCode:0,
+		currentVersionCode:0
 	},
 	mutations: {
 		login(state, res) {
@@ -32,11 +34,17 @@ const store = new Vuex.Store({
 			uni.removeStorage({
 				key: 'token'
 			})
+		},
+		version(state,code){
+			state.currentVersionCode = parseInt(code)
 		}
 	},
 	getters: {
 		isLogin(state) {
 			return state.hasLogin
+		},
+		hasNewVersion(){
+			return newVersionCode>currentVersionCode?true:false
 		}
 	},
 	actions: {

@@ -1,5 +1,10 @@
 {
   "navigationBarTitleText": "设置",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "u-cell-group": "/node-modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell": "/node-modules/uview-ui/components/u-cell/u-cell",
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal"
+  }
 }

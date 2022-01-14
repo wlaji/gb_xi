@@ -8,9 +8,9 @@
 				uni.getStorage({
 					key: 'userinfo',
 					success: (res) => {
-						store.commit('login',{
+						store.commit('login', {
 							token,
-							userInfo:res.data
+							userInfo: res.data
 						})
 					}
 				})
@@ -20,16 +20,15 @@
 					Vue.prototype.statusBar = e.statusBarHeight
 					// #ifndef MP
 					if (e.platform == 'android') {
-						Vue.prototype.customBar = e.statusBarHeight + 44
-					} else {
 						Vue.prototype.customBar = e.statusBarHeight + 48
+					} else {
+						Vue.prototype.customBar = e.statusBarHeight + 44
 					}
 					// #endif
 
 					// #ifdef MP-WEIXIN
 					let custom = wx.getMenuButtonBoundingClientRect()
-					console.log(custom)
-					Vue.prototype.customBar = custom.bottom + custom.top - e.statusBarHeight
+					Vue.prototype.customBar = custom.top + custom.height + 8
 					// #endif
 
 					// #ifdef MP-ALIPAY
@@ -37,6 +36,16 @@
 					// #endif
 				}
 			})
+
+			// #ifdef APP-PLUS
+			let platform = uni.getSystemInfoSync().platform;
+			plus.runtime.getProperty(plus.runtime.appid, (widgetInfo) => {
+				store.commit('version', {
+					versionCode: widgetInfo.versionCode
+				})
+			})
+			// #endif
+
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -96,4 +105,29 @@
 		padding: 3px 7px;
 		opacity: .8;
 	}
+
+	/* #ifdef H5 */
+	.u-navbar__content__title,
+	.uni-page-head__title {
+		font-size: 16px !important;
+		color: #000000 !important;
+		font-weight: 400 !important;
+	}
+
+	/* #endif */
+	/* #ifdef MP */
+	.u-navbar__content__title,
+	.uni-page-head__title {
+		font-size: 14px !important;
+		color: #000000 !important;
+		font-weight: 400 !important;
+	}
+
+	/* #endif */
+	/* #ifdef APP-PLUS */
+	.u-navbar__content__title {
+		font-size: 16px !important;
+		color: #000000 !important;
+	}
+	/* #endif */
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<view class="container" :style="{paddingTop:customBar+'px'}">
-		<u-navbar leftText="返回" title="搜索结果" fixed>
+		<u-navbar leftText="返回" title="搜索结果" fixed bgColor="#f8f8f8">
 			<view class="u-nav-slot" slot="left">
 				<u-icon name="arrow-left" size="19" @click="goBack"></u-icon>
 				<u-line direction="column" :hairline="false" length="16" margin="0 8px"></u-line>

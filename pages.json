@@ -24,7 +24,6 @@
 					}
 				}
 			}
-
 		}, {
 			"path": "pages/my/my",
 			"name": "my",
@@ -32,35 +31,9 @@
 				"loginAuth": true
 			},
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "个人中心"
-					// #ifdef APP-PLUS
-					,
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-								"fontSrc": "/static/font/1.ttf",
-								"text": "\ue603",
-								"fontSize": "27px",
-								"fontWeight": "bold",
-								"color": "#303133",
-								"redDot": true,
-								"background": "rgba(0,0,0,0)"
-							},
-							{
-								"fontSrc": "/static/font/1.ttf",
-								"text": "\ue711",
-								"fontSize": "27px",
-								"color": "#303133",
-								"badgeText": "99",
-								"background": "rgba(0,0,0,0)"
-							}
-						],
-						"titleText": "个人中心"
-					}
-				}
-				// #endif
 			}
-
 		}, {
 			"path": "pages/login/login",
 			"name": "login",
@@ -69,14 +42,12 @@
 				"navigationBarTitleText": "登录",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/productCategory/productCategory",
 			"name": "productCategory",
 			"style": {
 				"navigationBarTitleText": "产品分类"
 			}
-
 		}, {
 			"path": "pages/cart/cart",
 			"name": "cart",
@@ -87,7 +58,6 @@
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "购物车"
 			}
-
 		}, {
 			"path": "pages/register/register",
 			"name": "register",
@@ -96,7 +66,6 @@
 				"navigationBarTitleText": "注册",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/search/search",
 			"name": "search",
@@ -104,7 +73,6 @@
 				"navigationBarTitleText": "产品搜索",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/productList/productList",
 			"name": "productList",
@@ -112,7 +80,6 @@
 				"navigationBarTitleText": "产品列表",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/checkout/checkout",
 			"meta": {
@@ -122,7 +89,6 @@
 				"navigationBarTitleText": "订单结算",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/set/set/set",
 			"name": "set",
@@ -133,18 +99,16 @@
 				"navigationBarTitleText": "设置",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
-			"path": "pages/msg/msg",
+			"path": "pages/set/msg/msg",
 			"name": "msg",
 			"meta": {
 				"loginAuth": true
 			},
 			"style": {
-				"navigationBarTitleText": "留言",
+				"navigationBarTitleText": "我的留言",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/searchResult/searchResult",
 			"name": "searchResult",
@@ -153,7 +117,6 @@
 				"navigationBarTitleText": "搜索结果",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/privacyPolicy/privacyPolicy",
 			"name": "privacyPolicy",
@@ -161,7 +124,6 @@
 				"navigationBarTitleText": "隐私政策",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/userAgreement/userAgreement",
 			"name": "userAgreement",
@@ -169,7 +131,156 @@
 				"navigationBarTitleText": "用户协议",
 				"enablePullDownRefresh": false
 			}
-
+		}, {
+			"path": "pages/set/myOrder/myOrder",
+			"name": "myOrder",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "我的订单",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/joinUs/joinUs",
+			"name": "joinUs",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "我要加盟",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/addressManage/addressManage",
+			"name": "addressManage",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "地址管理",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/share/share",
+			"name": "share",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "分享",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/marketing/marketing",
+			"name": "marketing",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "营销业绩",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/integralTransfer/integralTransfer",
+			"name": "integralTransfer",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "积分转帐",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/integralWithdrawal/integralWithdrawal",
+			"name": "integralWithdrawal",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "积分提现",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/team/team",
+			"name": "team",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "团队成员",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/history/history",
+			"name": "history",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "浏览历史",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/collect/collect",
+			"name": "collect",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "我的收藏",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/accountSecurity/accountSecurity",
+			"name": "accountSecurity",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "账户与安全",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/paymentSetting/paymentSetting",
+			"name": "paymentSetting",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "支付设置",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/identityAuthentication /identityAuthentication ",
+			"name": "identityAuthentication",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "身份验证",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/aboutStore/aboutStore",
+			"name": "aboutStore",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "关于国本商城",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/set/infoSet/infoSet",
+			"name": "infoSet",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
 	"tabBar": {
@@ -206,7 +317,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "国本健康商城",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	}

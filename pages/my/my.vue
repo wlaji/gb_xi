@@ -1,5 +1,9 @@
 <template>
-	<view class="container">
+	<view class="container" :style="{paddingTop:customBar+'px'}">
+		<view v-show="showNavBar">
+			<u-navbar title="个人中心" :leftIcon="null" fixed bgColor="#f8f8f8">
+			</u-navbar>
+		</view>
 		<view class="avatar">
 			<u-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="70"></u-avatar>
 			<view class="rightArea">
@@ -40,7 +44,7 @@
 		<view class="part part2">
 			<u-cell-group :border="false">
 				<u-cell icon="order" iconStyle="color:#F66D74;font-size:25px;" title="我的订单" value="查看全部订单"
-					:isLink="true" :border="false"></u-cell>
+					isLink :border="false" url="/pages/set/myOrder/myOrder"></u-cell>
 			</u-cell-group>
 
 			<view class="bottom">
@@ -68,71 +72,82 @@
 		</view>
 		<view class="part part3">
 			<u-grid :border="false" col="4">
-				<u-grid-item>
+				<u-grid-item @click="toSet('/pages/set/joinUs/joinUs')">
 					<view class="list-item">
 						<u-icon name="man-add" size="24" color="#F66D74"></u-icon>
 						<text class="grid-text">我要加盟</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item>
+				<u-grid-item @click="toSet('/pages/set/addressManage/addressManage')">
 					<view class="list-item">
 						<u-icon name="car-fill" size="24" color="#5FCDA2"></u-icon>
 						<text class="grid-text">地址管理</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item>
+				<u-grid-item @click="toSet('/pages/set/share/share')">
 					<view class="list-item">
 						<u-icon name="share" size="24" color="#9789F7"></u-icon>
 						<text class="grid-text">分享</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item>
+				<u-grid-item @click="toSet('/pages/set/marketing/marketing')">
 					<view class="list-item">
 						<u-icon name="rmb-circle" size="24" color="#F66D74"></u-icon>
 						<text class="grid-text">营销业绩</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item>
+				<u-grid-item @click="toSet('/pages/set/integralTransfer/integralTransfer')">
 					<view class="list-item">
 						<u-icon name="red-packet" size="24" color="#F66D74"></u-icon>
 						<text class="grid-text">积分转账</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item>
+				<u-grid-item @click="toSet('/pages/set/integralWithdrawal/integralWithdrawal')">
 					<view class="list-item">
 						<u-icon name="rmb" size="24" color="#F66D74"></u-icon>
 						<text class="grid-text">积分提现</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item>
+				<u-grid-item @click="toSet('/pages/set/team/team')">
 					<view class="list-item">
 						<u-icon name="plus-people-fill" size="24" color="#FFB273"></u-icon>
 						<text class="grid-text">团队成员</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item>
+			<!-- 	<u-grid-item>
 					<view class="list-item">
 						<u-icon name="server-fill" size="24" color="#EE883B"></u-icon>
 						<text class="grid-text">联系客服</text>
 					</view>
+				</u-grid-item> -->
+				<u-grid-item @click="toSet('/pages/set/history/history')">
+					<view class="list-item">
+						<u-icon name="clock-fill" size="24" color="#5EBA40"></u-icon>
+						<text class="grid-text">浏览历史</text>
+					</view>
 				</u-grid-item>
-				<!-- #ifdef MP || H5 -->
-				<u-grid-item>
+				<u-grid-item @click="toSet('/pages/set/collect/collect')">
+					<view class="list-item">
+						<u-icon name="star-fill" size="24" color="#fa436a"></u-icon>
+						<text class="grid-text">我的收藏</text>
+					</view>
+				</u-grid-item>
+				<u-grid-item @click="toSet('/pages/set/msg/msg')">
 					<view class="list-item">
 						<view style="position: relative;">
 							<u-icon name="bell" size="24" color="#54B4EF"></u-icon>
 							<u-badge max="99" value="99" absolute :offset="[-8,-10]"></u-badge>
 						</view>
-						<text class="grid-text">留言管理 </text>
+						<text class="grid-text">留言管理</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item>
+				
+				<u-grid-item @click="toSet('/pages/set/set/set')">
 					<view class="list-item">
 						<u-icon name="setting" size="24" color="#2b85e4"></u-icon>
 						<text class="grid-text">设置</text>
 					</view>
 				</u-grid-item>
-				<!-- #endif -->
 			</u-grid>
 		</view>
 		<view class="part part4">
@@ -151,13 +166,20 @@
 		data() {
 			return {
 				showModal1: false,
-				count: 2
+				count: 2,
+				customBar: this.customBar,
+				showNavBar: false,
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
+			toSet(page) {
+				uni.navigateTo({
+					url: page
+				})
+			},
 			toLogOut() {
 				this.showModal1 = false;
 				this.$store.commit('logout');
@@ -166,7 +188,7 @@
 				});
 			},
 			// 未读消息数量
-			setBadgeText(count,index){
+			setBadgeText(count, index) {
 				if (this.count == 0) {
 					//隐藏
 					// #ifdef APP-PLUS
@@ -191,7 +213,7 @@
 				}
 			},
 			// 设置按钮角标
-			setRedDot(count,index){
+			setRedDot(count, index) {
 				if (this.count == 0) {
 					//隐藏
 					// #ifdef APP-PLUS
@@ -213,33 +235,36 @@
 					});
 					// #endif
 				}
-			},
-			// #ifndef MP
-			onNavigationBarButtonTap(e) {
-				const index = e.index;
-				if (index === 0) {
-					uni.navigateTo({
-						url: '/pages/set/set/set'
-					});
-				} else if (index === 1) {
-					uni.navigateTo({
-						url: '/pages/msg/msg'
-					});
-				}
-			},
-			// #endif
-			onShareAppMessage() {
-
 			}
 		},
 		onShow() {
-			this.setBadgeText(this.count,1);
-			this.setRedDot(this.count,0)
+			this.setBadgeText(this.count, 1);
+			this.setRedDot(this.count, 0)
+		},
+		onPageScroll(data) {
+			if (data.scrollTop > 88) {
+				this.showNavBar = true;
+			} else {
+				this.showNavBar = false;
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.navBar {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: fixed;
+		top: var(--status-bar-height);
+		left: 0;
+		right: 0;
+		height: 44px;
+		background-color: #fff;
+		z-index: 1000;
+	}
+
 	.container {
 		padding: 20rpx;
 	}
@@ -248,13 +273,14 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding: 40rpx 0;
+		padding: 10rpx 0 40rpx;
 
 		.rightArea {
 			margin-left: 20rpx;
 
 			.nickname {
 				font-size: 16px;
+				font-weight: 700;
 			}
 
 			.bh {

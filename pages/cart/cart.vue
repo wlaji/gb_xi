@@ -1,6 +1,6 @@
 <template>
 	<view class="container" :style="{paddingTop:customBar+'px'}">
-		<u-navbar title="购物车" fixed :leftIcon="leftIcon" @leftClick="goDetail"></u-navbar>
+		<u-navbar title="购物车" fixed :leftIcon="leftIcon" @leftClick="goDetail" bgColor="#f8f8f8"></u-navbar>
 		<u-toast ref="uToast"></u-toast>
 		<u-modal :show="showDelModal" width="500rpx" :showCancelButton="true" closeOnClickOverlay content='确认删除该宝贝?'
 			confirmText="删除" cancelText="我再想想" confirmColor="#E44273" @confirm="confirmDel"

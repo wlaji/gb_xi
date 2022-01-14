@@ -340,4 +340,10 @@ video {
   padding: 3px 7px;
   opacity: .8;
 }
+.u-navbar__content__title,
+.uni-page-head__title {
+  font-size: 14px !important;
+  color: #000000 !important;
+  font-weight: 400 !important;
+}
 
