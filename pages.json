@@ -252,7 +252,7 @@
 				"enablePullDownRefresh": false
 			}
 		}, {
-			"path": "pages/set/identityAuthentication /identityAuthentication ",
+			"path": "pages/set/identityAuthentication/identityAuthentication",
 			"name": "identityAuthentication",
 			"meta": {
 				"loginAuth": true

@@ -209,6 +209,7 @@
 			background-color: #EF6339;
 			color:#fff;
 			text-align: center;
+			font-size: 14px !important;
 		}
 	}
 

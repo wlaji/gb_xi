@@ -141,7 +141,7 @@
 		/* #ifndef H5 */
 		min-height: 100vh;
 		/* #endif */
-		padding-top: 44px;
+		padding-top: 40px;
 
 		.popupCon {
 			.cate-item {

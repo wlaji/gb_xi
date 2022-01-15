@@ -1,1 +1,1 @@
-<view>我的订单</view>
+<view class="container"><view class="tab"><view class="tab-left"><block wx:for="{{tabList}}" wx:for-item="item" wx:for-index="index"><view data-event-opts="{{[['tap',[['changeTab',[index]]]]]}}" class="{{[[(activeIndex===0)?'active':''],'tab-item']}}" bindtap="__e">{{item.text}}</view></block></view></view></view>

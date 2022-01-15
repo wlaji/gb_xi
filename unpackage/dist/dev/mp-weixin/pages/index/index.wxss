@@ -24,6 +24,7 @@
   background-color: #EF6339;
   color: #fff;
   text-align: center;
+  font-size: 14px !important;
 }
 .container.data-v-57280228 {
   padding: 0 10rpx 10rpx;
