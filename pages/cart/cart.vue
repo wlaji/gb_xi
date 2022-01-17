@@ -2,23 +2,19 @@
 	<view class="container" :style="{paddingTop:customBar+'px'}">
 		<u-navbar title="购物车" fixed :leftIcon="leftIcon" @leftClick="goDetail" bgColor="#f8f8f8"></u-navbar>
 		<u-toast ref="uToast"></u-toast>
-		<u-modal :show="showDelModal" width="500rpx" :showCancelButton="true" closeOnClickOverlay content='确认删除该宝贝?'
+		<u-modal :show="showDelModal" :showCancelButton="true" closeOnClickOverlay content='确认删除该宝贝?'
 			confirmText="删除" cancelText="我再想想" confirmColor="#E44273" @confirm="confirmDel"
 			@cancel="showDelModal = false;" @close="showDelModal=false"></u-modal>
-		<u-modal :show="showDelModal2" width="500rpx" :showCancelButton="true" closeOnClickOverlay content='确认清空购物车吗?'
+		<u-modal :show="showDelModal2" :showCancelButton="true" closeOnClickOverlay content='确认清空购物车吗?'
 			confirmText="清空" cancelText="我再想想" confirmColor="#E44273" @confirm="clearCart" @cancel="showDelModal2=false"
 			@close="showDelModal2=false"></u-modal>
 		<!-- 空白页 -->
-		<view v-if="!isLogin || empty===true" class="empty">
+		<view v-if="empty===true" class="empty">
 			<u-empty mode="car" text=" ">
-				<view v-if="isLogin" class="empty-tips">
+				<view class="empty-tips">
 					空空如也
 					<navigator class="navigator" url="/pages/index/index" open-type="switchTab">随便逛逛>
 					</navigator>
-				</view>
-				<view v-else class="empty-tips">
-					空空如也
-					<view class="navigator" @click="navToLogin">去登陆></view>
 				</view>
 			</u-empty>
 		</view>
@@ -139,11 +135,6 @@
 				})
 				this.cartList = cartList
 				this.calcTotal(); //计算总价
-			},
-			navToLogin() {
-				uni.navigateTo({
-					url: '/pages/public/login'
-				})
 			},
 			//选中状态处理
 			check(type, index) {

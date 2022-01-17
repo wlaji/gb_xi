@@ -67,7 +67,6 @@
 		onLoad(options) {
 			this.keyword = decodeURIComponent(options.keyword);
 			this.productList = this.$json.goodsList
-
 		},
 		onReady() {
 			console.log()

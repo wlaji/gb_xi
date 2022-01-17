@@ -4,10 +4,12 @@
 	export default {
 		onLaunch: function(options) {
 			let token = uni.getStorageSync('token') // 判断有没有token，有则说明登录过了，重新把缓存存进vuex
+			console.log(token)
 			if (token) {
 				uni.getStorage({
-					key: 'userinfo',
+					key: 'userInfo',
 					success: (res) => {
+						console.log(res)
 						store.commit('login', {
 							token,
 							userInfo: res.data

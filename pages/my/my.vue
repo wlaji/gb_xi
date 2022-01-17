@@ -78,12 +78,6 @@
 						<text class="grid-text">我要加盟</text>
 					</view>
 				</u-grid-item>
-				<u-grid-item @click="toSet('/pages/set/addressManage/addressManage')">
-					<view class="list-item">
-						<u-icon name="car-fill" size="24" color="#5FCDA2"></u-icon>
-						<text class="grid-text">地址管理</text>
-					</view>
-				</u-grid-item>
 				<u-grid-item @click="toSet('/pages/set/share/share')">
 					<view class="list-item">
 						<u-icon name="share" size="24" color="#9789F7"></u-icon>

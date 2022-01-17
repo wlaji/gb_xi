@@ -105,7 +105,6 @@
 				}
 			},
 			onReachBottom() {
-				console.log(321321)
 				if (this.page >= 3) return;
 				this.status = 'loading';
 				this.page = ++this.page;
@@ -173,7 +172,7 @@
 			align-items: center;
 			height: 40px;
 			padding: 0 20rpx;
-			font-size: 16px;
+			font-size: 14px;
 			background: #fff;
 			box-shadow: 0 1px 5px rgba(0, 0, 0, .25);
 			z-index: 10;

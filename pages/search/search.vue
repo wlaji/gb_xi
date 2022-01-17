@@ -19,7 +19,7 @@
 		</view>
 		<view>
 			<u-toast ref="uToast"></u-toast>
-			<u-modal :show="showDelModal" width="500rpx" :showCancelButton="true" closeOnClickOverlay content='确认删除全部历史记录?'
+			<u-modal :show="showDelModal" :showCancelButton="true" closeOnClickOverlay content='确认删除全部历史记录?'
 				confirmText="确定" cancelText="取消" @confirm="confirmDel" @cancel="showDelModal = false;" @close="showDelModal=false"></u-modal>
 		</view>
 	</view>

@@ -29,7 +29,8 @@
         "pages/set/paymentSetting/paymentSetting",
         "pages/set/identityAuthentication/identityAuthentication",
         "pages/set/aboutStore/aboutStore",
-        "pages/set/infoSet/infoSet"
+        "pages/set/infoSet/infoSet",
+        "pages/set/editAddress/editAddress"
     ],
     "subPackages": [],
     "window": {

@@ -1,0 +1,56 @@
+.container.data-v-c6be6e66 {
+  padding: 10rpx 10rpx 130rpx;
+}
+.address-item.data-v-c6be6e66 {
+  position: relative;
+  padding: 20rpx;
+  background-color: #fff;
+  margin-bottom: 20rpx;
+  border-radius: 8px;
+}
+.address-item .title.data-v-c6be6e66 {
+  margin-bottom: 10rpx;
+  line-height: 30px;
+}
+.address-item .title .name.data-v-c6be6e66 {
+  font-weight: 700;
+}
+.address-item .title .phone.data-v-c6be6e66 {
+  color: #909193;
+  margin-left: 10rpx;
+}
+.address-item .title .tag.data-v-c6be6e66 {
+  border: 1px solid #fa436a;
+  color: #fa436a;
+  padding: 5rpx;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 10rpx;
+}
+.address-item .address-con.data-v-c6be6e66 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20rpx;
+}
+.address-item .address-con .detail.data-v-c6be6e66 {
+  margin-right: 10rpx;
+}
+.address-item .btm.data-v-c6be6e66 {
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+  align-items: center;
+}
+.add-address-btn.data-v-c6be6e66 {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 20rpx;
+  background-color: #fff;
+  height: 120rpx;
+}
+

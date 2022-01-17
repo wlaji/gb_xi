@@ -158,7 +158,7 @@
 				"loginAuth": true
 			},
 			"style": {
-				"navigationBarTitleText": "地址管理",
+				"navigationBarTitleText": "我的收货地址",
 				"enablePullDownRefresh": false
 			}
 		}, {
@@ -281,6 +281,17 @@
 				"navigationBarTitleText": "个人信息",
 				"enablePullDownRefresh": false
 			}
+		}, {
+			"path": "pages/set/editAddress/editAddress",
+			"name": "editAddress",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "收货地址",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	],
 	"tabBar": {
