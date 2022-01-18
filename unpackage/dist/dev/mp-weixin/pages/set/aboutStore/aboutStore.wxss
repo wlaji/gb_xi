@@ -1,0 +1,12 @@
+.container.data-v-db2f784e {
+  background-color: #fff;
+  padding: 10rpx;
+}
+.container .top.data-v-db2f784e {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300rpx;
+}
+

@@ -42,9 +42,8 @@
 			// #ifdef APP-PLUS
 			let platform = uni.getSystemInfoSync().platform;
 			plus.runtime.getProperty(plus.runtime.appid, (widgetInfo) => {
-				store.commit('version', {
-					versionCode: widgetInfo.versionCode
-				})
+				console.log(widgetInfo)
+				store.commit('version',widgetInfo)
 			})
 			// #endif
 

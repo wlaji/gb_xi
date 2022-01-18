@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '../store/index.js'
 import {getCookie} from '@/utils/util'
 // 创建axios实例
 const service = axios.create({
@@ -47,8 +48,7 @@ service.interceptors.response.use(
 					confirmText:'我知道了',
 				    success: function (res) {
 				        if (res.confirm) {
-				            uni.removeStorageSync('token')
-				            uni.removeStorageSync('userInfo')
+							store.commit('logout')
 				            uni.navigateTo({
 				            	url:'/pages/login/login'
 				            })

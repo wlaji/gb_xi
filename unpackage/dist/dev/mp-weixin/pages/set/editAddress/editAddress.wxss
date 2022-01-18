@@ -14,4 +14,7 @@
   padding: 20rpx;
   margin-top: 20rpx;
 }
+.container .u-textarea.data-v-99795c22 {
+  padding: 0;
+}
 

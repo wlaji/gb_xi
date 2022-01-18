@@ -244,7 +244,6 @@
 			.price {
 				line-height: 1;
 				color: $price-color;
-				font-weight: 700;
 			}
 
 			.num {

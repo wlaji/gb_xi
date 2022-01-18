@@ -1,5 +1,8 @@
 {
-  "navigationBarTitleText": "账户与安全",
+  "navigationBarTitleText": "账户安全",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "u-cell-group": "/node-modules/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell": "/node-modules/uview-ui/components/u-cell/u-cell"
+  }
 }

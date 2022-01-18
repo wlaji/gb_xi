@@ -93,7 +93,6 @@
 .container .content .price.data-v-1f293d3c {
   line-height: 1;
   color: #fa436a;
-  font-weight: 700;
 }
 .container .content .num.data-v-1f293d3c {
   color: #909193;

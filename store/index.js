@@ -10,7 +10,8 @@ const store = new Vuex.Store({
 		hasLogin: false,
 		userInfo: null,
 		newVersionCode:0,
-		currentVersionCode:0
+		currentVersionCode:0,
+		versionInfo:''
 	},
 	mutations: {
 		login(state, res) {
@@ -35,16 +36,17 @@ const store = new Vuex.Store({
 				key: 'token'
 			})
 		},
-		version(state,code){
-			state.currentVersionCode = parseInt(code)
+		version(state,widgetInfo){;
+			state.versionInfo = widgetInfo
+			state.currentVersionCode = widgetInfo.versionCode;
 		}
 	},
 	getters: {
 		isLogin(state) {
 			return state.hasLogin
 		},
-		hasNewVersion(){
-			return newVersionCode>currentVersionCode?true:false
+		hasNewVersion(state){
+			return state.newVersionCode>state.currentVersionCode?true:false
 		}
 	},
 	actions: {

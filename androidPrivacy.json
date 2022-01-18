@@ -11,7 +11,5 @@
         "buttonAccept" : "同意并继续",
         "buttonRefuse" : "退出应用"
     },
-    "styles" : {
-
-    }
+    "styles" : {}
 }

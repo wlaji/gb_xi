@@ -206,7 +206,7 @@
 			line-height: 30px;
 			margin-left:20px;
 			border-radius: 20px;
-			background-color: #EF6339;
+			background-color: #fa436a;
 			color:#fff;
 			text-align: center;
 			font-size: 14px !important;

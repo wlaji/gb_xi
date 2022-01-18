@@ -51,6 +51,6 @@
   right: 0;
   padding: 0 20rpx;
   background-color: #fff;
-  height: 120rpx;
+  height: 140rpx;
 }
 

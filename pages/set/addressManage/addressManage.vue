@@ -13,7 +13,7 @@
 				<text class="detail">
 					湖南省 岳阳市 岳阳楼区 五里牌街道中建五局二公司 五里牌街道中建五局二公司
 				</text>
-				<u-icon name="edit-pen" size="28" color="#999"></u-icon>
+				<u-icon name="edit-pen" size="28" color="#999" @click="toEdit"></u-icon>
 			</view>
 			<view class="btm">
 				<view>
@@ -48,6 +48,11 @@
 			toPlusAddress(){
 				uni.navigateTo({
 					url:'/pages/set/editAddress/editAddress?type='+'add'
+				})
+			},
+			toEdit(){
+				uni.navigateTo({
+					url:'/pages/set/editAddress/editAddress?type='+'edit'
 				})
 			}
 		}
@@ -109,7 +114,7 @@
 		right:0;
 		padding:0 20rpx;
 		background-color: #fff;
-		height:120rpx;
+		height:140rpx;
 	}
 
 </style>

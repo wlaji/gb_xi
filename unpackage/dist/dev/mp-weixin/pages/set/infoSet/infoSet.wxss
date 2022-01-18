@@ -1,0 +1,22 @@
+.container.data-v-8ac16bfa {
+  background-color: #fff;
+  padding: 10rpx;
+}
+.container .top.data-v-8ac16bfa {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300rpx;
+}
+.container .top .changeAvatar.data-v-8ac16bfa {
+  margin-top: 20rpx;
+  color: #fa436a;
+}
+.add-address-btn.data-v-8ac16bfa {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  margin-top: 20rpx;
+}
+
