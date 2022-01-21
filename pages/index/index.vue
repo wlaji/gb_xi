@@ -142,9 +142,9 @@
 		},
 
 		onLoad() {
-			console.log(this.$json)
-			this.carouselList = this.$json.carouselList
-			this.goodsList = this.$json.goodsList
+			this.carouselList = this.$json.carouselList;
+			this.goodsList = this.$json.goodsList;
+			console.log(this.$store.state.appUpdateInfo);
 		},
 		methods: {
 			toLogin(){

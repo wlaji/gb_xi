@@ -43,8 +43,8 @@
 		</view>
 		<view class="part part2">
 			<u-cell-group :border="false">
-				<u-cell icon="order" iconStyle="color:#F66D74;font-size:25px;" title="我的订单" value="查看全部订单"
-					isLink :border="false" url="/pages/set/myOrder/myOrder"></u-cell>
+				<u-cell icon="order" iconStyle="color:#F66D74;font-size:25px;" title="我的订单" value="查看全部订单" isLink
+					:border="false" url="/pages/set/myOrder/myOrder"></u-cell>
 			</u-cell-group>
 
 			<view class="bottom">
@@ -70,85 +70,45 @@
 				</view>
 			</view>
 		</view>
-		<view class="part part3">
-			<u-grid :border="false" col="4">
-				<u-grid-item @click="toSet('/pages/set/joinUs/joinUs')">
-					<view class="list-item">
-						<u-icon name="man-add" size="24" color="#F66D74"></u-icon>
-						<text class="grid-text">我要加盟</text>
-					</view>
-				</u-grid-item>
-				<u-grid-item @click="toSet('/pages/set/share/share')">
-					<view class="list-item">
-						<u-icon name="share" size="24" color="#9789F7"></u-icon>
-						<text class="grid-text">分享</text>
-					</view>
-				</u-grid-item>
-				<u-grid-item @click="toSet('/pages/set/marketing/marketing')">
-					<view class="list-item">
-						<u-icon name="rmb-circle" size="24" color="#F66D74"></u-icon>
-						<text class="grid-text">营销业绩</text>
-					</view>
-				</u-grid-item>
-				<u-grid-item @click="toSet('/pages/set/integralTransfer/integralTransfer')">
-					<view class="list-item">
-						<u-icon name="red-packet" size="24" color="#F66D74"></u-icon>
-						<text class="grid-text">积分转账</text>
-					</view>
-				</u-grid-item>
-				<u-grid-item @click="toSet('/pages/set/integralWithdrawal/integralWithdrawal')">
-					<view class="list-item">
-						<u-icon name="rmb" size="24" color="#F66D74"></u-icon>
-						<text class="grid-text">积分提现</text>
-					</view>
-				</u-grid-item>
-				<u-grid-item @click="toSet('/pages/set/team/team')">
-					<view class="list-item">
-						<u-icon name="plus-people-fill" size="24" color="#FFB273"></u-icon>
-						<text class="grid-text">团队成员</text>
-					</view>
-				</u-grid-item>
-			<!-- 	<u-grid-item>
-					<view class="list-item">
-						<u-icon name="server-fill" size="24" color="#EE883B"></u-icon>
-						<text class="grid-text">联系客服</text>
-					</view>
-				</u-grid-item> -->
-				<u-grid-item @click="toSet('/pages/set/history/history')">
-					<view class="list-item">
-						<u-icon name="clock-fill" size="24" color="#5EBA40"></u-icon>
-						<text class="grid-text">浏览历史</text>
-					</view>
-				</u-grid-item>
-				<u-grid-item @click="toSet('/pages/set/collect/collect')">
-					<view class="list-item">
-						<u-icon name="star-fill" size="24" color="#fa436a"></u-icon>
-						<text class="grid-text">我的收藏</text>
-					</view>
-				</u-grid-item>
-				<u-grid-item @click="toSet('/pages/set/msg/msg')">
-					<view class="list-item">
-						<view style="position: relative;">
-							<u-icon name="bell" size="24" color="#54B4EF"></u-icon>
-							<u-badge max="99" value="99" absolute :offset="[-8,-10]"></u-badge>
+		<view class="part history">
+			<u-cell-group :border="false">
+				<u-cell icon="clock-fill" iconStyle="color:#5EBA40;font-size:24px;" title="浏览历史" :border="false">
+				</u-cell>
+			</u-cell-group>
+			<view class="historyItemWrap">
+				<u-scroll-list indicator indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+					<view v-for="(item, index) in goodsList" :key="index" class="history-item"
+						@click="navToDetailPage(item)">
+						<u-image :showLoading="true" :src="item.image" width="150rpx" height="150rpx" radius="4px">
+						</u-image>
+						<text class="title u-line-1" style="display: block;font-size:13px;">{{item.title}}</text>
+						<view>
+							<text class="price">￥0</text>
 						</view>
-						<text class="grid-text">留言管理</text>
 					</view>
-				</u-grid-item>
-				
-				<u-grid-item @click="toSet('/pages/set/set/set')">
-					<view class="list-item">
-						<u-icon name="setting" size="24" color="#2b85e4"></u-icon>
-						<text class="grid-text">设置</text>
-					</view>
-				</u-grid-item>
-			</u-grid>
+				</u-scroll-list>
+			</view>
+			<u-cell-group :border="false">
+				<u-cell icon="share" iconStyle="color:#9789F7;font-size:24px;" title="分享好友" isLink
+					url="/pages/set/share/share" value="分享赚米"></u-cell>
+				<u-cell icon="man-add" iconStyle="color:#F66D74;font-size:24px;" title="我要加盟" isLink
+					url="/pages/set/joinUs/joinUs" value="加盟店"></u-cell>
+				<u-cell icon="rmb-circle" iconStyle="color:#F66D74;font-size:24px;" title="营销业绩" isLink
+					url="/pages/set/marketing/marketing" value="查看返佣"></u-cell>
+				<u-cell icon="red-packet" iconStyle="color:#F66D74;font-size:24px;" title="积分管理" isLink
+					url="/pages/set/integralTransfer/integralTransfer"></u-cell>
+				<u-cell icon="plus-people-fill" iconStyle="color:#FFB273;font-size:24px;" title="团队成员" isLink
+					url="/pages/set/team/team"></u-cell>
+				<u-cell icon="star-fill" iconStyle="color:#fa436a;font-size:24px;" title="我的收藏" isLink
+					url="/pages/set/collect/collect"></u-cell>
+				<u-cell icon="bell" iconStyle="color:#54B4EF;font-size:24px;" title="留言管理" isLink
+					url="/pages/set/msg/msg">
+					<u-badge slot="value" max="99" value="99"></u-badge>
+				</u-cell>
+				<u-cell icon="setting" iconStyle="color:#2b85e4;font-size:24px;" title="设置" :border="false" isLink
+					url="/pages/set/set/set"></u-cell>
+			</u-cell-group>
 		</view>
-		<view class="part part4">
-			<u-button type="default" text="退出登录" @click="showModal1 = true"></u-button>
-		</view>
-		<u-modal :show="showModal1" :showCancelButton="true" closeOnClickOverlay content='确定要退出登陆吗?' @confirm="toLogOut"
-			@cancel="showModal1 = false;" @close="showModal1=false"></u-modal>
 	</view>
 </template>
 
@@ -159,81 +119,19 @@
 	export default {
 		data() {
 			return {
-				showModal1: false,
-				count: 2,
 				customBar: this.customBar,
 				showNavBar: false,
 			}
 		},
 		onLoad() {
-
+			this.goodsList = this.$json.goodsList
 		},
 		methods: {
-			toSet(page) {
+			navToDetailPage() {
 				uni.navigateTo({
-					url: page
+					url: '/pages/productDetail/productDetail'
 				})
 			},
-			toLogOut() {
-				this.showModal1 = false;
-				this.$store.commit('logout');
-				uni.switchTab({
-					url: '/pages/index/index'
-				});
-			},
-			// 未读消息数量
-			setBadgeText(count, index) {
-				if (this.count == 0) {
-					//隐藏
-					// #ifdef APP-PLUS
-					const pages = getCurrentPages();
-					const page = pages[pages.length - 1];
-					const currentWebview = page.$getAppWebview();
-					currentWebview.removeTitleNViewButtonBadge({
-						index
-					});
-					// #endif
-				} else {
-					//显示
-					// #ifdef APP-PLUS
-					const pages = getCurrentPages();
-					const page = pages[pages.length - 1];
-					const currentWebview = page.$getAppWebview();
-					currentWebview.setTitleNViewButtonBadge({
-						index,
-						text: this.count
-					});
-					// #endif
-				}
-			},
-			// 设置按钮角标
-			setRedDot(count, index) {
-				if (this.count == 0) {
-					//隐藏
-					// #ifdef APP-PLUS
-					const pages = getCurrentPages();
-					const page = pages[pages.length - 1];
-					const currentWebview = page.$getAppWebview();
-					currentWebview.hideTitleNViewButtonRedDot({
-						index
-					});
-					// #endif
-				} else {
-					//显示
-					// #ifdef APP-PLUS
-					const pages = getCurrentPages();
-					const page = pages[pages.length - 1];
-					const currentWebview = page.$getAppWebview();
-					currentWebview.showTitleNViewButtonRedDot({
-						index,
-					});
-					// #endif
-				}
-			}
-		},
-		onShow() {
-			this.setBadgeText(this.count, 1);
-			this.setRedDot(this.count, 0)
 		},
 		onPageScroll(data) {
 			if (data.scrollTop > 88) {
@@ -354,18 +252,21 @@
 		}
 	}
 
-	.part3 {
-		.list-item {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			width: 100%;
-			height: 100%;
-			padding: 20rpx 0;
+	.history {
+		.historyItemWrap {
+			padding: 0 30rpx;
+		}
 
-			.grid-text {
-				margin-top: 10rpx;
+		.history-item {
+			width: 150rpx;
+			margin-right: 20rpx;
+
+			.title {
+				padding: 10rpx 0;
+			}
+
+			.price {
+				color: $price-color;
 			}
 		}
 	}

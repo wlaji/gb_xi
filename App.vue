@@ -1,6 +1,9 @@
 <script>
 	import Vue from 'vue';
-	import store from './store'
+	import store from './store';
+	import {
+		checkForUpdates
+	} from '@/api/index.js';
 	export default {
 		onLaunch: function(options) {
 			let token = uni.getStorageSync('token') // 判断有没有token，有则说明登录过了，重新把缓存存进vuex
@@ -42,11 +45,17 @@
 			// #ifdef APP-PLUS
 			let platform = uni.getSystemInfoSync().platform;
 			plus.runtime.getProperty(plus.runtime.appid, (widgetInfo) => {
-				console.log(widgetInfo)
-				store.commit('version',widgetInfo)
+				store.commit('version', widgetInfo)
+				//调用检查更新接口
+				setTimeout(()=>{
+					store.commit('updateAppInfo',{
+						url:'xxxxxxx',
+						description:'优化了一些界面',
+						bool:false,//是否强制更新
+					})
+				},1000)
 			})
 			// #endif
-
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -130,5 +139,6 @@
 		font-size: 16px !important;
 		color: #000000 !important;
 	}
+
 	/* #endif */
 </style>

@@ -182,26 +182,6 @@
 				"enablePullDownRefresh": false
 			}
 		}, {
-			"path": "pages/set/integralTransfer/integralTransfer",
-			"name": "integralTransfer",
-			"meta": {
-				"loginAuth": true
-			},
-			"style": {
-				"navigationBarTitleText": "积分转帐",
-				"enablePullDownRefresh": false
-			}
-		}, {
-			"path": "pages/set/integralWithdrawal/integralWithdrawal",
-			"name": "integralWithdrawal",
-			"meta": {
-				"loginAuth": true
-			},
-			"style": {
-				"navigationBarTitleText": "积分提现",
-				"enablePullDownRefresh": false
-			}
-		}, {
 			"path": "pages/set/team/team",
 			"name": "team",
 			"meta": {
@@ -289,6 +269,14 @@
 			},
 			"style": {
 				"navigationBarTitleText": "收货地址",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/jifenManage/jifenManage",
+			"name": "jifenManage",
+			"style": {
+				"navigationBarTitleText": "积分管理",
 				"enablePullDownRefresh": false
 			}
 

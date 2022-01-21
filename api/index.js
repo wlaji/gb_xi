@@ -8,3 +8,12 @@ export const register = function(data) {
 		data
 	})
 }
+
+
+export const checkForUpdates = function(data) {
+	return request({
+		url: '/app/checkForUpdates',
+		method: 'post',
+		data
+	})
+}

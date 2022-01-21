@@ -86,16 +86,17 @@
   margin-bottom: 10rpx;
   color: #fa436a;
 }
-.part3 .list-item.data-v-0be17cc6 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  padding: 20rpx 0;
+.history .historyItemWrap.data-v-0be17cc6 {
+  padding: 0 30rpx;
 }
-.part3 .list-item .grid-text.data-v-0be17cc6 {
-  margin-top: 10rpx;
+.history .history-item.data-v-0be17cc6 {
+  width: 150rpx;
+  margin-right: 20rpx;
+}
+.history .history-item .title.data-v-0be17cc6 {
+  padding: 10rpx 0;
+}
+.history .history-item .price.data-v-0be17cc6 {
+  color: #fa436a;
 }
 

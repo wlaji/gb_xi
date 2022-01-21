@@ -11,7 +11,8 @@ const store = new Vuex.Store({
 		userInfo: null,
 		newVersionCode:0,
 		currentVersionCode:0,
-		versionInfo:''
+		versionInfo:'',
+		appUpdateInfo:null
 	},
 	mutations: {
 		login(state, res) {
@@ -24,21 +25,25 @@ const store = new Vuex.Store({
 			uni.setStorage({
 				key: 'token',
 				data: res.token
-			})
+			});
 		},
 		logout(state) {
 			state.hasLogin = false;
 			state.userInfo = null;
 			uni.removeStorage({
 				key: 'userInfo'
-			})
+			});
 			uni.removeStorage({
 				key: 'token'
-			})
+			});
 		},
-		version(state,widgetInfo){;
-			state.versionInfo = widgetInfo
+		version(state,widgetInfo){
+			state.versionInfo = widgetInfo;
 			state.currentVersionCode = widgetInfo.versionCode;
+		},
+		updateAppInfo(state,data){
+			console.log(data,'后台返回的更新结果')
+			state.appUpdateInfo = data;
 		}
 	},
 	getters: {

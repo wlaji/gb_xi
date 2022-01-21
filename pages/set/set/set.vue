@@ -23,10 +23,6 @@
 			<u-cell title="关于国本商城" isLink url="/pages/set/aboutStore/aboutStore"></u-cell>
 		</u-cell-group>
 
-		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
-			<u-cell title="我要加盟" isLink url="/pages/set/joinUs/joinUs"></u-cell>
-		</u-cell-group>
-
 		<view class="part">
 			<u-button type="default" text="退出登录" @click="showModal1 = true"></u-button>
 		</view>
