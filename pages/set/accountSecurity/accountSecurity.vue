@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
-			<u-cell title="实名认证" isLink value="未认证"></u-cell>
+			<u-cell title="实名认证" isLink value="未认证" url="/pages/set/realNameAuthentication/realNameAuthentication"></u-cell>
 			<u-cell title="绑定手机" :label="phone" value="更换号码" isLink></u-cell>
 			<u-cell title="设置登录密码" isLink></u-cell>
 		</u-cell-group>

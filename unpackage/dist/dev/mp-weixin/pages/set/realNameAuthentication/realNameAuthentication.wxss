@@ -1,0 +1,24 @@
+.tips.data-v-9dbdd28e {
+  padding: 10rpx 20rpx;
+  display: flex;
+  align-items: flex-start;
+  background-color: #eee;
+}
+.tips text.data-v-9dbdd28e {
+  margin-left: 10rpx;
+  font-size: 12px;
+}
+.formWrap.data-v-9dbdd28e {
+  padding: 20rpx;
+  background-color: #fff;
+}
+.formWrap .title.data-v-9dbdd28e {
+  margin-bottom: 10rpx;
+  font-weight: 700;
+}
+.formWrap .des.data-v-9dbdd28e {
+  margin-bottom: 20rpx;
+  color: #909193;
+  font-size: 12px;
+}
+

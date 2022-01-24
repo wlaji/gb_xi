@@ -102,13 +102,16 @@
 			</view>
 			<button type="default" class="u-reset-button" @click="toLogin">立即登录</button>
 		</view>
+		<updateDialog :showModal.sync="showModal"></updateDialog>
 	</view>
 </template>
 
 <script>
+	import updateDialog from '@/components/updateDialog.vue'
 	export default {
 		data() {
 			return {
+				showModal:false,
 				timeData: {},
 				carouselList: [],
 				goodsList: [],
@@ -135,8 +138,12 @@
 			};
 		},
 		
-		computed:{
-			isLogin(){
+		components:{
+			updateDialog
+		},
+
+		computed: {
+			isLogin() {
 				return this.$store.getters.isLogin
 			}
 		},
@@ -144,12 +151,11 @@
 		onLoad() {
 			this.carouselList = this.$json.carouselList;
 			this.goodsList = this.$json.goodsList;
-			console.log(this.$store.state.appUpdateInfo);
 		},
 		methods: {
-			toLogin(){
+			toLogin() {
 				uni.navigateTo({
-					url:'/pages/login/login'
+					url: '/pages/login/login'
 				})
 			},
 			navToDetailPage() {
@@ -193,21 +199,23 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		height:40px;
-		padding:0 20rpx;
-		background-color: rgba(0,0,0,.7);
-		color:#fff;
-		.left{
-			flex:1;
+		height: 40px;
+		padding: 0 20rpx;
+		background-color: rgba(0, 0, 0, .7);
+		color: #fff;
+
+		.left {
+			flex: 1;
 		}
-		button{
-			width:100px;
-			height:30px;
+
+		button {
+			width: 100px;
+			height: 30px;
 			line-height: 30px;
-			margin-left:20px;
+			margin-left: 20px;
 			border-radius: 20px;
 			background-color: #fa436a;
-			color:#fff;
+			color: #fff;
 			text-align: center;
 			font-size: 14px !important;
 		}

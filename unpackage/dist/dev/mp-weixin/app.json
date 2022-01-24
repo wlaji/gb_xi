@@ -29,7 +29,8 @@
     "pages/set/aboutStore/aboutStore",
     "pages/set/infoSet/infoSet",
     "pages/set/editAddress/editAddress",
-    "pages/set/jifenManage/jifenManage"
+    "pages/set/jifenManage/jifenManage",
+    "pages/set/realNameAuthentication/realNameAuthentication"
   ],
   "subPackages": [],
   "window": {

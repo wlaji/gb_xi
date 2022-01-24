@@ -182,11 +182,12 @@
 					uni.$u.toast('表单验证成功');
 					this.loading = true;
 					setTimeout(() => {
+						this.loading = false;
 						let resData = {
 							userInfo:this.form,
 							token:'111111111'
-						}
-						this.$store.commit('login', resData) // vuex的方法
+						};
+						this.$store.commit('login', resData); // vuex的方法
 						uni.switchTab({
 							url: '/pages/index/index'
 						});

@@ -275,8 +275,22 @@
 		}, {
 			"path": "pages/set/jifenManage/jifenManage",
 			"name": "jifenManage",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
 				"navigationBarTitleText": "积分管理",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/realNameAuthentication/realNameAuthentication",
+			"name": "realNameAuthentication",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "实名认证",
 				"enablePullDownRefresh": false
 			}
 

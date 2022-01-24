@@ -5,6 +5,7 @@
     "u-avatar": "/node-modules/uview-ui/components/u-avatar/u-avatar",
     "u-cell-group": "/node-modules/uview-ui/components/u-cell-group/u-cell-group",
     "u-cell": "/node-modules/uview-ui/components/u-cell/u-cell",
-    "u-badge": "/node-modules/uview-ui/components/u-badge/u-badge"
+    "u-badge": "/node-modules/uview-ui/components/u-badge/u-badge",
+    "update-dialog": "/components/updateDialog"
   }
 }

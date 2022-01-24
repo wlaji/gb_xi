@@ -229,7 +229,7 @@
 @font-face {
   font-family: "iconfont";
   /* Project id 3118067 */
-  src: url("https://at.alicdn.com/t/font_3118067_7nh8lvkl6qc.woff2?t=1641951942712") format("woff2"), url("https://at.alicdn.com/t/font_3118067_7nh8lvkl6qc.woff?t=1641951942712") format("woff"), url("https://at.alicdn.com/t/font_3118067_7nh8lvkl6qc.ttf?t=1641951942712") format("truetype");
+  src: url("https://at.alicdn.com/t/font_3118067_l72v2dt6np.woff2?t=1642820494279") format("woff2"), url("https://at.alicdn.com/t/font_3118067_l72v2dt6np.woff?t=1642820494279") format("woff"), url("https://at.alicdn.com/t/font_3118067_l72v2dt6np.ttf?t=1642820494279") format("truetype");
 }
 .iconfont {
   font-family: "iconfont" !important;
@@ -237,6 +237,9 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.icon-anquan:before {
+  content: "\ec4d";
 }
 .icon-fenlei:before {
   content: "\e67b";
