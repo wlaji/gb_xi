@@ -13,7 +13,7 @@
 			<!-- #ifdef APP-PLUS -->
 			<u-cell title="消息推送">
 				<view slot="value">
-					<u-switch v-model="msgPushStatus" activeColor="red" @change="changeMsgPushStatus"></u-switch>
+					<u-switch v-model="msgPushStatus" @change="changeMsgPushStatus"></u-switch>
 				</view>
 			</u-cell>
 			<!-- #endif -->

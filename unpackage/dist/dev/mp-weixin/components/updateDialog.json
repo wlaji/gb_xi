@@ -1,7 +1,7 @@
 {
+  "component": true,
   "usingComponents": {
-    "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal",
-    "u-notify": "/node-modules/uview-ui/components/u-notify/u-notify"
-  },
-  "component": true
+    "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup",
+    "u-line-progress": "/node-modules/uview-ui/components/u-line-progress/u-line-progress"
+  }
 }

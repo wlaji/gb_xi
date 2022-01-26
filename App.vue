@@ -49,7 +49,7 @@
 				//调用检查更新接口
 				setTimeout(()=>{
 					store.commit('updateAppInfo',{
-						url:'xxxxxxx',
+						url:'https://rhskieapi.oss-cn-hangzhou.aliyuncs.com/apk/lsf.apk',
 						description:'优化了一些界面',
 						bool:false,//是否强制更新
 					})
@@ -141,4 +141,12 @@
 	}
 
 	/* #endif */
+	
+	.no-result {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		min-height: 800rpx;
+	}
 </style>

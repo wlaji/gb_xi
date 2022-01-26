@@ -22,7 +22,7 @@
 			</template>
 			<template v-else>
 				<view class="no-result">
-					<u-empty mode="data" text="暂无收藏"></u-empty>
+					<u-empty mode="favor" text="暂无收藏"></u-empty>
 				</view>
 			</template>
 		</view>
@@ -48,7 +48,7 @@
 			}
 		},
 		onLoad() {
-			this.productList = this.$json.goodsList
+			// this.productList = this.$json.goodsList
 		}
 	}
 </script>
@@ -108,12 +108,5 @@
 			text-decoration: line-through;
 			color: $u-light-color;
 		}
-	}
-	.no-result {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		min-height: 800rpx;
 	}
 </style>

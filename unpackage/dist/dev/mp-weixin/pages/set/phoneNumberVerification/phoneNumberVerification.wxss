@@ -1,0 +1,20 @@
+.input-content.data-v-2d72a27f .u-line {
+  margin: 0 !important;
+}
+.container.data-v-2d72a27f {
+  padding: 20rpx;
+  background-color: #fff;
+}
+.part .title.data-v-2d72a27f {
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 10rpx;
+}
+.part .des.data-v-2d72a27f {
+  margin-bottom: 60rpx;
+  color: #909193;
+}
+.part .input-content.data-v-2d72a27f {
+  margin-bottom: 40rpx;
+}
+

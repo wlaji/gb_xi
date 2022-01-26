@@ -158,7 +158,7 @@
 	}
 
 	.container {
-		padding: 20rpx;
+		padding: 20rpx 0;
 	}
 
 	.avatar {

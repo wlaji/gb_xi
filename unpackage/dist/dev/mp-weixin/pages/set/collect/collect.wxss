@@ -45,11 +45,4 @@
   text-decoration: line-through;
   color: #c0c4cc;
 }
-.no-result.data-v-3055a2a2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  min-height: 800rpx;
-}
 

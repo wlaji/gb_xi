@@ -349,4 +349,11 @@ video {
   color: #000000 !important;
   font-weight: 400 !important;
 }
+.no-result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 800rpx;
+}
 

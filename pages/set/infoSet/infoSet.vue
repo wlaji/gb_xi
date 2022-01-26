@@ -19,7 +19,7 @@
 				</u-form-item>
 			</u-form>
 			<view class="add-address-btn">
-				<u-button type="primary" text="保存" color="#fa436a" @click="save"></u-button>
+				<u-button type="primary" text="保存" @click="save"></u-button>
 			</view>
 		</view>
 	</view>
@@ -97,7 +97,7 @@
 <style lang="scss" scoped>
 	.container {
 		background-color: #fff;
-		padding: 10rpx;
+		padding: 20rpx;
 		.top{
 			display: flex;
 			flex-direction: column;
@@ -106,7 +106,6 @@
 			height:300rpx;
 			.changeAvatar{
 				margin-top:20rpx;
-				color:$price-color;
 			}
 		}
 	}
@@ -114,7 +113,7 @@
 	.add-address-btn {
 		display: flex;
 		align-items: center;
-		padding: 20rpx;
+		padding: 20rpx 0;
 		margin-top: 20rpx;
 	}
 </style>

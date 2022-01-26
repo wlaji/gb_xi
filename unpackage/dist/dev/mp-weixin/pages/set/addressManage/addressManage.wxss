@@ -1,5 +1,5 @@
 .container.data-v-c6be6e66 {
-  padding: 10rpx 10rpx 130rpx;
+  padding: 20rpx 20rpx 130rpx;
 }
 .address-item.data-v-c6be6e66 {
   position: relative;

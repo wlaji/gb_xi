@@ -5,49 +5,56 @@
 				@click="changeTab(index)">{{item.text}}</view>
 		</view>
 		<view class="content">
-			<view v-for="(item, index) in productList" :key="index" class="product-item-wrap">
-				<view class="product-title u-border-bottom">
-					<text>2019-04-26 11:37</text>
-					<text class="status">待付款</text>
-				</view>
-				<view class="product-item" v-for="(citem,cindex) in item.goodsList" :key="cindex">
-					<view class="left-img">
-						<u-image :showLoading="true" :src="citem.image" width="100%" height="200rpx" radius="4px">
-						</u-image>
+			<template v-if="productList.length">
+				<view v-for="(item, index) in productList" :key="index" class="product-item-wrap">
+					<view class="product-title u-border-bottom">
+						<text>2019-04-26 11:37</text>
+						<text class="status">待付款</text>
 					</view>
-					<view class="right-con">
-						<view class="r1">
-							<text class="title u-line-1">回力女鞋高帮帆布鞋女学生韩版鞋子女</text>
-							<text class="des">白色-高帮 39</text>
+					<view class="product-item" v-for="(citem,cindex) in item.goodsList" :key="cindex">
+						<view class="left-img">
+							<u-image :showLoading="true" :src="citem.image" width="100%" height="200rpx" radius="4px">
+							</u-image>
 						</view>
-						<view class="r2">
-							<text class="price">
-								￥3300.96
-							</text>
-							<text class="num">
-								x1
-							</text>
+						<view class="right-con">
+							<view class="r1">
+								<text class="title u-line-1">回力女鞋高帮帆布鞋女学生韩版鞋子女</text>
+								<text class="des">白色-高帮 39</text>
+							</view>
+							<view class="r2">
+								<text class="price">
+									￥3300.96
+								</text>
+								<text class="num">
+									x1
+								</text>
+							</view>
+						</view>
+					</view>
+					<view class="priceInfo">
+						<text class="totalPrice">总价:￥69.80</text>
+						<text class="discountPrice">优惠￥27.00</text>
+						<text class="realPrice">实付款￥42.80</text>
+					</view>
+					<view class="orderBtnGroup">
+						<view class="left">
+							<text>更多</text>
+						</view>
+						<view class="right">
+						<!-- 	<button class="u-reset-button">加入购物车</button> -->
+							<button class="u-reset-button">取消订单</button>
+							<button class="u-reset-button zf">立即支付</button>
+							<button class="u-reset-button pj">评价</button>
 						</view>
 					</view>
 				</view>
-				<view class="priceInfo">
-					<text class="totalPrice">总价:￥69.80</text>
-					<text class="discountPrice">优惠￥27.00</text>
-					<text class="realPrice">实付款￥42.80</text>
+				<u-loadmore :status="status" />
+			</template>
+			<template v-else>
+				<view class="no-result">
+					<u-empty mode="order"></u-empty>
 				</view>
-				<view class="orderBtnGroup">
-					<view class="left">
-						<text>更多</text>
-					</view>
-					<view class="right">
-					<!-- 	<button class="u-reset-button">加入购物车</button> -->
-						<button class="u-reset-button">取消订单</button>
-						<button class="u-reset-button zf">立即支付</button>
-						<button class="u-reset-button pj">评价</button>
-					</view>
-				</view>
-			</view>
-			<u-loadmore :status="status" />
+			</template>
 		</view>
 	</view>
 </template>

@@ -99,14 +99,6 @@
 
 	/* #endif */
 
-	.no-result {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		min-height: 800rpx;
-	}
-
 	.container {
 		display: flex;
 		flex-direction: column;

@@ -294,6 +294,50 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/set/closeAccount/closeAccount",
+			"name": "closeAccount",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "账号注销",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/phoneNumberVerification/phoneNumberVerification",
+			"name": "phoneNumberVerification",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "更换号码",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/setPwd/setPwd",
+			"name": "setPwd",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "设置密码",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/bindCard/bindCard",
+			"name": "bindCard",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "银行卡",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	],
 	"tabBar": {

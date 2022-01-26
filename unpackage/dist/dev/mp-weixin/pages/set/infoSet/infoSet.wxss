@@ -1,6 +1,6 @@
 .container.data-v-8ac16bfa {
   background-color: #fff;
-  padding: 10rpx;
+  padding: 20rpx;
 }
 .container .top.data-v-8ac16bfa {
   display: flex;
@@ -11,12 +11,11 @@
 }
 .container .top .changeAvatar.data-v-8ac16bfa {
   margin-top: 20rpx;
-  color: #fa436a;
 }
 .add-address-btn.data-v-8ac16bfa {
   display: flex;
   align-items: center;
-  padding: 20rpx;
+  padding: 20rpx 0;
   margin-top: 20rpx;
 }
 

@@ -30,7 +30,11 @@
     "pages/set/infoSet/infoSet",
     "pages/set/editAddress/editAddress",
     "pages/set/jifenManage/jifenManage",
-    "pages/set/realNameAuthentication/realNameAuthentication"
+    "pages/set/realNameAuthentication/realNameAuthentication",
+    "pages/set/closeAccount/closeAccount",
+    "pages/set/phoneNumberVerification/phoneNumberVerification",
+    "pages/set/setPwd/setPwd",
+    "pages/set/bindCard/bindCard"
   ],
   "subPackages": [],
   "window": {

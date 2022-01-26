@@ -92,27 +92,27 @@
 					'phone': [{
 							required: true,
 							message: '请输入手机号',
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						},
 						{
 							validator: (rule, value, callback) => {
 								return uni.$u.test.mobile(value);
 							},
 							message: '手机号码不正确',
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						}
 					],
 					'code': [{
 							required: true,
 							message: '请输入验证码',
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						},
 						{
 							validator: (rule, value, callback) => {
 								return uni.$u.test.code(value, 6);
 							},
 							message: '验证码格式不正确',
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						}
 					]
 				},

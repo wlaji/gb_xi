@@ -1,0 +1,14 @@
+.container.data-v-73ba81b9 {
+  padding: 40rpx 20rpx;
+}
+.container .title.data-v-73ba81b9 {
+  font-size: 18px;
+  margin-bottom: 20rpx;
+}
+.container .con.data-v-73ba81b9 {
+  margin-bottom: 40rpx;
+}
+.container .con view.data-v-73ba81b9 {
+  margin-bottom: 10rpx;
+}
+

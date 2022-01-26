@@ -31,12 +31,12 @@
 
 				</u-form-item>
 				<u-form-item label="设为默认">
-					<u-switch v-model="form.default" activeColor="#fa436a"></u-switch>
+					<u-switch v-model="form.default"></u-switch>
 				</u-form-item>
 			</u-form>
-		</view>
-		<view class="add-address-btn">
-			<u-button type="primary" text="保存" color="#fa436a" @click="save"></u-button>
+			<view class="add-address-btn">
+				<u-button type="primary" text="保存" @click="save"></u-button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -172,7 +172,7 @@
 
 		.formWrap {
 			background-color: #fff;
-			padding: 10rpx;
+			padding: 20rpx;
 
 			/deep/ .u-line {
 				margin: 0 !important;
@@ -182,7 +182,6 @@
 		.add-address-btn {
 			display: flex;
 			align-items: center;
-			padding: 20rpx;
 			margin-top: 20rpx;
 		}
 

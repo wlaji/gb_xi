@@ -3,7 +3,7 @@
 }
 .container .formWrap.data-v-99795c22 {
   background-color: #fff;
-  padding: 10rpx;
+  padding: 20rpx;
 }
 .container .formWrap.data-v-99795c22 .u-line {
   margin: 0 !important;
@@ -11,7 +11,6 @@
 .container .add-address-btn.data-v-99795c22 {
   display: flex;
   align-items: center;
-  padding: 20rpx;
   margin-top: 20rpx;
 }
 .container .u-textarea.data-v-99795c22 {

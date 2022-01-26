@@ -1,0 +1,15 @@
+.container.data-v-21d433b9 {
+  padding: 20rpx 20rpx 130rpx;
+}
+.add-address-btn.data-v-21d433b9 {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 20rpx;
+  background-color: #fff;
+  height: 140rpx;
+}
+
