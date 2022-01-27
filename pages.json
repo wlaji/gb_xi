@@ -271,7 +271,6 @@
 				"navigationBarTitleText": "收货地址",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/set/jifenManage/jifenManage",
 			"name": "jifenManage",
@@ -282,7 +281,6 @@
 				"navigationBarTitleText": "积分管理",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/set/realNameAuthentication/realNameAuthentication",
 			"name": "realNameAuthentication",
@@ -293,7 +291,6 @@
 				"navigationBarTitleText": "实名认证",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/set/closeAccount/closeAccount",
 			"name": "closeAccount",
@@ -304,7 +301,6 @@
 				"navigationBarTitleText": "账号注销",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/set/phoneNumberVerification/phoneNumberVerification",
 			"name": "phoneNumberVerification",
@@ -315,7 +311,6 @@
 				"navigationBarTitleText": "更换号码",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/set/setPwd/setPwd",
 			"name": "setPwd",
@@ -326,7 +321,6 @@
 				"navigationBarTitleText": "设置密码",
 				"enablePullDownRefresh": false
 			}
-
 		}, {
 			"path": "pages/set/bindCard/bindCard",
 			"name": "bindCard",
@@ -337,7 +331,16 @@
 				"navigationBarTitleText": "银行卡",
 				"enablePullDownRefresh": false
 			}
-
+		}, {
+			"path": "pages/set/orderDetail/orderDetail",
+			"name": "orderDetail",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
 	"tabBar": {
@@ -375,7 +378,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "国本健康商城",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF"
 	}
 }

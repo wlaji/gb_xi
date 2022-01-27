@@ -1,15 +1,32 @@
-.container.data-v-21d433b9 {
-  padding: 20rpx 20rpx 130rpx;
+page.data-v-21d433b9 {
+  background-color: #fff;
 }
-.add-address-btn.data-v-21d433b9 {
+.container.data-v-21d433b9 {
+  padding: 40px 20rpx 20rpx;
+}
+.title.data-v-21d433b9 {
+  position: fixed;
+  top: 0px;
+  right: 20rpx;
+  left: 20rpx;
   display: flex;
   align-items: center;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0 20rpx;
-  background-color: #fff;
-  height: 140rpx;
+  justify-content: space-between;
+  height: 40px;
+}
+.title .left text.data-v-21d433b9:last-child {
+  color: #909193;
+  margin-left: 10rpx;
+}
+.title .right.data-v-21d433b9 {
+  display: flex;
+  align-items: center;
+  background-color: #ECF5FF;
+  border-radius: 10px;
+  padding: 10rpx;
+  font-size: 12px;
+}
+.cardList.data-v-21d433b9 {
+  padding: 0 10rpx;
 }
 

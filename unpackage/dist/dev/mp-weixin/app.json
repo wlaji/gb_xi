@@ -34,14 +34,15 @@
     "pages/set/closeAccount/closeAccount",
     "pages/set/phoneNumberVerification/phoneNumberVerification",
     "pages/set/setPwd/setPwd",
-    "pages/set/bindCard/bindCard"
+    "pages/set/bindCard/bindCard",
+    "pages/set/orderDetail/orderDetail"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "国本健康商城",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
   },
   "tabBar": {
     "color": "#606266",

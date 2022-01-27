@@ -1,13 +1,15 @@
+page.data-v-4cedc0c6, .container.data-v-4cedc0c6 {
+  height: 100%;
+}
 .container.data-v-4cedc0c6 {
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 .container .content.data-v-4cedc0c6 {
   overflow: auto;
   flex: 1;
   height: 0;
-  padding: 0 10px;
+  padding: 0 20rpx;
 }
 .container .history .title.data-v-4cedc0c6 {
   display: flex;

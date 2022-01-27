@@ -1,6 +1,6 @@
 <template>
 	<view class="container" :style="{paddingTop:customBar+'px'}">
-		<u-navbar leftText="返回" title="搜索结果" fixed bgColor="#f8f8f8">
+		<u-navbar leftText="返回" title="搜索结果" fixed>
 			<view class="u-nav-slot" slot="left">
 				<u-icon name="arrow-left" size="19" @click="goBack"></u-icon>
 				<u-line direction="column" :hairline="false" length="16" margin="0 8px"></u-line>
@@ -88,32 +88,13 @@
 </script>
 
 <style lang="scss" scoped>
-	/* #ifdef H5 */
-	page {
-		height: 100%;
-	}
-
-	.container {
+	page,.container {
 		height: 100%
 	}
-
-	/* #endif */
 
 	.container {
 		display: flex;
 		flex-direction: column;
-		/* #ifndef H5 */
-		min-height: 100vh;
-
-		/* #endif */
-		.search-area {
-			position: fixed;
-			top: 44px;
-			left: 0;
-			right: 0;
-			background-color: $u-bg-color;
-			z-index: 10;
-		}
 
 		.searchCon {
 			display: flex;

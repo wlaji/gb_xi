@@ -124,22 +124,14 @@
 </script>
 
 <style lang="scss" scoped>
-	/* #ifdef H5 */
-	page {
+	page,
+	.container {
 		height: 100%;
 	}
 
 	.container {
-		height: 100%
-	}
-
-	/* #endif */
-	.container {
 		display: flex;
 		flex-direction: column;
-		/* #ifndef H5 */
-		min-height: 100vh;
-		/* #endif */
 		padding-top: 40px;
 
 		.popupCon {
@@ -223,6 +215,7 @@
 				background-color: #fff;
 				box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
 				border-radius: 4px;
+
 				.btm {
 					display: flex;
 					justify-content: space-between;
@@ -257,6 +250,5 @@
 				color: $u-light-color;
 			}
 		}
-
 	}
 </style>

@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "分享",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "uqrcode": "/uni_modules/Sansnn-uQRCode/components/uqrcode/common/uqrcode"
+  }
 }

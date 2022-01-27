@@ -2,59 +2,66 @@
 	<view class="container">
 		<view class="tab">
 			<view :class="[{ active: activeIndex===index }, 'tab-item']" v-for="(item,index) in tabList"
-				@click="changeTab(index)">{{item.text}}</view>
+				@click="tabClick(index)">{{item.text}}</view>
 		</view>
 		<view class="content">
-			<template v-if="productList.length">
-				<view v-for="(item, index) in productList" :key="index" class="product-item-wrap">
-					<view class="product-title u-border-bottom">
-						<text>2019-04-26 11:37</text>
-						<text class="status">待付款</text>
-					</view>
-					<view class="product-item" v-for="(citem,cindex) in item.goodsList" :key="cindex">
-						<view class="left-img">
-							<u-image :showLoading="true" :src="citem.image" width="100%" height="200rpx" radius="4px">
-							</u-image>
-						</view>
-						<view class="right-con">
-							<view class="r1">
-								<text class="title u-line-1">回力女鞋高帮帆布鞋女学生韩版鞋子女</text>
-								<text class="des">白色-高帮 39</text>
+			<swiper :current="activeIndex" class="swiper-box" duration="300" @change="changeTab">
+				<swiper-item class="tab-content" v-for="(tabItem,tabIndex) in tabList" :key="tabIndex">
+					<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
+						<template v-if="!productList.length">
+							<view class="no-result">
+								<u-empty mode="order"></u-empty>
 							</view>
-							<view class="r2">
-								<text class="price">
-									￥3300.96
-								</text>
-								<text class="num">
-									x1
-								</text>
+						</template>
+						<template v-else>
+							<view v-for="(item, index) in productList" :key="index" class="product-item-wrap" @click="toOrderDetail">
+								<view class="product-title u-border-bottom">
+									<text>2019-04-26 11:37</text>
+									<text class="status">待付款</text>
+								</view>
+								<view class="product-item" v-for="(citem,cindex) in item.goodsList" :key="cindex">
+									<view class="left-img">
+										<u-image :showLoading="true" :src="citem.image" width="100%" height="200rpx"
+											radius="4px">
+										</u-image>
+									</view>
+									<view class="right-con">
+										<view class="r1">
+											<text class="title u-line-1">回力女鞋高帮帆布鞋女学生韩版鞋子女</text>
+											<text class="des">白色-高帮 39</text>
+										</view>
+										<view class="r2">
+											<text class="price">
+												￥3300.96
+											</text>
+											<text class="num">
+												x1
+											</text>
+										</view>
+									</view>
+								</view>
+								<view class="priceInfo">
+									<text class="totalPrice">总价:￥69.80</text>
+									<text class="discountPrice">优惠￥27.00</text>
+									<text class="realPrice">实付款￥42.80</text>
+								</view>
+								<view class="orderBtnGroup">
+									<view class="left">
+										<text>更多</text>
+									</view>
+									<view class="right">
+										<!-- 	<button class="u-reset-button">加入购物车</button> -->
+										<button class="u-reset-button">取消订单</button>
+										<button class="u-reset-button zf">立即支付</button>
+										<button class="u-reset-button pj">评价</button>
+									</view>
+								</view>
 							</view>
-						</view>
-					</view>
-					<view class="priceInfo">
-						<text class="totalPrice">总价:￥69.80</text>
-						<text class="discountPrice">优惠￥27.00</text>
-						<text class="realPrice">实付款￥42.80</text>
-					</view>
-					<view class="orderBtnGroup">
-						<view class="left">
-							<text>更多</text>
-						</view>
-						<view class="right">
-						<!-- 	<button class="u-reset-button">加入购物车</button> -->
-							<button class="u-reset-button">取消订单</button>
-							<button class="u-reset-button zf">立即支付</button>
-							<button class="u-reset-button pj">评价</button>
-						</view>
-					</view>
-				</view>
-				<u-loadmore :status="status" />
-			</template>
-			<template v-else>
-				<view class="no-result">
-					<u-empty mode="order"></u-empty>
-				</view>
-			</template>
+							<u-loadmore :status="status" height="30px" />
+						</template>
+					</scroll-view>
+				</swiper-item>
+			</swiper>
 		</view>
 	</view>
 </template>
@@ -80,16 +87,26 @@
 						text: '待评价'
 					}
 				],
-				productList:[],
+				productList: [],
 				status: 'loadmore',
 				page: 0
 			};
 		},
-		methods:{
-			changeTab(index) {
+		methods: {
+			toOrderDetail(){
+				uni.navigateTo({
+					url:'/pages/set/orderDetail/orderDetail'
+				})
+			},
+			//swiper 切换
+			changeTab(e) {
+				this.activeIndex = e.target.current;
+			},
+			//顶部tab点击
+			tabClick(index) {
 				this.activeIndex = index;
 			},
-			onReachBottom() {
+			loadData() {
 				console.log('加载数据')
 				if (this.page >= 3) return;
 				this.status = 'loading';
@@ -110,29 +127,16 @@
 </script>
 
 <style lang="scss">
-	/* #ifdef H5 */
-	page {
+	page,
+	.container {
 		height: 100%;
 	}
 
 	.container {
-		height: 100%
-	}
-
-	/* #endif */
-	.container {
 		display: flex;
 		flex-direction: column;
-		/* #ifndef H5 */
-		min-height: 100vh;
-		/* #endif */
-		padding-top: 40px;
 
 		.tab {
-			position: fixed;
-			top: var(--window-top);
-			left: 0;
-			right: 0;
 			display: flex;
 			align-items: center;
 			height: 40px;
@@ -143,8 +147,8 @@
 			z-index: 10;
 
 			.tab-item {
-				flex:1;
-				height:100%;
+				flex: 1;
+				height: 100%;
 				position: relative;
 				display: flex;
 				justify-content: center;
@@ -170,110 +174,143 @@
 				}
 			}
 		}
+
 		.content {
-			padding: 10rpx;
-			.product-item-wrap{
+			padding-top: 20rpx;
+			height: calc(100% - 40px);
+
+			.swiper-box {
+				height: 100%;
+			}
+
+			.list-scroll-content {
+				height: 100%;
+			}
+
+			.product-item-wrap {
 				margin-bottom: 20rpx;
 				border-radius: 4px;
 				background-color: #fff;
-				padding:0 20rpx;
-				.product-title{
+				padding: 0 20rpx;
+
+				.product-title {
 					display: flex;
-					height:40px;
+					height: 40px;
 					align-items: center;
 					justify-content: space-between;
 					margin-bottom: 20rpx;
-					.status{
+
+					.status {
 						color: $price-color;
 					}
 				}
-				.product-item{
+
+				.product-item {
 					display: flex;
 					margin-bottom: 10rpx;
-					.left-img{
+
+					.left-img {
 						flex-basis: 200rpx;
-						height:200rpx;
+						height: 200rpx;
 						flex-shrink: 0;
 					}
-					.right-con{
+
+					.right-con {
 						display: flex;
 						justify-content: space-between;
-						flex:1;
+						flex: 1;
 						width: 0;
 						margin-left: 20rpx;
-						.r1,.r2{
+
+						.r1,
+						.r2 {
 							display: flex;
 							flex-direction: column;
 						}
-						.r1{
-							flex:1;
+
+						.r1 {
+							flex: 1;
 							margin-right: 20rpx;
 							width: 0;
-							.title{
+
+							.title {
 								display: block;
-								font-weight: 700;
 								word-wrap: break-word;
 								margin-bottom: 10rpx;
 							}
-							.des{
-								color:$u-tips-color;
+
+							.des {
+								color: $u-tips-color;
 								word-wrap: break-word;
 							}
 						}
-						.r2{
+
+						.r2 {
 							text-align: right;
-							.price{
+
+							.price {
 								margin-bottom: 10rpx;
-								font-weight: 700;
 							}
-							.num{
-								color:$u-tips-color;
+
+							.num {
+								color: $u-tips-color;
 							}
 						}
 					}
 				}
-				.priceInfo{
+
+				.priceInfo {
 					display: flex;
 					align-items: center;
 					justify-content: flex-end;
 					line-height: 40px;
-					.totalPrice,.discountPrice{
-						color:$u-tips-color;
+
+					.totalPrice,
+					.discountPrice {
+						color: $u-tips-color;
 						margin-right: 10rpx;
 					}
-					.realPrice{
+
+					.realPrice {
 						font-weight: 700;
 					}
 				}
-				.orderBtnGroup{
+
+				.orderBtnGroup {
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
 					padding: 20rpx 0;
-					.left{
-						color:$u-tips-color;
+
+					.left {
+						color: $u-tips-color;
 						flex-shrink: 0;
 						margin-right: 20rpx;
 					}
-					.right{
+
+					.right {
 						display: flex;
 						flex-wrap: wrap;
 						justify-content: flex-end;
-						button{
-							width:180rpx;
+
+						button {
+							width: 180rpx;
 							line-height: 60rpx;
 							border-radius: 40rpx;
 							border: 1px solid $u-border-color;
-							margin: 0  0 0 10rpx;
+							margin: 0 0 0 10rpx;
+							font-size: 14px;
 						}
-						.zf{
-							border-color:$price-color;
-							color:$price-color;
+
+						.zf {
+							border-color: $price-color;
+							color: $price-color;
 							background: #fff9f9;
 						}
-						.pj{
-							border-color:$price-color;
-							color:$price-color;
+
+						.pj {
+							border-color: $price-color;
+							color: $price-color;
 						}
 					}
 				}

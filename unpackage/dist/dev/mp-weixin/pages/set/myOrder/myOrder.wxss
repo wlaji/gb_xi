@@ -1,14 +1,12 @@
+page,
+.container {
+  height: 100%;
+}
 .container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  padding-top: 40px;
 }
 .container .tab {
-  position: fixed;
-  top: 0px;
-  left: 0;
-  right: 0;
   display: flex;
   align-items: center;
   height: 40px;
@@ -44,7 +42,14 @@
   border-bottom: 2px solid #fa436a;
 }
 .container .content {
-  padding: 10rpx;
+  padding-top: 20rpx;
+  height: calc(100% - 40px);
+}
+.container .content .swiper-box {
+  height: 100%;
+}
+.container .content .list-scroll-content {
+  height: 100%;
 }
 .container .content .product-item-wrap {
   margin-bottom: 20rpx;
@@ -78,7 +83,8 @@
   width: 0;
   margin-left: 20rpx;
 }
-.container .content .product-item-wrap .product-item .right-con .r1, .container .content .product-item-wrap .product-item .right-con .r2 {
+.container .content .product-item-wrap .product-item .right-con .r1,
+.container .content .product-item-wrap .product-item .right-con .r2 {
   display: flex;
   flex-direction: column;
 }
@@ -89,7 +95,6 @@
 }
 .container .content .product-item-wrap .product-item .right-con .r1 .title {
   display: block;
-  font-weight: 700;
   word-wrap: break-word;
   margin-bottom: 10rpx;
 }
@@ -102,7 +107,6 @@
 }
 .container .content .product-item-wrap .product-item .right-con .r2 .price {
   margin-bottom: 10rpx;
-  font-weight: 700;
 }
 .container .content .product-item-wrap .product-item .right-con .r2 .num {
   color: #909193;
@@ -113,7 +117,8 @@
   justify-content: flex-end;
   line-height: 40px;
 }
-.container .content .product-item-wrap .priceInfo .totalPrice, .container .content .product-item-wrap .priceInfo .discountPrice {
+.container .content .product-item-wrap .priceInfo .totalPrice,
+.container .content .product-item-wrap .priceInfo .discountPrice {
   color: #909193;
   margin-right: 10rpx;
 }
@@ -141,7 +146,8 @@
   line-height: 60rpx;
   border-radius: 40rpx;
   border: 1px solid #dadbde;
-  margin: 0  0 0 10rpx;
+  margin: 0 0 0 10rpx;
+  font-size: 14px;
 }
 .container .content .product-item-wrap .orderBtnGroup .right .zf {
   border-color: #fa436a;

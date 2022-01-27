@@ -121,6 +121,7 @@
 			return {
 				customBar: this.customBar,
 				showNavBar: false,
+				goodsList:[]
 			}
 		},
 		onLoad() {
@@ -172,7 +173,6 @@
 
 			.nickname {
 				font-size: 16px;
-				font-weight: 700;
 			}
 
 			.bh {

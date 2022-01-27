@@ -305,7 +305,7 @@ page {
   background-color: #f3f4f6;
   color: #303133;
   font-size: 14px;
-  font-family: '微软雅黑';
+  font-family: 'Source Han Sans','Sans Francisco','微软雅黑';
 }
 view,
 scroll-view,

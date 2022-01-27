@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "订单详情",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
+    "u-transition": "/node-modules/uview-ui/components/u-transition/u-transition",
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "u-line": "/node-modules/uview-ui/components/u-line/u-line"
+  }
+}

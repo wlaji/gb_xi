@@ -79,28 +79,17 @@
 </script>
 
 <style lang="scss" scoped>
-	/* #ifdef H5 */
-	page {
+	page,.container {
 		height: 100%;
 	}
-
-	.container {
-		height: 100%
-	}
-
-	/* #endif */
 	.container {
 		display: flex;
 		flex-direction: column;
-		/* #ifndef H5 */
-		height: 100vh;
-
-		/* #endif */
 		.content {
 			overflow: auto;
 			flex: 1;
 			height: 0;
-			padding:0 10px;
+			padding:0 20rpx;
 		}
 		.history{
 			.title{

@@ -48,7 +48,7 @@
 			}
 		},
 		onLoad() {
-			// this.productList = this.$json.goodsList
+			this.productList = this.$json.goodsList
 		}
 	}
 </script>

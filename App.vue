@@ -75,7 +75,7 @@
 		background-color: $u-bg-color;
 		color: $u-main-color;
 		font-size: 14px;
-		font-family: '微软雅黑';
+		font-family: 'Source Han Sans','Sans Francisco','微软雅黑';
 	}
 
 	view,
