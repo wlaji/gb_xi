@@ -115,12 +115,6 @@
   display: flex;
   padding: 20rpx 0;
 }
-.container .content .eva-box .portrait.data-v-653d9208 {
-  flex-shrink: 0;
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 100px;
-}
 .container .content .eva-box .right.data-v-653d9208 {
   flex: 1;
   display: flex;

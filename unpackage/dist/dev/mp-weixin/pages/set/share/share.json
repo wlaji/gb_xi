@@ -2,6 +2,9 @@
   "navigationBarTitleText": "分享",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "uqrcode": "/uni_modules/Sansnn-uQRCode/components/uqrcode/common/uqrcode"
+    "uqrcode": "/uni_modules/Sansnn-uQRCode/components/uqrcode/uqrcode",
+    "u-button": "/node-modules/uview-ui/components/u-button/u-button",
+    "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup",
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image"
   }
 }

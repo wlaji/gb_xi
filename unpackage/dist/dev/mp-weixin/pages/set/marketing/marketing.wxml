@@ -1,1 +1,1 @@
-<view></view>
+<view class="container data-v-46f185e7"><view class="chartsWrap data-v-46f185e7"><qiun-data-charts vue-id="d1809002-1" type="column" chartData="{{chartData}}" class="data-v-46f185e7" bind:__l="__l"></qiun-data-charts></view></view>

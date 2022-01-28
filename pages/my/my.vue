@@ -96,7 +96,7 @@
 				<u-cell icon="rmb-circle" iconStyle="color:#F66D74;font-size:24px;" title="营销业绩" isLink
 					url="/pages/set/marketing/marketing" value="查看返佣"></u-cell>
 				<u-cell icon="red-packet" iconStyle="color:#F66D74;font-size:24px;" title="积分管理" isLink
-					url="/pages/set/integralTransfer/integralTransfer"></u-cell>
+					url="/pages/set/jifenManage/jifenManage"></u-cell>
 				<u-cell icon="plus-people-fill" iconStyle="color:#FFB273;font-size:24px;" title="团队成员" isLink
 					url="/pages/set/team/team"></u-cell>
 				<u-cell icon="star-fill" iconStyle="color:#fa436a;font-size:24px;" title="我的收藏" isLink

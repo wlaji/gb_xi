@@ -1,1 +1,14 @@
-/* pages/set/jifenManage/jifenManage.wxss */
+page.data-v-77ba5f76,
+.container.data-v-77ba5f76 {
+  height: 100%;
+  background-color: #fff;
+}
+.content.data-v-77ba5f76 {
+  padding: 40rpx 20rpx;
+}
+.content .title.data-v-77ba5f76 {
+  font-size: 16px;
+  margin-bottom: 40rpx;
+  font-weight: 700;
+}
+

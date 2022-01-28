@@ -47,13 +47,13 @@
 			plus.runtime.getProperty(plus.runtime.appid, (widgetInfo) => {
 				store.commit('version', widgetInfo)
 				//调用检查更新接口
-				setTimeout(()=>{
-					store.commit('updateAppInfo',{
-						url:'https://rhskieapi.oss-cn-hangzhou.aliyuncs.com/apk/lsf.apk',
-						description:'优化了一些界面',
-						bool:false,//是否强制更新
+				setTimeout(() => {
+					store.commit('updateAppInfo', {
+						url: 'https://rhskieapi.oss-cn-hangzhou.aliyuncs.com/apk/lsf.apk',
+						description: '优化了一些界面',
+						bool: false, //是否强制更新
 					})
-				},1000)
+				}, 1000)
 			})
 			// #endif
 		},
@@ -71,11 +71,17 @@
 	@import "uview-ui/index.scss";
 	@import "./icon.scss";
 
+	.input-content {
+		/deep/ .u-line {
+			margin: 0 !important;
+		}
+	}
+
 	page {
 		background-color: $u-bg-color;
 		color: $u-main-color;
 		font-size: 14px;
-		font-family: 'Source Han Sans','Sans Francisco','微软雅黑';
+		font-family: 'Source Han Sans', 'Sans Francisco', '微软雅黑';
 	}
 
 	view,
@@ -141,7 +147,7 @@
 	}
 
 	/* #endif */
-	
+
 	.no-result {
 		display: flex;
 		justify-content: center;

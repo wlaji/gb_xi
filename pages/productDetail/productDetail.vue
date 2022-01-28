@@ -17,7 +17,7 @@
 					<text>浏览量: 768</text>
 				</view>
 			</view>
-			
+
 			<view class="part c-list">
 				<view class="c-row">
 					<text class="tit">购买类型</text>
@@ -74,9 +74,9 @@
 					<u-icon name="arrow-right"></u-icon>
 				</view>
 				<view class="eva-box">
-					<image class="portrait"
+					<u-image :showLoading="true"
 						src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg"
-						mode="aspectFill"></image>
+						width="80rpx" height="80rpx" shape="circle"></u-image>
 					<view class="right">
 						<text class="name">Leo yo</text>
 						<text class="con">商品收到了，79元两件，质量不错，试了一下有点瘦，但是加个外罩很漂亮，我很喜欢</text>
@@ -87,9 +87,9 @@
 					</view>
 				</view>
 				<view class="eva-box">
-					<image class="portrait"
-						src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg"
-						mode="aspectFill"></image>
+					<u-image :showLoading="true"
+						src="https://rhskieapi.oss-cn-hangzhou.aliyuncs.com/webData/2022-01-04/20220104RhTJnWJk.jpg"
+						width="80rpx" height="80rpx" shape="circle"></u-image>
 					<view class="right">
 						<text class="name">Leo yo</text>
 						<text class="con">商品收到了，79元两件，质量不错，试了一下有点瘦，但是加个外罩很漂亮，我很喜欢</text>
@@ -119,7 +119,7 @@
 					购物车
 				</view>
 				<view class="b1" @click="collect">
-				<!-- 	<u-icon name="heart" size="24"></u-icon> -->
+					<!-- 	<u-icon name="heart" size="24"></u-icon> -->
 					<u-icon name="heart-fill" size="24" color="#fa436a"></u-icon>
 					收藏
 				</view>
@@ -144,7 +144,7 @@
 	export default {
 		data() {
 			return {
-				productId:1,
+				productId: 1,
 				imgList: [{
 						src: 'https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg'
 					},
@@ -163,22 +163,22 @@
 			};
 		},
 		onLoad(options) {
-		
+
 		},
 		methods: {
-			goHome(){
+			goHome() {
 				uni.switchTab({
 					url: '/pages/index/index'
 				})
 			},
-			goCart(){
-				uni.setStorageSync('productId',this.productId)
+			goCart() {
+				uni.setStorageSync('productId', this.productId)
 				uni.switchTab({
 					url: '/pages/cart/cart'
 				})
 			},
-			collect(){
-				
+			collect() {
+
 			}
 		},
 		// #ifndef MP
@@ -333,13 +333,6 @@
 			.eva-box {
 				display: flex;
 				padding: 20rpx 0;
-
-				.portrait {
-					flex-shrink: 0;
-					width: 80rpx;
-					height: 80rpx;
-					border-radius: 100px;
-				}
 
 				.right {
 					flex: 1;

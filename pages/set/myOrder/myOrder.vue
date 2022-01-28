@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="tab">
-			<view :class="[{ active: activeIndex===index }, 'tab-item']" v-for="(item,index) in tabList"
+			<view :class="[{ active: activeIndex===index }, 'tab-item']" v-for="(item,index) in tabList" :key="index"
 				@click="tabClick(index)">{{item.text}}</view>
 		</view>
 		<view class="content">

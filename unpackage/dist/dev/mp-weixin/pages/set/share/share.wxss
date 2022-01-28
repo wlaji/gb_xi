@@ -1,45 +1,7 @@
-.dialog.data-v-64e821ce {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.45);
-}
-.dialog .content.data-v-64e821ce {
-  width: 600rpx;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-.dialog .content .close.data-v-64e821ce {
-  position: absolute;
-  right: -15px;
-  top: -15px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-}
-.dialog .content .con.data-v-64e821ce {
-  height: 500px;
-  border: 10px solid #fff;
-}
-.dialog .content .con image.data-v-64e821ce {
-  width: 100%;
-  height: 100%;
-}
-.dialog .content .btnGroup.data-v-64e821ce {
+.dialog .dialog-content .btnGroup.data-v-64e821ce {
   display: flex;
   justify-content: space-around;
-  margin-top: 10px;
+  background-color: #fff;
 }
 .canvas-hide.data-v-64e821ce {
   /* 1 */
@@ -59,11 +21,6 @@
   bottom: 0;
   background-color: #007AFF;
   background: url("https://rhskieapi.oss-cn-hangzhou.aliyuncs.com/webData/2022-01-04/20220104RhTJnWJk.jpg") center/cover no-repeat;
-}
-.container .back.data-v-64e821ce {
-  position: absolute;
-  top: 50px;
-  left: 20px;
 }
 .container .box.data-v-64e821ce {
   position: absolute;
@@ -95,12 +52,11 @@
   font-size: 30px;
 }
 .container .box .ma.data-v-64e821ce {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 20px 0;
-  text-align: center;
-}
-.container .box .ma image.data-v-64e821ce {
-  width: 400rpx;
-  height: 400rpx;
 }
 .container .box .ma text.data-v-64e821ce {
   display: block;

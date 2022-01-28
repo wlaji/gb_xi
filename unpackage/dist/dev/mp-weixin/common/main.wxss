@@ -301,11 +301,14 @@
 .icon-daifukuan:before {
   content: "\e63f";
 }
+.input-content .u-line {
+  margin: 0 !important;
+}
 page {
   background-color: #f3f4f6;
   color: #303133;
   font-size: 14px;
-  font-family: 'Source Han Sans','Sans Francisco','微软雅黑';
+  font-family: 'Source Han Sans', 'Sans Francisco', '微软雅黑';
 }
 view,
 scroll-view,
