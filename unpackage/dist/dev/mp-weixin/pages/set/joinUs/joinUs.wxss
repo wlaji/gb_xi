@@ -1,0 +1,9 @@
+page.data-v-48b63cd9,
+.container.data-v-48b63cd9 {
+  height: 100%;
+  background-color: #fff;
+}
+.container.data-v-48b63cd9 {
+  padding: 20rpx;
+}
+

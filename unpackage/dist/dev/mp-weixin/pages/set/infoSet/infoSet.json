@@ -2,6 +2,7 @@
   "navigationBarTitleText": "个人信息",
   "enablePullDownRefresh": false,
   "usingComponents": {
+    "u-action-sheet": "/node-modules/uview-ui/components/u-action-sheet/u-action-sheet",
     "u-avatar": "/node-modules/uview-ui/components/u-avatar/u-avatar",
     "u-form": "/node-modules/uview-ui/components/u-form/u-form",
     "u-form-item": "/node-modules/uview-ui/components/u-form-item/u-form-item",

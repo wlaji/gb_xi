@@ -1,7 +1,17 @@
 <template>
 	<view class="container">
 		<view class="chartsWrap">
-			<qiun-data-charts type="column" :chartData="chartData" />
+			<view style="padding:20rpx;display: flex;align-items: center;justify-content: space-between">
+				<picker mode="date" :value="data1" fields="year" @change="bindDateChange">
+					<view>
+						<u-icon name="arrow-down" :label="data1+'年'" labelPos="left" size="14px" labelSize="14px" labelColor="#303133" color="#303133"></u-icon>
+					</view>
+				</picker>
+				<view>
+					返佣(元)
+				</view>
+			</view>
+			<qiun-data-charts type="line" :chartData="chartData" />
 		</view>
 	</view>
 </template>
@@ -10,17 +20,20 @@
 	export default {
 		data() {
 			return {
+				data1:'2022',
 				chartData: {
-					categories: ["2016", "2017", "2018", "2019", "2020", "2021"],
+					categories: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
 					series: [{
-						name: "目标值",
-						data: [35, 36, 31, 33, 13, 34]
-					}, {
-						name: "完成量",
-						data: [18, 27, 21, 24, 6, 28]
+						name: "返佣",
+						data: [18, 27, 21, 24, 6, 28, 18, 27, 21, 24, 6, 900]
 					}]
 				}
 			};
+		},
+		methods: {
+			bindDateChange(e){
+				this.data1 = e.detail.value;
+			}
 		}
 	}
 </script>

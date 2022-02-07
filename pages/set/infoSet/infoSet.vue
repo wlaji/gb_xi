@@ -1,5 +1,6 @@
 <template>
 	<view class="container">
+		<u-action-sheet :actions="list" title="选择性别" :show="show" cancelText="取消" :closeOnClickAction="true" @close="show=false" @select="showAction"></u-action-sheet>
 		<view class="top">
 			<u-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="80px" @click="uploadAvatar"></u-avatar>
 			<text class="changeAvatar" @click="uploadAvatar">更改头像</text>
@@ -9,7 +10,7 @@
 				<u-form-item label="昵称" prop="nickname" borderBottom>
 					<u-input type="text" placeholder="填写您的昵称" v-model="form.nickname" border="none"></u-input>
 				</u-form-item>
-				<u-form-item label="性别" prop="sex" borderBottom @click="showAction">
+				<u-form-item label="性别" prop="sex" borderBottom @click="show=true">
 					<u-input type="text" placeholder="选择性别" v-model="form.sex" border="none" disabled
 						disabledColor="#ffffff">
 						<template slot="suffix">
@@ -32,43 +33,25 @@
 	export default {
 		data() {
 			return {
-				show:false,
+				show: false,
 				form: {
 					nickname: '小鱼人',
 					sex: '女'
 				},
-				sexList:[
-					[
-						{
-							label:'男',
-							id:0
-						},{
-							label:'女',
-							id:1
-						}
-					]
+				list: [{
+						name: '男'
+					},
+					{
+						name: '女'
+					}
 				]
 			};
 		},
-		methods:{
-			showAction(){
-				let that = this;
-				uni.showActionSheet({
-				    itemList: ['男', '女'],
-				    success: function (res) {
-						console.log(res)
-						if(res.tapIndex === 0){
-							that.form.sex = '男'
-						}else if(res.tapIndex === 1){
-							that.form.sex = '女'
-						}
-				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
-				});
+		methods: {
+			showAction(e) {
+				this.form.sex = e.name;
 			},
-			uploadAvatar(){
+			uploadAvatar() {
 				uni.chooseImage({
 					count: 1, //默认9
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -87,8 +70,8 @@
 					}
 				});
 			},
-			save(){
-				
+			save() {
+
 			}
 		}
 	}
@@ -98,14 +81,16 @@
 	.container {
 		background-color: #fff;
 		padding: 20rpx;
-		.top{
+
+		.top {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			height:300rpx;
-			.changeAvatar{
-				margin-top:20rpx;
+			height: 300rpx;
+
+			.changeAvatar {
+				margin-top: 20rpx;
 			}
 		}
 	}
