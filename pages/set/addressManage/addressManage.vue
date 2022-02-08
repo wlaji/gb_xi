@@ -45,7 +45,7 @@
 			return {
 				activeIndex:0,
 				showDelModal:false,
-				addressList:[]
+				addressList:['1']
 			};
 		},
 		methods:{

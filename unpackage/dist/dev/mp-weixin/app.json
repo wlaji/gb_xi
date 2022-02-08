@@ -1,81 +1,81 @@
 {
-    "pages": [
-        "pages/index/index",
-        "pages/productDetail/productDetail",
-        "pages/my/my",
-        "pages/login/login",
-        "pages/productCategory/productCategory",
-        "pages/cart/cart",
-        "pages/register/register",
-        "pages/search/search",
-        "pages/productList/productList",
-        "pages/checkout/checkout",
-        "pages/set/set/set",
-        "pages/set/msg/msg",
-        "pages/searchResult/searchResult",
-        "pages/privacyPolicy/privacyPolicy",
-        "pages/userAgreement/userAgreement",
-        "pages/set/myOrder/myOrder",
-        "pages/set/joinUs/joinUs",
-        "pages/set/addressManage/addressManage",
-        "pages/set/share/share",
-        "pages/set/marketing/marketing",
-        "pages/set/team/team",
-        "pages/set/history/history",
-        "pages/set/collect/collect",
-        "pages/set/accountSecurity/accountSecurity",
-        "pages/set/paymentSetting/paymentSetting",
-        "pages/set/identityAuthentication/identityAuthentication",
-        "pages/set/aboutStore/aboutStore",
-        "pages/set/infoSet/infoSet",
-        "pages/set/editAddress/editAddress",
-        "pages/set/jifenManage/jifenManage",
-        "pages/set/realNameAuthentication/realNameAuthentication",
-        "pages/set/closeAccount/closeAccount",
-        "pages/set/phoneNumberVerification/phoneNumberVerification",
-        "pages/set/setPwd/setPwd",
-        "pages/set/bindCard/bindCard",
-        "pages/set/orderDetail/orderDetail"
-    ],
-    "subPackages": [],
-    "window": {
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "国本健康商城",
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "backgroundColor": "#FFFFFF"
-    },
-    "tabBar": {
-        "color": "#606266",
-        "selectedColor": "#E44273",
-        "borderStyle": "black",
-        "backgroundColor": "#ffffff",
-        "list": [
-            {
-                "pagePath": "pages/index/index",
-                "iconPath": "static/image/home.png",
-                "selectedIconPath": "static/image/home_selected.png",
-                "text": "首页"
-            },
-            {
-                "pagePath": "pages/productCategory/productCategory",
-                "iconPath": "static/image/category.png",
-                "selectedIconPath": "static/image/category_selected.png",
-                "text": "分类"
-            },
-            {
-                "pagePath": "pages/cart/cart",
-                "iconPath": "static/image/cart.png",
-                "selectedIconPath": "static/image/cart_selected.png",
-                "text": "购物车"
-            },
-            {
-                "pagePath": "pages/my/my",
-                "iconPath": "static/image/account.png",
-                "selectedIconPath": "static/image/account_selected.png",
-                "text": "我的"
-            }
-        ]
-    },
-    "usingComponents": {},
-    "sitemapLocation": "sitemap.json"
+  "pages": [
+    "pages/index/index",
+    "pages/productDetail/productDetail",
+    "pages/my/my",
+    "pages/login/login",
+    "pages/productCategory/productCategory",
+    "pages/cart/cart",
+    "pages/register/register",
+    "pages/search/search",
+    "pages/productList/productList",
+    "pages/checkout/checkout",
+    "pages/set/set/set",
+    "pages/set/msg/msg",
+    "pages/searchResult/searchResult",
+    "pages/privacyPolicy/privacyPolicy",
+    "pages/userAgreement/userAgreement",
+    "pages/set/myOrder/myOrder",
+    "pages/set/joinUs/joinUs",
+    "pages/set/addressManage/addressManage",
+    "pages/set/share/share",
+    "pages/set/marketing/marketing",
+    "pages/set/team/team",
+    "pages/set/history/history",
+    "pages/set/collect/collect",
+    "pages/set/accountSecurity/accountSecurity",
+    "pages/set/paymentSetting/paymentSetting",
+    "pages/set/identityAuthentication/identityAuthentication",
+    "pages/set/aboutStore/aboutStore",
+    "pages/set/infoSet/infoSet",
+    "pages/set/editAddress/editAddress",
+    "pages/set/jifenManage/jifenManage",
+    "pages/set/realNameAuthentication/realNameAuthentication",
+    "pages/set/closeAccount/closeAccount",
+    "pages/set/phoneNumberVerification/phoneNumberVerification",
+    "pages/set/setPwd/setPwd",
+    "pages/set/bindCard/bindCard",
+    "pages/set/orderDetail/orderDetail",
+    "pages/orderSettlement/orderSettlement"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "国本健康商城",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
+  },
+  "tabBar": {
+    "color": "#606266",
+    "selectedColor": "#E44273",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/image/home.png",
+        "selectedIconPath": "static/image/home_selected.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/productCategory/productCategory",
+        "iconPath": "static/image/category.png",
+        "selectedIconPath": "static/image/category_selected.png",
+        "text": "分类"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "iconPath": "static/image/cart.png",
+        "selectedIconPath": "static/image/cart_selected.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "static/image/account.png",
+        "selectedIconPath": "static/image/account_selected.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
 }

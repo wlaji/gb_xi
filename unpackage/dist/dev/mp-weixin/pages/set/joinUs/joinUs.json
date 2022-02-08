@@ -2,6 +2,10 @@
   "navigationBarTitleText": "我要加盟",
   "enablePullDownRefresh": false,
   "usingComponents": {
+    "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal",
+    "u-image": "/node-modules/uview-ui/components/u-image/u-image",
+    "u-divider": "/node-modules/uview-ui/components/u-divider/u-divider",
+    "u-parse": "/node-modules/uview-ui/components/u-parse/u-parse",
     "u-form": "/node-modules/uview-ui/components/u-form/u-form",
     "u-form-item": "/node-modules/uview-ui/components/u-form-item/u-form-item",
     "u-input": "/node-modules/uview-ui/components/u-input/u-input",

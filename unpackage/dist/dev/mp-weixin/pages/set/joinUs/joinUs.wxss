@@ -3,7 +3,23 @@ page.data-v-48b63cd9,
   height: 100%;
   background-color: #fff;
 }
-.container.data-v-48b63cd9 {
+.input-content.data-v-48b63cd9 {
   padding: 20rpx;
+}
+.banner.data-v-48b63cd9 {
+  position: relative;
+}
+.banner text.data-v-48b63cd9 {
+  position: absolute;
+  left: 50%;
+  top: 50px;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  color: #fff;
+  font-size: 30px;
+  white-space: nowrap;
+}
+.des.data-v-48b63cd9 {
+  padding: 0 20rpx;
 }
 

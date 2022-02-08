@@ -341,6 +341,17 @@
 				"navigationBarTitleText": "订单详情",
 				"enablePullDownRefresh": false
 			}
+		}, {
+			"path": "pages/orderSettlement/orderSettlement",
+			"name": "orderSettlement",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "确认订单",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	],
 	"tabBar": {

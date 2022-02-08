@@ -21,8 +21,8 @@
 		<view v-else style="padding:10rpx;overflow: auto;">
 			<!-- 列表 -->
 			<view class="cart-list">
-				<block v-for="(item, index) in cartList" :key="item.id">
-					<view class="cart-item">
+				<template v-for="(item, index) in cartList">
+					<view class="cart-item" :key="item.id">
 						<view class="checkbox">
 							<u-checkbox-group @change="check('item',index)">
 								<u-checkbox shape="circle" activeColor="#E44273" :checked="item.checked">
@@ -50,7 +50,7 @@
 							</u-icon>
 						</view>
 					</view>
-				</block>
+				</template>
 			</view>
 			<!-- 底部菜单栏 -->
 			<view class="action-section">
@@ -213,13 +213,9 @@
 						})
 					}
 				})
-
 				uni.navigateTo({
-					url: `/pages/order/createOrder?data=${JSON.stringify({
-						goodsData: goodsData
-					})}`
+					url:'/pages/orderSettlement/orderSettlement'
 				})
-				this.$api.msg('跳转下一页 sendData');
 			}
 		},
 		onShow() {
