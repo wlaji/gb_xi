@@ -36,7 +36,8 @@
     "pages/set/setPwd/setPwd",
     "pages/set/bindCard/bindCard",
     "pages/set/orderDetail/orderDetail",
-    "pages/orderSettlement/orderSettlement"
+    "pages/orderSettlement/orderSettlement",
+    "pages/findPwd/findPwd"
   ],
   "subPackages": [],
   "window": {

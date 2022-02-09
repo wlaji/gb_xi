@@ -11,6 +11,7 @@
     "u-code": "/node-modules/uview-ui/components/u-code/u-code",
     "u-button": "/node-modules/uview-ui/components/u-button/u-button",
     "u-checkbox-group": "/node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group",
-    "u-checkbox": "/node-modules/uview-ui/components/u-checkbox/u-checkbox"
+    "u-checkbox": "/node-modules/uview-ui/components/u-checkbox/u-checkbox",
+    "no-code": "/components/noCode"
   }
 }

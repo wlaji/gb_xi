@@ -352,6 +352,15 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/findPwd/findPwd",
+			"name": "findPwd",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "找回密码",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	],
 	"tabBar": {

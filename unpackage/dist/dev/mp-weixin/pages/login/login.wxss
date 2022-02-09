@@ -95,6 +95,7 @@
 }
 .ys .t1.data-v-b237504c {
   display: flex;
+  flex-wrap: wrap;
 }
 .ys .t1 navigator.data-v-b237504c {
   color: #303133;
@@ -106,5 +107,17 @@
 .modalContent navigator.data-v-b237504c {
   display: inline-block;
   color: #303133;
+}
+.modal2Con.data-v-b237504c {
+  text-align: left;
+}
+.fuzhu.data-v-b237504c {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80rpx;
+}
+.fuzhu .t2.data-v-b237504c {
+  color: #909193;
 }
 

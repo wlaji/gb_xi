@@ -13,6 +13,7 @@
 				</navigator>
 			</view>
 		</u-modal>
+
 		<view class="left-bottom-sign"></view>
 		<view class="back-btn">
 			<u-icon name="arrow-leftward" size="40rpx" color="#333" bold @click="navBack"></u-icon>
@@ -28,7 +29,7 @@
 					<u-form-item label="手机号" prop="phone" borderBottom>
 						<u-input type="number" placeholder="请输入手机号" v-model="form.phone" border="none"></u-input>
 					</u-form-item>
-					<u-form-item label="验证码" prop="code" borderBottom>
+					<u-form-item label="验证码" prop="code" borderBottom v-if="status===1">
 						<u-input type="number" placeholder="请输入验证码" v-model="form.code" border="none">
 							<template slot="suffix">
 								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
@@ -36,16 +37,15 @@
 							</template>
 						</u-input>
 					</u-form-item>
+					<u-form-item label="密码" prop="password" borderBottom v-if="status===2">
+						<u-input :type="inputType" placeholder="请输入密码" v-model="form.password" border="none">
+							<template slot="suffix">
+								<u-icon name="eye" @click="changeType"
+									:color="inputType==='password'?'#333333':'#2b85e4'"></u-icon>
+							</template>
+						</u-input>
+					</u-form-item>
 				</u-form>
-				<view style="margin-top:40rpx;">
-					<u-button @click="toLogin" :loading="loading" loadingText="正在登录" type="primary">登录</u-button>
-				</view>
-				<!-- #ifndef H5 -->
-				<view style="margin-top:40rpx;">
-					<u-button type="success" icon="weixin-fill" open-type="getPhoneNumber"
-						@getphonenumber="getPhoneNumber" text="微信一键登录"></u-button>
-				</view>
-				<!-- #endif -->
 				<view class="ys">
 					<view class="box">
 						<u-checkbox-group @change="changeStatus">
@@ -61,7 +61,24 @@
 							《隐私政策》
 						</navigator>
 					</view>
+
 				</view>
+				<view style="margin-top:40rpx;">
+					<u-button @click="toLogin" :loading="loading" loadingText="正在登录" type="primary">登录</u-button>
+				</view>
+				<view class="fuzhu">
+					<text class="t1" @click="changeLoginMethod">{{status===1?'密码登录':'验证码登录'}}</text>
+					<template v-if="status===2">
+						<text class="t2" @click="helpHandle">忘记密码</text>
+					</template>
+					<template v-else>
+						<noCode></noCode>
+					</template>
+				</view>
+				<!-- <view style="margin-top:40rpx;">
+					<u-button type="success" icon="weixin-fill" open-type="getPhoneNumber"
+						@getphonenumber="getPhoneNumber" text="微信一键登录"></u-button>
+				</view> -->
 			</view>
 		</view>
 		<view class="register-section">
@@ -72,6 +89,7 @@
 </template>
 
 <script>
+	import noCode from '@/components/noCode.vue'
 	import {
 		mapMutations
 	} from 'vuex';
@@ -79,8 +97,11 @@
 	export default {
 		data() {
 			return {
-				beforeStatus:'',
+				inputType: 'password',
+				status: 1,
+				beforeStatus: '',
 				showModal: false,
+				showModal2: false,
 				tips: '',
 				loading: false,
 				form: {
@@ -114,9 +135,17 @@
 							message: '验证码格式不正确',
 							trigger: ['blur'],
 						}
-					]
+					],
+					'password': [{
+						required: true,
+						message: '请输入密码',
+						trigger: ['blur'],
+					}]
 				},
 			}
+		},
+		components: {
+			noCode
 		},
 		onLoad() {
 
@@ -125,13 +154,32 @@
 			this.$refs.form1.setRules(this.rules);
 		},
 		methods: {
+			changeType() {
+				if (this.inputType === 'password') {
+					this.inputType = 'number'
+				} else {
+					this.inputType = 'password'
+				}
+			},
+			changeLoginMethod() {
+				if (this.status === 1) {
+					this.status = 2
+				} else {
+					this.status = 1
+				}
+			},
+			helpHandle() {
+				uni.navigateTo({
+					url: '/pages/findPwd/findPwd'
+				})
+			},
 			confirmChecked() {
 				this.checked = true;
 				this.showModal = false;
 				console.log(this.checked)
-				if(this.beforeStatus === 'getCode'){
+				if (this.beforeStatus === 'getCode') {
 					this.getCode()
-				}else if(this.beforeStatus === 'toLogin'){
+				} else if (this.beforeStatus === 'toLogin') {
 					this.toLogin()
 				}
 			},
@@ -184,8 +232,8 @@
 					setTimeout(() => {
 						this.loading = false;
 						let resData = {
-							userInfo:this.form,
-							token:'111111111'
+							userInfo: this.form,
+							token: '111111111'
 						};
 						this.$store.commit('login', resData); // vuex的方法
 						uni.switchTab({
@@ -200,7 +248,7 @@
 				this.tips = text;
 			},
 			getCode() {
-				if(!this.checked){
+				if (!this.checked) {
 					this.showModal = true;
 					this.beforeStatus = 'getCode';
 					return;
@@ -337,6 +385,7 @@
 
 		.t1 {
 			display: flex;
+			flex-wrap: wrap;
 
 			navigator {
 				color: $u-main-color;
@@ -351,6 +400,21 @@
 		navigator {
 			display: inline-block;
 			color: $u-main-color;
+		}
+	}
+
+	.modal2Con {
+		text-align: left;
+	}
+
+	.fuzhu {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 80rpx;
+
+		.t2 {
+			color: $u-tips-color;
 		}
 	}
 </style>
