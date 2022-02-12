@@ -6,19 +6,19 @@
 		</view>
 		<view class="content">
 			<view class="part introduce-section">
-				<text class="title">恒源祥2019春季长袖白色t恤 新款春装</text>
+				<text class="title">{{productDetailInfo.productName}}</text>
 				<view class="price-box">
-					<text class="price">￥341.6</text>
-					<text class="m-price">¥488</text>
+					<text class="price">￥{{productDetailInfo.price}}</text>
+					<text class="m-price">¥{{productDetailInfo.price}}</text>
 				</view>
 				<view class="bot-row">
-					<text>销量: 108</text>
-					<text>库存: 4690</text>
-					<text>浏览量: 768</text>
+					<text>销量: {{productDetailInfo.salesVolume}}</text>
+					<text>库存: {{productDetailInfo.inventory}}</text>
+					<text>浏览量: {{productDetailInfo.viewVolume}}</text>
 				</view>
 			</view>
 
-			<view class="part c-list">
+			<!-- <view class="part c-list">
 				<view class="c-row">
 					<text class="tit">购买类型</text>
 					<view class="con">
@@ -63,49 +63,38 @@
 					</view>
 					<u-icon name="arrow-right"></u-icon>
 				</view>
-			</view>
+			</view> -->
 
 			<!-- 评价 -->
-			<view class="eva-section">
+			<view class="eva-section" v-if="productDetailInfo&&productDetailInfo.commentList.length">
 				<view class="e-header">
 					<text class="tit">评价</text>
 					<text>(86)</text>
 					<text class="tip">好评率 100%</text>
 					<u-icon name="arrow-right"></u-icon>
 				</view>
-				<view class="eva-box">
-					<u-image :showLoading="true"
-						src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg"
-						width="80rpx" height="80rpx" shape="circle"></u-image>
-					<view class="right">
-						<text class="name">Leo yo</text>
-						<text class="con">商品收到了，79元两件，质量不错，试了一下有点瘦，但是加个外罩很漂亮，我很喜欢</text>
-						<view class="bot">
-							<text class="attr">购买类型：XL 红色</text>
-							<text class="time">2019-04-01 19:21</text>
+				<template v-for="(item,index) in productDetailInfo.commentList">
+					<view class="eva-box" :key="index" v-if="index<=1">
+						<u-image :showLoading="true"
+							src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg"
+							width="80rpx" height="80rpx" shape="circle"></u-image>
+						<view class="right">
+							<text class="name">Leo yo</text>
+							<text class="con">商品收到了，79元两件，质量不错，试了一下有点瘦，但是加个外罩很漂亮，我很喜欢</text>
+							<view class="bot">
+								<text class="attr">购买类型：XL 红色</text>
+								<text class="time">2019-04-01 19:21</text>
+							</view>
 						</view>
 					</view>
-				</view>
-				<view class="eva-box">
-					<u-image :showLoading="true"
-						src="https://rhskieapi.oss-cn-hangzhou.aliyuncs.com/webData/2022-01-04/20220104RhTJnWJk.jpg"
-						width="80rpx" height="80rpx" shape="circle"></u-image>
-					<view class="right">
-						<text class="name">Leo yo</text>
-						<text class="con">商品收到了，79元两件，质量不错，试了一下有点瘦，但是加个外罩很漂亮，我很喜欢</text>
-						<view class="bot">
-							<text class="attr">购买类型：XL 红色</text>
-							<text class="time">2019-04-01 19:21</text>
-						</view>
-					</view>
-				</view>
+				</template>
 			</view>
 
 			<view class="detail-desc">
 				<view class="d-header">
 					<text>图文详情</text>
 				</view>
-				<rich-text :nodes="desc"></rich-text>
+				<rich-text :nodes="productDetailInfo.descriptions||desc"></rich-text>
 			</view>
 
 			<!-- 组合按钮 -->
@@ -141,9 +130,13 @@
 </template>
 
 <script>
+	import {
+		getProductInfo
+	} from '@/api/product.js'
 	export default {
 		data() {
 			return {
+				productDetailInfo: '',
 				productId: 1,
 				imgList: [{
 						src: 'https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg'
@@ -163,9 +156,18 @@
 			};
 		},
 		onLoad(options) {
-
+			this.productId = options.id;
+			this.getPageData()
 		},
 		methods: {
+			getPageData() {
+				//获取产品详情
+				getProductInfo({
+					id: this.productId
+				}).then(res => {
+					this.productDetailInfo = res.data;
+				})
+			},
 			goHome() {
 				uni.switchTab({
 					url: '/pages/index/index'
@@ -402,6 +404,7 @@
 			box-shadow: 0 0 10px 0 rgba(0, 0, 0, .35);
 			border-radius: 8px;
 			padding: 0 10rpx;
+			z-index: 100;
 
 			.b1 {
 				display: flex;

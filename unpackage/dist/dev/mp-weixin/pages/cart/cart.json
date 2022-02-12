@@ -1,6 +1,7 @@
 {
   "navigationStyle": "custom",
   "navigationBarTitleText": "购物车",
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "u-navbar": "/node-modules/uview-ui/components/u-navbar/u-navbar",
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",

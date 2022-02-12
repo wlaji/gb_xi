@@ -87,27 +87,6 @@
   margin-left: 10rpx;
   color: #3c9cff;
 }
-.ys.data-v-b237504c {
-  display: flex;
-  font-size: 12px;
-  color: #909193;
-  margin-top: 40rpx;
-}
-.ys .t1.data-v-b237504c {
-  display: flex;
-  flex-wrap: wrap;
-}
-.ys .t1 navigator.data-v-b237504c {
-  color: #303133;
-}
-.modalContent.data-v-b237504c {
-  font-size: 12px;
-  color: #909193;
-}
-.modalContent navigator.data-v-b237504c {
-  display: inline-block;
-  color: #303133;
-}
 .modal2Con.data-v-b237504c {
   text-align: left;
 }

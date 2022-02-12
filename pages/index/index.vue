@@ -10,9 +10,9 @@
 			</view>
 			<view class="category">
 				<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
-					<view v-for="(item, index) in list" :key="index" class="category-item" @click="toCategory">
-						<u-image :showLoading="true" :src="item.thumb" width="50" height="50" shape="circle"></u-image>
-						<text style="margin-top: 4px;">{{item.title}}</text>
+					<view v-for="(item, index) in categoryList" :key="index" class="category-item" @click="toCategory">
+						<!-- <u-image :showLoading="true" src="/static/image/2.jpg" width="50" height="50" shape="circle"></u-image> -->
+						<text style="margin-top: 4px;width: 100%;" class="u-line-1">{{item.cateName}}321321321</text>
 					</view>
 					<view class="category-item" @click="toCategory">
 						<u-icon size="50" name="more-circle-fill" color="#2b85e4"></u-icon>
@@ -83,12 +83,12 @@
 			</view>
 
 			<view class="hot-section">
-				<view v-for="(item, index) in goodsList" :key="index" class="hot-item" @click="navToDetailPage(item)">
+				<view v-for="(item, index) in productList" :key="index" class="hot-item" @click="navToDetailPage(item)">
 					<view class="image-wrapper">
 						<u-image :showLoading="true" :src="item.image" width="100%" height="330rpx" radius="4px">
 						</u-image>
 					</view>
-					<text class="title u-line-2" style="display: block;">{{item.title}}</text>
+					<text class="title u-line-2" style="display: block;">{{item.productName}}</text>
 					<view>
 						<text class="price">￥{{item.price}}</text>
 						<text class="originPrice">￥{{item.price}}</text>
@@ -107,38 +107,34 @@
 </template>
 
 <script>
-	import updateDialog from '@/components/updateDialog.vue'
+	import updateDialog from '@/components/updateDialog.vue';
+	import {
+		getAdvertising,
+	} from '@/api/public.js'
+	import {
+		getAllProductCate,
+		getProductList
+	} from '@/api/product.js'
 	export default {
 		data() {
 			return {
-				showModal:false,
+				showModal: false,
 				timeData: {},
 				carouselList: [],
 				goodsList: [],
 				indicator: true,
-				list: [{
-					thumb: "/static/temp/c3.png",
-					title: "分类1"
-				}, {
-					thumb: "/static/temp/c5.png",
-					title: "分类2"
-				}, {
-					thumb: "/static/temp/c6.png",
-					title: "分类3"
-				}, {
-					thumb: "/static/temp/c7.png",
-					title: "分类4"
-				}, {
-					thumb: "/static/temp/c8.png",
-					title: "分类5"
-				}, {
-					thumb: "/static/temp/c3.png",
-					title: "分类6"
-				}]
+				categoryList: [],
+				productList: [],
+				form: {
+					keyword: null,
+					categoryId: null,
+					page: 1,
+					pageSize: 25
+				}
 			};
 		},
-		
-		components:{
+
+		components: {
 			updateDialog
 		},
 
@@ -149,18 +145,35 @@
 		},
 
 		onLoad() {
-			this.carouselList = this.$json.carouselList;
-			this.goodsList = this.$json.goodsList;
+			this.getPageData()
 		},
 		methods: {
+			getPageData() {
+				//获取banner
+				getAdvertising({
+					categoryName: 'home_banner'
+				}).then(res => {
+					this.carouselList = res.data;
+					this.carouselList = this.$json.carouselList;
+				})
+				//获取所有产品分类
+				getAllProductCate().then(res => {
+					this.categoryList = res.data;
+				})
+				//获取所有产品
+				getProductList(this.form).then(res => {
+					this.productList = res.data;
+				})
+				this.goodsList = this.$json.goodsList;
+			},
 			toLogin() {
 				uni.navigateTo({
 					url: '/pages/login/login'
 				})
 			},
-			navToDetailPage() {
+			navToDetailPage(item) {
 				uni.navigateTo({
-					url: '/pages/productDetail/productDetail'
+					url: '/pages/productDetail/productDetail?id='+item.id
 				})
 			},
 			toCategory() {
@@ -177,16 +190,12 @@
 				this.timeData = e
 			}
 		},
-		// #ifndef MP
-		onNavigationBarButtonTap(e) {
-			const index = e.index;
-			if (index === 0) {
-				uni.navigateTo({
-					url: '/pages/msg/msg'
-				});
-			}
-		},
-		// #endif
+		onPullDownRefresh() {
+			this.getPageData()
+			setTimeout(() => {
+				uni.stopPullDownRefresh()
+			}, 1000)
+		}
 	}
 </script>
 

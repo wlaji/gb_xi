@@ -172,6 +172,7 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.35);
   border-radius: 8px;
   padding: 0 10rpx;
+  z-index: 100;
 }
 .container .buttonGroup .b1.data-v-653d9208 {
   display: flex;

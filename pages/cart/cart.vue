@@ -98,6 +98,7 @@
 		onLoad(options) {
 			console.log(options)
 			this.loadData();
+			this.getPageData()
 		},
 		watch: {
 			//显示空白页
@@ -112,6 +113,9 @@
 			...mapGetters(['isLogin'])
 		},
 		methods: {
+			getPageData(){
+				
+			},
 			goDetail(){
 				let id = uni.getStorageSync('productId');
 				uni.navigateTo({
@@ -227,6 +231,12 @@
 		},
 		onHide(){
 			uni.removeStorageSync('productId')
+		},
+		onPullDownRefresh(){
+			this.getPageData()
+			setTimeout(()=>{
+				uni.stopPullDownRefresh()
+			},1000)
 		}
 	}
 </script>

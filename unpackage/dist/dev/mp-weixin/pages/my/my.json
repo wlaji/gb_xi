@@ -1,6 +1,7 @@
 {
   "navigationStyle": "custom",
   "navigationBarTitleText": "个人中心",
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "u-navbar": "/node-modules/uview-ui/components/u-navbar/u-navbar",
     "u-avatar": "/node-modules/uview-ui/components/u-avatar/u-avatar",

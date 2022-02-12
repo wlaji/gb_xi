@@ -12,8 +12,8 @@
 			</view>
 			<view class="input-content">
 				<u-form labelPosition="top" :model="form" ref="form1" labelWidth="auto" errorType="toast" borderBottom>
-					<u-form-item label="手机号" prop="phone" borderBottom>
-						<u-input type="number" placeholder="请输入手机号" v-model="form.phone" border="none"></u-input>
+					<u-form-item label="手机号" prop="loginTel" borderBottom>
+						<u-input type="number" placeholder="请输入手机号" v-model="form.loginTel" border="none"></u-input>
 					</u-form-item>
 					<u-form-item label="验证码" prop="code" borderBottom>
 						<u-input type="number" placeholder="请输入验证码" v-model="form.code" border="none">
@@ -43,7 +43,11 @@
 </template>
 
 <script>
-	import noCode from '@/components/noCode.vue'
+	import noCode from '@/components/noCode.vue';
+	import {
+		forgetPassword,
+		sendChangePasswordCode,
+	} from '@/api/auth.js'
 	export default {
 		data() {
 			return {
@@ -52,12 +56,12 @@
 				beforeStatus: '',
 				tips: '',
 				form: {
-					phone: '',
+					loginTel: '',
 					code: '',
 					password:'',
 				},
 				rules: {
-					'phone': [{
+					'loginTel': [{
 							required: true,
 							message: '请输入手机号',
 							trigger: ['blur'],
@@ -99,9 +103,6 @@
 			this.$refs.form1.setRules(this.rules);
 		},
 		methods: {
-			helpHandle(){
-				
-			},
 			changeType(){
 				if(this.inputType==='password'){
 					this.inputType = 'number'
@@ -117,24 +118,36 @@
 			},
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
-					// 模拟向后端请求验证码
-					uni.showLoading({
-						title: '正在获取验证码'
-					})
-					setTimeout(() => {
-						uni.hideLoading();
-						// 这里此提示会被this.start()方法中的提示覆盖
-						uni.$u.toast('验证码已发送');
-						// 通知验证码组件内部开始倒计时
-						this.$refs.uCode.start();
-					}, 2000);
+					let loginTel = this.form.loginTel;
+					if (!loginTel) {
+						uni.$u.toast('请先输入手机号');
+						return false;
+					}
+					if (this.$refs.uCode.canGetCode) {
+						sendChangePasswordCode({
+							loginTel
+						}).then(res=>{
+							uni.$u.toast('验证码已发送,请注意短信!');
+							// 通知验证码组件内部开始倒计时
+							this.$refs.uCode.start();
+						})
+					} else {
+						uni.$u.toast('倒计时结束后再发送');
+					}
 				} else {
 					uni.$u.toast('倒计时结束后再发送');
 				}
 			},
 			toResetPwd(){
 				this.$refs.form1.validate().then(() => {
-					uni.$u.toast('表单验证成功');
+					forgetPassword(this.form).then(res => {
+						uni.$u.toast('密码已重置');
+						setTimeout(()=>{
+							uni.navigateTo({
+								url:'/pages/login/login'
+							})
+						},1000)
+					})
 				}).catch(err => {
 					console.log(err)
 				})

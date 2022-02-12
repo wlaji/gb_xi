@@ -10,7 +10,7 @@
 					<text>积分</text>
 				</view>
 				<scroll-view scroll-y="true" class="jf-wrap" @scrolltolower="loadData">
-					<view class="jf-item" v-for="item in 100">
+					<view class="jf-item">
 						<text>罗勇</text>
 						<text>2020-12-52</text>
 						<text>100</text>

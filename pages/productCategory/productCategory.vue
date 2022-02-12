@@ -7,14 +7,14 @@
 			<view class="left-aside">
 				<view v-for="(item,index) in flist" :key="item.id" class="f-item" :class="{active: index === currentIndex}"
 					@click="tabtap(item,index)">
-					{{item.name}}
+					{{item.cateName}}
 				</view>
 			</view>
 			<view class="right-content">
 				<u-swiper :list="carouselList" keyName="src" circular indicator indicatorMode="dot"
 					height="250rpx" radius="5"></u-swiper>
-				<view v-for="item in slist" :key="item.id" class="s-list" @click="toProductList">
-					<text class="s-item">{{item.name}}</text>
+				<view v-for="item in slist" :key="item.id" class="s-list" @click="toProductList" v-if="item.productList&&item.productList.length">
+					<text class="s-item">{{item.cateName}}</text>
 					<view class="t-list">
 						<view class="t-item" v-for="titem in item.productList" :key="titem.id">
 							<u-image :showLoading="true" :src="titem.picture" width="140rpx" height="140rpx"></u-image>
@@ -28,6 +28,9 @@
 </template>
 
 <script>
+	import {
+		getAllProductCate
+	} from '@/api/product.js'
 	export default {
 		data() {
 			return {
@@ -38,11 +41,17 @@
 			}
 		},
 		onLoad() {
-			this.flist = this.$json.productList;
-			this.slist = this.flist[this.currentIndex].children;
 			this.carouselList = this.$json.carouselList
+			this.getPageData()
 		},
 		methods: {
+			getPageData(){
+				//获取所有产品分类
+				getAllProductCate().then(res=>{
+					this.flist = res.data;
+					this.slist = this.flist[this.currentIndex].children;
+				})
+			},
 			toProductList(){
 				uni.navigateTo({
 					url:'/pages/productList/productList'
@@ -57,6 +66,12 @@
 				this.currentIndex = index;
 				this.slist = this.flist[this.currentIndex].children;
 			}
+		},
+		onPullDownRefresh(){
+			this.getPageData()
+			setTimeout(()=>{
+				uni.stopPullDownRefresh()
+			},1000)
 		}
 	}
 </script>

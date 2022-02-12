@@ -8,11 +8,12 @@
 			<u-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="70"></u-avatar>
 			<view class="rightArea">
 				<view class="nickname">
-					小鱼人
+					{{userInfo.nickName||'国本用户'}}
 				</view>
 				<view class="bh">
-					编号:12132
+					邀请码:{{userInfo.recommendCode}} <i class="iconfont icon-copy" style="font-size:24px" @click="copyCode(userInfo.recommendCode)"></i>
 				</view>
+				
 			</view>
 		</view>
 		<view class="part part1">
@@ -121,17 +122,35 @@
 			return {
 				customBar: this.customBar,
 				showNavBar: false,
-				goodsList:[]
+				goodsList: []
+			}
+		},
+		computed:{
+			userInfo(){
+				return this.$store.state.userInfo
 			}
 		},
 		onLoad() {
 			this.goodsList = this.$json.goodsList
+			this.getPageData()
+			console.log(this.$store.state.userInfo)
 		},
 		methods: {
+			getPageData() {
+				
+			},
 			navToDetailPage() {
 				uni.navigateTo({
 					url: '/pages/productDetail/productDetail'
 				})
+			},
+			copyCode(value){
+				uni.setClipboardData({
+					data: value,
+					success: () => {
+						this.$u.toast('邀请码复制成功')
+					}
+				});
 			},
 		},
 		onPageScroll(data) {
@@ -140,6 +159,12 @@
 			} else {
 				this.showNavBar = false;
 			}
+		},
+		onPullDownRefresh() {
+			this.getPageData()
+			setTimeout(() => {
+				uni.stopPullDownRefresh()
+			}, 1000)
 		}
 	}
 </script>
@@ -176,6 +201,8 @@
 			}
 
 			.bh {
+				display: flex;
+				align-items: center;
 				color: #909399;
 				font-size: 12px;
 				margin-top: 10rpx;

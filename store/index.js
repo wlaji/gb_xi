@@ -17,7 +17,7 @@ const store = new Vuex.Store({
 	mutations: {
 		login(state, res) {
 			state.hasLogin = true;
-			state.userinfo = res.userInfo;
+			state.userInfo = res.userInfo;
 			uni.setStorage({
 				key: 'userInfo',
 				data: res.userInfo

@@ -26,6 +26,8 @@
   font-size: 16px;
 }
 .avatar .rightArea .bh.data-v-0be17cc6 {
+  display: flex;
+  align-items: center;
   color: #909399;
   font-size: 12px;
   margin-top: 10rpx;
