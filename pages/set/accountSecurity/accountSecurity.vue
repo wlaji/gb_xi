@@ -1,9 +1,11 @@
 <template>
 	<view>
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
-			<u-cell title="实名认证" isLink value="未认证" url="/pages/set/realNameAuthentication/realNameAuthentication">
+			<u-cell title="实名认证" isLink :value="userInfo.identityCard?'已认证':'未认证'"
+				:label="formatName(userInfo.userName)" url="/pages/set/realNameAuthentication/realNameAuthentication">
 			</u-cell>
-			<u-cell title="绑定手机" :label="phone" value="更换号码" isLink url="/pages/set/phoneNumberVerification/phoneNumberVerification"></u-cell>
+			<u-cell title="绑定手机" :label="formatPhone(userInfo.loginTel)" value="更换号码" isLink
+				url="/pages/set/phoneNumberVerification/phoneNumberVerification"></u-cell>
 			<u-cell title="设置登录密码" isLink url="/pages/set/setPwd/setPwd"></u-cell>
 		</u-cell-group>
 		<view class="title">
@@ -37,22 +39,36 @@
 				showModal2: false,
 			};
 		},
+		computed: {
+			userInfo() {
+				return this.$store.state.userInfo || {}
+			}
+		},
 		methods: {
 			formatPhone(phone) {
+				if(!phone){
+					return '暂未绑定'
+				}
 				return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+			},
+			formatName(name){
+				if(!name){
+					return '未实名'
+				}
+				return name.substring(0,1) + new Array(name.length).join('*');
 			},
 			bindWeiXin() {
 				this.showModal = false;
 				uni.getProvider({
 					service: 'oauth',
-					success: res=> {
+					success: res => {
 						if (res.provider.indexOf('weixin') > -1) {
 							uni.login({
 								provider: 'weixin',
 								success: loginRes => {
 									const openId = loginRes.authResult.openid,
 										unionId = loginRes.authResult.unionId;
-									
+
 								},
 								fail: (err) => {
 									uni.$u.toast('获取微信授权失败');
@@ -67,9 +83,7 @@
 				uni.$u.toast('解绑成功');
 			}
 		},
-		onLoad() {
-			this.phone = this.formatPhone('15773003996')
-		}
+		onLoad() {}
 	}
 </script>
 

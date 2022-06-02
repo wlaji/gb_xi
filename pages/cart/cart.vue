@@ -1,12 +1,12 @@
 <template>
-	<view class="container" :style="{paddingTop:customBar+'px'}">
-		<u-navbar title="购物车" fixed :leftIcon="leftIcon" @leftClick="goDetail"></u-navbar>
+	<view class="container">
+		<BindInfo></BindInfo>
 		<u-toast ref="uToast"></u-toast>
-		<u-modal :show="showDelModal" :showCancelButton="true" closeOnClickOverlay content='确认删除该宝贝?'
-			confirmText="删除" cancelText="我再想想" confirmColor="#E44273" @confirm="confirmDel"
-			@cancel="showDelModal = false;" @close="showDelModal=false"></u-modal>
-		<u-modal :show="showDelModal2" :showCancelButton="true" closeOnClickOverlay content='确认清空购物车吗?'
-			confirmText="清空" cancelText="我再想想" confirmColor="#E44273" @confirm="clearCart" @cancel="showDelModal2=false"
+		<u-modal :show="showDelModal" :showCancelButton="true" closeOnClickOverlay content='确认删除该宝贝?' confirmText="删除"
+			cancelText="我再想想" confirmColor="#E44273" @confirm="confirmDel" @cancel="showDelModal = false;"
+			@close="showDelModal=false"></u-modal>
+		<u-modal :show="showDelModal2" :showCancelButton="true" closeOnClickOverlay content='确认清空购物车吗?' confirmText="清空"
+			cancelText="我再想想" confirmColor="#E44273" @confirm="clearCart" @cancel="showDelModal2=false"
 			@close="showDelModal2=false"></u-modal>
 		<!-- 空白页 -->
 		<view v-if="empty===true" class="empty">
@@ -22,7 +22,10 @@
 			<!-- 列表 -->
 			<view class="cart-list">
 				<template v-for="(item, index) in cartList">
-					<view class="cart-item" :key="item.id">
+					<view class="cart-item" :key="item.id" :class="{'shixiao':item.product.deleted===1}">
+						<view class="shixiaoText" v-if="item.product.deleted===1">
+							已失效
+						</view>
 						<view class="checkbox">
 							<u-checkbox-group @change="check('item',index)">
 								<u-checkbox shape="circle" activeColor="#E44273" :checked="item.checked">
@@ -31,22 +34,26 @@
 						</view>
 						<view class="rightContent">
 							<view class="image-wrapper">
-								<u-image :showLoading="true" :src="item.image" width="230rpx" height="230rpx"
-									radius="8px"></u-image>
+								<u-image :showLoading="true" :src="JSON.parse(item.product.photoPath)[0].url"
+									width="230rpx" height="230rpx" radius="8px"></u-image>
 							</view>
 							<view class="item-right">
-								<text class="title u-line-1" style="display: block;">{{item.title}}</text>
-								<text class="attr">{{item.attr_val}}</text>
-								<view>
-									<text class="price">￥{{item.price}}</text>
-									<text class="originPrice">￥{{item.price}}</text>
+								<text class="title u-line-1" style="display: block;">{{item.product.productName}}</text>
+								<!-- <text class="attr">{{item.attr_val}}</text> -->
+								<view style="margin: 20rpx 0;">
+									<template v-if="item.product.productType==4">
+										<u-text prefixIcon="rmb-circle" iconStyle="color:#fa436a;font-size:18px;margin-right:5rpx;" :text="item.pointPrice" color="#fa436a"></u-text>
+									</template>
+									<template v-else>
+										<u-text mode="price" :text="item.price" color="#fa436a"></u-text>
+									</template>
 								</view>
-								<u-number-box class="step" :value="item.number>item.stock?item.stock:item.number"
-									:disableMinus="item.number<=1" :disablePlus="item.number>=item.stock" :min="1"
-									:max="item.stock" integer @change="numberChange($event,index)"
-									@overlimit="overlimit"></u-number-box>
+								<u-number-box class="step" :value="item.quantity" :min="1"
+									:max="item.product.inventory===-1?9999:item.product.inventory" integer
+									@change="numberChange($event,index)" @overlimit="overlimit"></u-number-box>
 							</view>
-							<u-icon name="close" color="#909399" class="del-btn" @click="deleteCartItem(index)">
+							<u-icon name="close" :color="item.product.deleted===1?'#ffffff':'#909399'" class="del-btn"
+								@click="deleteCartItem(index)">
 							</u-icon>
 						</view>
 					</view>
@@ -59,17 +66,16 @@
 						<u-checkbox shape="circle" activeColor="#E44273" :checked="allChecked">
 						</u-checkbox>
 					</u-checkbox-group>
-					<view class="clear-btn" :class="{show: allChecked}" @click="showDelModal2 = true">
+					<view class="clear-btn show" @click="showDelModal2 = true">
 						清空
 					</view>
 				</view>
 				<view class="total-box">
-					<view>
-						合计:<text class="price">¥{{total}}</text>
+					<text class="t1">合计:</text>
+					<view class="t2">
+						<u-text mode="price" :text="total" :block="false" color="#fa436a"></u-text>
+						<u-text prefixIcon="rmb-circle" iconStyle="color:#fa436a;font-size:18px;margin-right:5rpx;" :text="totalJf" color="#fa436a"></u-text>
 					</view>
-					<text class="coupon">
-						共减<text>￥74.35</text> 元
-					</text>
 				</view>
 				<u-button type="default" class="confirm-btn" text="去结算" @click="createOrder"></u-button>
 			</view>
@@ -79,8 +85,11 @@
 
 <script>
 	import {
-		mapGetters
-	} from 'vuex';
+		getUserCart,
+		deleteCart,
+		editCart
+	} from '@/api/cart.js';
+	import BindInfo from '@/components/BindInfo.vue'
 	export default {
 		data() {
 			return {
@@ -91,14 +100,13 @@
 				allChecked: false, //全选状态  true|false
 				empty: false, //空白页现实  true|false
 				cartList: [],
-				customBar:this.customBar,
-				leftIcon:''
+				customBar: this.customBar,
+				selectedIdList:[],
+				totalJf:0
 			};
 		},
-		onLoad(options) {
-			console.log(options)
-			this.loadData();
-			this.getPageData()
+		components: {
+			BindInfo
 		},
 		watch: {
 			//显示空白页
@@ -109,36 +117,45 @@
 				}
 			}
 		},
-		computed: {
-			...mapGetters(['isLogin'])
-		},
 		methods: {
-			getPageData(){
-				
+			getPageData() {
+				getUserCart().then(res => {
+					let selectedIdList = [];
+					this.cartList.forEach(item=>{
+						if(item.checked){
+							selectedIdList.push(item.id)
+						}
+					})
+					this.selectedIdList = selectedIdList;
+					res.data.forEach(item=>{
+						if(this.selectedIdList.includes(item.id)){
+							item.checked = true
+						}else{
+							item.checked = false;
+						}
+					})
+					this.cartList = res.data;
+					this.calcTotal(); //计算总价
+				})
 			},
-			goDetail(){
+			goDetail() {
+				if (!this.leftIcon) {
+					return false;
+				}
 				let id = uni.getStorageSync('productId');
-				uni.navigateTo({
-					url:'/pages/productDetail/productDetail?id='+id
+				uni.redirectTo({
+					url: '/pages/productDetail/productDetail?id=' + id
 				})
 			},
 			confirmDel() {
-				let index = this.currentIndex;
-				let list = this.cartList;
-				let row = list[index];
-				let id = row.id;
-				this.cartList.splice(index, 1);
-				this.calcTotal();
-				this.showDelModal = false;
-			},
-			//请求数据
-			loadData() {
-				let cartList = this.$json.cartList;
-				cartList.forEach(item => {
-					item.checked = true
+				let id = this.cartList[this.currentIndex].id;
+				deleteCart({
+					idList: [id]
+				}).then(res => {
+					this.getPageData();
+				}).finally(() => {
+					this.showDelModal = false;
 				})
-				this.cartList = cartList
-				this.calcTotal(); //计算总价
 			},
 			//选中状态处理
 			check(type, index) {
@@ -172,9 +189,22 @@
 			},
 			//数量
 			numberChange(data, index) {
-				console.log(data)
-				this.cartList[index].number = data.value;
-				this.calcTotal();
+				console.log(this.cartList);
+				this.$refs.uToast.show({
+					type: 'loading',
+					title: '正在加载',
+					message: "正在加载",
+					duration: 1000
+				})
+				editCart({
+					productId:this.cartList[index].productId,
+					id: this.cartList[index].id,
+					quantity: data.value
+				}).then(res => {
+					this.getPageData()
+				}).finally(() => {
+
+				})
 			},
 			//删除弹窗
 			deleteCartItem(index) {
@@ -183,8 +213,15 @@
 			},
 			//清空
 			clearCart() {
-				this.cartList = [];
-				this.showDelModal2 = false;
+				let idList = this.cartList.map(item => item.id);
+				deleteCart({
+					idList
+				}).then(res => {
+					this.getPageData();
+				}).finally(() => {
+					this.showDelModal2 = false;
+				})
+
 			},
 			//计算总价
 			calcTotal() {
@@ -197,7 +234,7 @@
 				let checked = true;
 				list.forEach(item => {
 					if (item.checked === true) {
-						total += item.price * item.number;
+						total += item.price;
 					} else if (checked === true) {
 						checked = false;
 					}
@@ -211,32 +248,30 @@
 				let goodsData = [];
 				list.forEach(item => {
 					if (item.checked) {
-						goodsData.push({
-							attr_val: item.attr_val,
-							number: item.number
-						})
+						goodsData.push(item)
 					}
 				})
+				if (!goodsData.length) {
+					this.$u.toast('您还没有选择产品')
+					return false
+				}
+				this.$store.commit('updateTempCart',goodsData)
 				uni.navigateTo({
-					url:'/pages/orderSettlement/orderSettlement'
+					url: '/pages/checkout/checkout'
 				})
 			}
 		},
 		onShow() {
-			if(uni.getStorageSync('productId')){
-				this.leftIcon = 'arrow-left'
-			}else{
-				this.leftIcon = ''
-			}
+			this.getPageData()
 		},
-		onHide(){
+		onHide() {
 			uni.removeStorageSync('productId')
 		},
-		onPullDownRefresh(){
+		onPullDownRefresh() {
 			this.getPageData()
-			setTimeout(()=>{
+			setTimeout(() => {
 				uni.stopPullDownRefresh()
-			},1000)
+			}, 1000)
 		}
 	}
 </script>
@@ -244,6 +279,7 @@
 <style lang="scss">
 	.container {
 		padding-bottom: 140rpx;
+
 		/* 空白页 */
 		.empty {
 			position: fixed;
@@ -334,6 +370,32 @@
 			padding: 4rpx 10rpx;
 			font-size: 34rpx;
 			height: 50rpx;
+			z-index: 1;
+			color: #fff;
+		}
+
+		&.shixiao {
+			position: relative;
+
+			&::after {
+				content: '';
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				background-color: rgba(0, 0, 0, .4);
+			}
+		}
+
+		.shixiaoText {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			white-space: nowrap;
+			z-index: 10;
+			color: #fff;
 		}
 	}
 
@@ -393,10 +455,21 @@
 		.total-box {
 			flex: 1;
 			display: flex;
-			flex-direction: column;
+			justify-content: flex-end;
+			align-items: center;
 			text-align: right;
 			padding-right: 40rpx;
-
+			
+			.t1{
+				margin-right: 20rpx;
+			}
+			.t2{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			
 			.price {
 				color: $price-color;
 				font-weight: bold;

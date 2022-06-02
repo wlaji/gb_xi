@@ -126,17 +126,23 @@
 }
 /* 推荐 */
 .hot-section.data-v-57280228 {
-  -webkit-column-count: 2;
-          column-count: 2;
-  -webkit-column-gap: 20rpx;
-          column-gap: 20rpx;
-  padding: 0 20rpx;
-  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10rpx;
+  background-color: #fff;
 }
-.hot-section .hot-item.data-v-57280228 {
+.hot-section .product-item.data-v-57280228 {
   display: flex;
   flex-direction: column;
-  padding-bottom: 40rpx;
+  margin: 10rpx;
+  width: calc(50% - 20rpx);
+  background-color: #fff;
+  border-radius: 4px;
+}
+.hot-section .product-item .btm.data-v-57280228 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .hot-section .image-wrapper.data-v-57280228 {
   width: 100%;
@@ -145,10 +151,16 @@
 }
 .hot-section .title.data-v-57280228 {
   padding: 10rpx 0;
+  line-height: 30px;
 }
 .hot-section .price.data-v-57280228 {
   line-height: 1;
   color: #fa436a;
+  font-weight: 700;
+}
+.hot-section .num.data-v-57280228 {
+  color: #909193;
+  font-size: 12px;
 }
 .hot-section .originPrice.data-v-57280228 {
   margin-left: 10rpx;

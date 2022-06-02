@@ -1,22 +1,13 @@
 <template>
 	<view class="container">
-		<u-action-sheet :actions="list" title="选择性别" :show="show" cancelText="取消" :closeOnClickAction="true" @close="show=false" @select="showAction"></u-action-sheet>
 		<view class="top">
-			<u-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="80px" @click="uploadAvatar"></u-avatar>
+			<Avatar :src="form.headImg"></Avatar>
 			<text class="changeAvatar" @click="uploadAvatar">更改头像</text>
 		</view>
 		<view class="content">
 			<u-form labelPosition="left" :model="form" ref="form" labelWidth="70px" errorType="toast">
-				<u-form-item label="昵称" prop="nickname" borderBottom>
-					<u-input type="text" placeholder="填写您的昵称" v-model="form.nickname" border="none"></u-input>
-				</u-form-item>
-				<u-form-item label="性别" prop="sex" borderBottom @click="show=true">
-					<u-input type="text" placeholder="选择性别" v-model="form.sex" border="none" disabled
-						disabledColor="#ffffff">
-						<template slot="suffix">
-							<u-icon name="arrow-right"></u-icon>
-						</template>
-					</u-input>
+				<u-form-item label="昵称" prop="nickName" borderBottom>
+					<u-input type="text" placeholder="填写您的昵称" v-model="form.nickName" border="none"></u-input>
 				</u-form-item>
 			</u-form>
 			<view class="add-address-btn">
@@ -30,27 +21,31 @@
 	import {
 		ossUtils
 	} from "@/utils/oss";
+	import {
+		editMember
+	} from '@/api/auth.js';
+	import Avatar from '@/components/Avatar.vue'
 	export default {
 		data() {
 			return {
 				show: false,
 				form: {
-					nickname: '小鱼人',
-					sex: '女'
+					nickName: '',
+					headImg: ''
 				},
-				list: [{
-						name: '男'
-					},
-					{
-						name: '女'
-					}
-				]
+				rules: {
+					'nickName': [{
+						required: true,
+						message: '请输入昵称',
+						trigger: ['blur'],
+					}]
+				},
 			};
 		},
+		components: {
+			Avatar
+		},
 		methods: {
-			showAction(e) {
-				this.form.sex = e.name;
-			},
 			uploadAvatar() {
 				uni.chooseImage({
 					count: 1, //默认9
@@ -61,9 +56,7 @@
 							title: '上传中...'
 						});
 						ossUtils.uploadFile(res).then(url => {
-							this.$emit('addImg', url);
-						}).catch(err => {
-							console.log(err)
+							this.form.headImg = url;
 						}).finally(() => {
 							uni.hideLoading()
 						})
@@ -71,9 +64,25 @@
 				});
 			},
 			save() {
-
+				this.$refs.form.validate().then(() => {
+					editMember(this.form).then(res => {
+						this.$store.commit('updateUserInfo', res.data);
+						uni.$u.toast('修改成功');
+						uni.navigateBack()
+					})
+				}).catch(err => {
+					console.log(err)
+				})
 			}
-		}
+		},
+		onLoad() {
+			let userInfo = uni.getStorageSync('userInfo')
+			this.form.nickName = userInfo.nickName;
+			this.form.headImg = userInfo.headImg
+		},
+		onReady() {
+			this.$refs.form.setRules(this.rules);
+		},
 	}
 </script>
 
@@ -81,6 +90,10 @@
 	.container {
 		background-color: #fff;
 		padding: 20rpx;
+
+		/deep/ .u-line {
+			margin: 0 !important;
+		}
 
 		.top {
 			display: flex;

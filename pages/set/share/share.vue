@@ -52,13 +52,17 @@
 				finalPath: '',
 				userInfo: '',
 				canvasId: 'default_PosterCanvasId',
-				hbImg: 'https://rhskieapi.oss-cn-hangzhou.aliyuncs.com/webData/2022-01-04/20220104RhTJnWJk.jpg',
-				logoImg: 'https://rhskieapi.oss-cn-hangzhou.aliyuncs.com/webData/2022-01-28/20220128iKPChzJ5.png',
+				hbImg: 'https://customed-center.oss-accelerate.aliyuncs.com/web/quoteManage/20220524/20220524MZCQZeT3.jpg',
+				logoImg: 'https://customed-center.oss-accelerate.aliyuncs.com/web/quoteManage/20220524/20220524EMk3zyQb.png',
 			};
 		},
 		computed: {
 			shareUrl() {
-				return 'http://mia666.com/'
+				let userInfo = this.$store.state.userInfo;
+				if(!userInfo){
+					return '';
+				}
+				return `http://app.guoben.shop/register?num=${userInfo.recommendCode}`
 			}
 		},
 		methods: {

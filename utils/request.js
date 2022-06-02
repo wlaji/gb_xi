@@ -4,7 +4,7 @@ import {getCookie} from '@/utils/util'
 // 创建axios实例
 const service = axios.create({
 	baseURL: process.env.NODE_ENV === 'development' ?
-		'http://106.14.199.103:8088' : 'http://106.14.199.103:8088',
+		'http://139.196.204.139:8088' : 'http://139.196.204.139:8088',
 	timeout: 100000,
 	transformRequest: [(data) => {
 		data = JSON.stringify(data);

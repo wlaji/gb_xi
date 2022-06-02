@@ -13,7 +13,7 @@
 						<text @click="confirmUpdate(1)">后台下载</text>
 					</view>
 					<view class="right">
-						<text @click="close">取消</text>
+						<text @click="close" v-if="appUpdateInfo&&appUpdateInfo.bool!=1">取消</text>
 						<text @click="confirmUpdate(2)">更新</text>
 					</view>
 				</view>
@@ -54,7 +54,7 @@
 		},
 		computed: {
 			appUpdateInfo() {
-				return this.$store.state.appUpdateInfo
+				return this.$store.state.appUpdateInfo||{}
 			}
 		},
 		methods: {
@@ -67,10 +67,7 @@
 				this.$emit('update:showModal', false)
 			},
 			confirmUpdate(type) {
-				const {
-					platform
-				} = uni.$u.sys();
-				console.log(platform);
+				let platform = uni.getSystemInfoSync().platform;
 				this.$emit('update:showModal', false);
 				if (platform === 'android') {
 					if (type === 1) {
@@ -78,7 +75,14 @@
 							url: 'https://rhskieapi.oss-cn-hangzhou.aliyuncs.com/apk/lsf.apk', //仅为示例，并非真实的资源
 							success: res => {
 								if (res.statusCode === 200) {
-									console.log('下载完成')
+									plus.runtime.install(res.tempFilePath, {
+											force: false
+										}, function() {
+											plus.runtime.restart();
+										},
+										function(e) {
+											uni.$u.toast('更新失败');
+										});
 								}
 							},
 							fail: err => {
@@ -93,10 +97,18 @@
 								if (res.statusCode === 200) {
 									this.showModal2 = false;
 									this.percentage = 0;
-									console.log('下载完成')
+									plus.runtime.install(res.tempFilePath, {
+											force: false
+										}, function() {
+											plus.runtime.restart();
+										},
+										function(e) {
+											uni.$u.toast('更新失败');
+										});
 								}
 							},
 							fail: err => {
+								this.percentage = 0;
 								uni.$u.toast('下载失败');
 							}
 						});

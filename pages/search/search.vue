@@ -18,7 +18,6 @@
 			</view>
 		</view>
 		<view>
-			<u-toast ref="uToast"></u-toast>
 			<u-modal :show="showDelModal" :showCancelButton="true" closeOnClickOverlay content='确认删除全部历史记录?'
 				confirmText="确定" cancelText="取消" @confirm="confirmDel" @cancel="showDelModal = false;" @close="showDelModal=false"></u-modal>
 		</view>
@@ -40,7 +39,7 @@
 			toSearch() {
 				console.log(this.searchText)
 				if (this.searchText == '') {
-					this.$refs.uToast.show({message:'搜索的内容不能为空'})
+					this.$u.toast('搜索内容不能为空')
 				} else {
 					if (!this.searchHistoryList.includes(this.searchText)) {
 						this.searchHistoryList.unshift(this.searchText);

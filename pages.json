@@ -1,8 +1,20 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/login/login",
+			"name": "login",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"name": "home",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
 				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "国本健康商城"
@@ -37,16 +49,11 @@
 				"enablePullDownRefresh": true
 			}
 		}, {
-			"path": "pages/login/login",
-			"name": "login",
-			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTitleText": "登录",
-				"enablePullDownRefresh": false
-			}
-		}, {
 			"path": "pages/productCategory/productCategory",
 			"name": "productCategory",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
 				"navigationBarTitleText": "产品分类",
 				"enablePullDownRefresh": true
@@ -58,7 +65,6 @@
 				"loginAuth": true
 			},
 			"style": {
-				"navigationStyle": "custom",
 				"navigationBarTitleText": "购物车",
 				"enablePullDownRefresh": true
 			}
@@ -73,6 +79,9 @@
 		}, {
 			"path": "pages/search/search",
 			"name": "search",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
 				"navigationBarTitleText": "产品搜索",
 				"enablePullDownRefresh": false
@@ -80,9 +89,12 @@
 		}, {
 			"path": "pages/productList/productList",
 			"name": "productList",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
 				"navigationBarTitleText": "产品列表",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/checkout/checkout",
@@ -90,7 +102,7 @@
 				"loginAuth": true
 			},
 			"style": {
-				"navigationBarTitleText": "订单结算",
+				"navigationBarTitleText": "确认订单",
 				"enablePullDownRefresh": false
 			}
 		}, {
@@ -116,6 +128,9 @@
 		}, {
 			"path": "pages/searchResult/searchResult",
 			"name": "searchResult",
+			"meta": {
+				"loginAuth": true
+			},
 			"style": {
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "搜索结果",
@@ -312,7 +327,7 @@
 				"loginAuth": true
 			},
 			"style": {
-				"navigationBarTitleText": "更换号码",
+				"navigationBarTitleText": "手机号绑定",
 				"enablePullDownRefresh": false
 			}
 		}, {
@@ -346,22 +361,67 @@
 				"enablePullDownRefresh": false
 			}
 		}, {
-			"path": "pages/orderSettlement/orderSettlement",
-			"name": "orderSettlement",
-			"meta": {
-				"loginAuth": true
-			},
-			"style": {
-				"navigationBarTitleText": "确认订单",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
 			"path": "pages/findPwd/findPwd",
 			"name": "findPwd",
 			"style": {
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "找回密码",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/news/newsList",
+			"name": "newsList",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "公告列表",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/news/newsDetail",
+			"name": "newsDetail",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "公告详情",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/cancelOrder/cancelOrder",
+			"name": "cancelOrder",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "取消订单",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/tiHuoDian/tiHuoDian",
+			"name": "tiHuoDian",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "提货点",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/payAfter/payAfter",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "订单",
 				"enablePullDownRefresh": false
 			}
 

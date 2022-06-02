@@ -11,12 +11,15 @@
 			<view class="des">
 				信息仅用于身份验证和提现，我们将保障您的信息安全
 			</view>
-			<u-form labelPosition="left" :model="form" ref="form" labelWidth="60px" errorType="toast" borderBottom>
-				<u-form-item label="姓名" prop="name" borderBottom>
-					<u-input type="number" placeholder="真实姓名" v-model="form.name" border="none"></u-input>
+			<u-form labelPosition="left" :model="bindIdCardForm" ref="bindIdCardForm" labelWidth="100" errorType="toast"
+				borderBottom>
+				<u-form-item label="姓名" prop="userName" borderBottom>
+					<u-input type="text" placeholder="请输入真实姓名" v-model="bindIdCardForm.userName" border="none">
+					</u-input>
 				</u-form-item>
-				<u-form-item label="身份证" prop="idCard" borderBottom>
-					<u-input type="idcard" placeholder="身份证号码" v-model="form.idCard" border="none"></u-input>
+				<u-form-item label="身份证" prop="loginTel" borderBottom>
+					<u-input type="number" placeholder="请输入身份证号码" v-model="bindIdCardForm.identityCard" border="none">
+					</u-input>
 				</u-form-item>
 			</u-form>
 			<view style="margin-top:40rpx;">
@@ -27,52 +30,71 @@
 </template>
 
 <script>
+	import {
+		bindIdCard,
+		getUserInfo
+	} from '@/api/auth.js'
 	export default {
 		data() {
 			return {
 				loading: false,
-				form: {
-					name: '',
-					idCard: ''
+				bindIdCardForm: {
+					userName: '',
+					identityCard: '',
 				},
-				rules: {
-					name: {
+				bindIdCardFormRules: {
+					'userName': [{
 						required: true,
-						message: '请输入姓名',
-						trigger: ['blur'],
-					},
-					idCard: [{
-						required: true,
-						message: '请输入身份证号码',
+						message: '请输入真实姓名',
 						trigger: ['blur'],
 					}, {
 						validator: (rule, value, callback) => {
-							return uni.$u.test.idCard(value);
+							return uni.$u.test.chinese(value);
 						},
-						message: '身份证号码不正确',
+						message: '请输入正确的姓名',
 						trigger: ['blur'],
-					}]
+					}],
+					'identityCard': [{
+							required: true,
+							message: '请输入身份证号码',
+							trigger: ['blur'],
+						},
+						{
+							validator: (rule, value, callback) => {
+								return uni.$u.test.idCard(value);
+							},
+							message: '身份证号码不正确',
+							trigger: ['blur'],
+						}
+					]
 				},
 			};
 		},
 		methods: {
 			submit() {
-				this.$refs.form.validate().then(() => {
-					uni.$u.toast('表单验证成功');
+				this.$refs.bindIdCardForm.validate().then(() => {
 					this.loading = true;
-					setTimeout(() => {
+					bindIdCard(this.bindIdCardForm).then(res => {
+						uni.$u.toast('身份证绑定成功');
+						return getUserInfo();
+					}).then(userInfo => {
+						console.log(userInfo)
+						this.$store.commit('updateUserInfo', userInfo.data);
+						this.$nextTick(()=>{
+							uni.switchTab({
+								url:'/pages/index/index'
+							})
+						})
+					}).finally(() => {
 						this.loading = false;
-					}, 1000)
+					})
 				}).catch(err => {
 					console.log(err)
 				})
 			}
 		},
-		onLoad() {
-
-		},
 		onReady() {
-			this.$refs.form.setRules(this.rules);
+			this.$refs.bindIdCardForm.setRules(this.bindIdCardFormRules);
 		},
 	}
 </script>
@@ -83,6 +105,7 @@
 			margin: 0 !important;
 		}
 	}
+
 	.tips {
 		padding: 10rpx 20rpx;
 		display: flex;

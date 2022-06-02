@@ -1,25 +1,20 @@
 <template>
 	<view class="container">
 		<view class="tab">
-			<view :class="[{ active: activeIndex===index }, 'tab-item']" v-for="(item,index) in tabList" :key="index"
-				@click="tabClick(index)">{{item.text}}</view>
+			<view :class="[{ active: activeIndex===index }, 'tab-item']" v-for="(item,key,index) in tabList" :key="index"
+				@click="tabClick(index)">{{item}}</view>
 		</view>
 		<view class="content">
 			<swiper :current="activeIndex" class="swiper-box" duration="300" @change="changeTab">
 				<swiper-item class="tab-content" v-for="(tabItem,tabIndex) in tabList" :key="tabIndex">
 					<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
-						<template v-if="!productList.length">
-							<view class="no-result">
-								<u-empty mode="order"></u-empty>
-							</view>
-						</template>
-						<template v-else>
-							<view v-for="(item, index) in productList" :key="index" class="product-item-wrap" @click="toOrderDetail">
+						<template v-if="productList.length||loadDataStatus">
+							<view v-for="(item, index) in productList" :key="index" class="product-item-wrap">
 								<view class="product-title u-border-bottom">
-									<text>2019-04-26 11:37</text>
-									<text class="status">待付款</text>
+									<text>{{item.createTime}}</text>
+									<text class="status">{{tabList[item.status]}}</text>
 								</view>
-								<view class="product-item" v-for="(citem,cindex) in item.goodsList" :key="cindex">
+								<view class="product-item" v-for="(citem,cindex) in item.productList" :key="cindex">
 									<view class="left-img">
 										<u-image :showLoading="true" :src="citem.image" width="100%" height="200rpx"
 											radius="4px">
@@ -41,23 +36,26 @@
 									</view>
 								</view>
 								<view class="priceInfo">
-									<text class="totalPrice">总价:￥69.80</text>
-									<text class="discountPrice">优惠￥27.00</text>
-									<text class="realPrice">实付款￥42.80</text>
+									<text class="totalPrice">总价:￥{{item.orderPrice}}</text>
 								</view>
 								<view class="orderBtnGroup">
-									<view class="left">
+									<view class="left" @click="toOrderDetail(item.id)">
 										<text>更多</text>
 									</view>
 									<view class="right">
 										<!-- 	<button class="u-reset-button">加入购物车</button> -->
-										<button class="u-reset-button">取消订单</button>
-										<button class="u-reset-button zf">立即支付</button>
-										<button class="u-reset-button pj">评价</button>
+										<button class="u-reset-button" v-if="item.status<4" @click="cancelOrder">取消订单</button>
+										<button class="u-reset-button zf" v-if="item.status===1">立即支付</button>
+										<button class="u-reset-button pj" v-if="item.status===4">评价</button>
 									</view>
 								</view>
 							</view>
 							<u-loadmore :status="status" height="30px" />
+						</template>
+						<template v-else>
+							<view class="no-result">
+								<u-empty mode="order"></u-empty>
+							</view>
 						</template>
 					</scroll-view>
 				</swiper-item>
@@ -67,35 +65,49 @@
 </template>
 
 <script>
+	import {
+		userGetOrderList,
+		editOrderPayment,
+		getOrderInfo
+	} from '@/api/order.js'
 	export default {
 		data() {
 			return {
+				loadDataStatus: true,
 				activeIndex: 0,
-				tabList: [{
-						text: '全部'
-					},
-					{
-						text: '待付款'
-					},
-					{
-						text: '待发货'
-					},
-					{
-						text: '待收货'
-					},
-					{
-						text: '待评价'
-					}
-				],
 				productList: [],
 				status: 'loadmore',
-				page: 0
+				form: {
+					page: 1,
+					pageSize: 25,
+					status: null,
+				},
+				total: 0,
 			};
 		},
+		computed:{
+			tabList(){
+				return this.$store.state.orderStatus||[]
+			}
+		},
+		watch:{
+			activeIndex(newVal){
+				this.form.status = newVal?newVal:null;
+				this.form.page=1;
+				this.productList = [];
+				this.loadDataStatus = true;
+				this.getList()
+			}
+		},
 		methods: {
-			toOrderDetail(){
+			cancelOrder(){
 				uni.navigateTo({
-					url:'/pages/set/orderDetail/orderDetail'
+					url:'/pages/set/cancelOrder/cancelOrder'
+				})
+			},
+			toOrderDetail(id) {
+				uni.navigateTo({
+					url: `/pages/set/orderDetail/orderDetail?id=${id}`
 				})
 			},
 			//swiper 切换
@@ -107,21 +119,28 @@
 				this.activeIndex = index;
 			},
 			loadData() {
-				console.log('加载数据')
-				if (this.page >= 3) return;
-				this.status = 'loading';
-				this.page = ++this.page;
-				setTimeout(() => {
-					if (this.page >= 3) {
-						this.status = 'nomore';
-					} else {
-						this.status = 'loading';
+				if (this.productList.length >= this.total) {
+					this.status = 'noMore';
+					return;
+				}
+				this.form.page += 1;
+				this.getList()
+			},
+			getList() {
+				this.status = 'loading'
+				userGetOrderList(this.form).then(res => {
+					this.productList = this.productList.concat(res.data.list);
+					this.total = res.data.total;
+					if (this.productList.length >= this.total) {
+						this.status = 'noMore';
 					}
-				}, 2000)
-			}
+				}).finally(()=>{
+					this.loadDataStatus = false;
+				})
+			},
 		},
-		onLoad() {
-			this.productList = this.$json.orderList
+		onShow() {
+			this.getList();
 		}
 	}
 </script>

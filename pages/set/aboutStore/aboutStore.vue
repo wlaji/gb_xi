@@ -1,10 +1,9 @@
 <template>
 	<view class="container">
 		<view class="top">
-			<u-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="80px" shape="square"></u-avatar>
+			<u-avatar src="/static/image/logo.png" size="80px" shape="square"></u-avatar>
 		</view>
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
-			<u-cell title="给我们评分" isLink></u-cell>
 			<u-cell title="用户协议" isLink url="/pages/userAgreement/userAgreement"></u-cell>
 			<u-cell title="隐私政策" isLink url="/pages/privacyPolicy/privacyPolicy"></u-cell>
 			<u-cell title="检查更新" isLink @click="checkUpdate">
@@ -19,7 +18,7 @@
 </template>
 
 <script>
-	import updateDialog from '@/components/updateDialog.vue'
+	import updateDialog from '@/components/updateDialog.vue';
 	export default {
 		data() {
 			return {

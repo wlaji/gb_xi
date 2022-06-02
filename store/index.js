@@ -12,20 +12,54 @@ const store = new Vuex.Store({
 		newVersionCode:0,
 		currentVersionCode:0,
 		versionInfo:'',
-		appUpdateInfo:null
+		appUpdateInfo:null,
+		list:[
+			{
+				cateName:'秒杀',
+				productType:3,
+				iconName:'clock'
+			},
+			{
+				cateName:'0元购',
+				productType:2,
+				iconName:'rmb'
+			},
+			{
+				cateName:'推广专区',
+				productType:1,
+				iconName:'share'
+			},
+			
+			{
+				cateName:'金币兑换',
+				productType:4,
+				iconName:'rmb-circle'
+			}
+		],
+		orderStatus:{
+			0:'全部',
+			1:'待付款',
+			2:'待发货',
+			3:'待收货',
+			4:'已签收',
+			5:'已取消',
+		},
+		tempCart:uni.getStorageSync('tempCart')||[],
 	},
 	mutations: {
+		updateTempCart(state,data){
+			state.tempCart = data;
+			uni.setStorageSync('tempCart',data)
+		},
+		updateUserInfo(state,data){
+			state.userInfo = data;
+			uni.setStorageSync('userInfo',data);
+		},
 		login(state, res) {
 			state.hasLogin = true;
 			state.userInfo = res.userInfo;
-			uni.setStorage({
-				key: 'userInfo',
-				data: res.userInfo
-			});
-			uni.setStorage({
-				key: 'token',
-				data: res.token
-			});
+			uni.setStorageSync('userInfo',res.userInfo);
+			uni.setStorageSync('token',res.token)
 		},
 		logout(state) {
 			state.hasLogin = false;
@@ -44,6 +78,7 @@ const store = new Vuex.Store({
 		updateAppInfo(state,data){
 			console.log(data,'后台返回的更新结果')
 			state.appUpdateInfo = data;
+			state.newVersionCode = data.versions
 		}
 	},
 	getters: {

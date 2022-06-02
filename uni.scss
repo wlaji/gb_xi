@@ -1,3 +1,18 @@
 @import 'uview-ui/theme.scss';
-$price-color:#fa436a;
+$price-color:#ff4362;
 $primary-color:#E44273;
+
+@mixin container-100() {
+	/* #ifdef H5 */
+	page,
+	.container {
+		height: 100%;
+	}
+	/* #endif */
+	/* #ifndef H5 */
+	page,
+	.container {
+		height: 100vh;
+	}
+	/* #endif */
+}

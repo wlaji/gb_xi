@@ -10,6 +10,9 @@
         "usingComponents" : true,
         "nvueStyleCompiler" : "uni-app",
         "compilerVersion" : 3,
+        "compatible" : {
+            "ignoreVersion" : true
+        },
         "splashscreen" : {
             "alwaysShowBeforeRender" : true,
             "waiting" : true,
@@ -52,22 +55,27 @@
             },
             /* ios打包配置 */
             "ios" : {
-                "idfa" : false
+                "idfa" : false,
+                "capabilities" : {
+                    "entitlements" : {
+                        "com.apple.developer.associated-domains" : [ "applinks:static-8b1fbb37-a9e8-487b-85d5-09e482e099a5.bspapp.com" ]
+                    }
+                }
             },
             /* SDK配置 */
             "sdkConfigs" : {
                 "ad" : {},
                 "oauth" : {
                     "weixin" : {
-                        "appid" : "",
-                        "appsecret" : "",
-                        "UniversalLinks" : ""
+                        "appid" : "wx07e43cd3f3cd4f8b",
+                        "appsecret" : "5b0d0ec2c2112f8117d81caf116762a3",
+                        "UniversalLinks" : "https://static-8b1fbb37-a9e8-487b-85d5-09e482e099a5.bspapp.com/uni-universallinks/__UNI__106BAD1/"
                     }
                 },
                 "share" : {
                     "weixin" : {
                         "appid" : "",
-                        "UniversalLinks" : ""
+                        "UniversalLinks" : "https://static-8b1fbb37-a9e8-487b-85d5-09e482e099a5.bspapp.com/uni-universallinks/__UNI__106BAD1/"
                     }
                 },
                 "maps" : {
@@ -80,6 +88,38 @@
             },
             "splashscreen" : {
                 "useOriginalMsgbox" : true
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "unpackage/res/icons/72x72.png",
+                    "xhdpi" : "unpackage/res/icons/96x96.png",
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                },
+                "ios" : {
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "ipad" : {
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                    },
+                    "iphone" : {
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                    }
+                }
             }
         }
     },
@@ -105,5 +145,6 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "_spaceID" : "8b1fbb37-a9e8-487b-85d5-09e482e099a5"
 }

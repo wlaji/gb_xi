@@ -1,25 +1,28 @@
 <template>
 	<view class="container">
+		<BindInfo></BindInfo>
 		<view>
-			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false" @click="toSearch"></u-search>
+			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false"
+				@click="toSearch"></u-search>
+		</view>
+		<view class="zqList">
+			<view class="zqItem" v-for="item in zqList" :key="item.cateName" @click="tozq(item)">
+				<u-icon :name="item.iconName" color="#fa436a" size="30"></u-icon>
+				<text>{{item.cateName}}</text>
+			</view>
 		</view>
 		<view class="content">
 			<view class="left-aside">
-				<view v-for="(item,index) in flist" :key="item.id" class="f-item" :class="{active: index === currentIndex}"
-					@click="tabtap(item,index)">
+				<view v-for="(item,index) in flist" :key="item.id" class="f-item"
+					:class="{active: index === currentIndex}" @click="tabtap(item,index)">
 					{{item.cateName}}
 				</view>
 			</view>
 			<view class="right-content">
-				<u-swiper :list="carouselList" keyName="src" circular indicator indicatorMode="dot"
-					height="250rpx" radius="5"></u-swiper>
-				<view v-for="item in slist" :key="item.id" class="s-list" @click="toProductList" v-if="item.productList&&item.productList.length">
-					<text class="s-item">{{item.cateName}}</text>
-					<view class="t-list">
-						<view class="t-item" v-for="titem in item.productList" :key="titem.id">
-							<u-image :showLoading="true" :src="titem.picture" width="140rpx" height="140rpx"></u-image>
-							<text style="margin-top: 4px;">{{titem.name}}</text>
-						</view>
+				<view class="t-list">
+					<view class="t-item" v-for="titem in slist" :key="titem.id" @click="toProductList(titem)">
+						<u-image :showLoading="true" src="/static/image/2.jpg" width="140rpx" height="140rpx"></u-image>
+						<text style="margin-top: 10rpx;">{{titem.cateName}}</text>
 					</view>
 				</view>
 			</view>
@@ -30,14 +33,23 @@
 <script>
 	import {
 		getAllProductCate
-	} from '@/api/product.js'
+	} from '@/api/product.js';
+	import BindInfo from '@/components/BindInfo.vue'
 	export default {
 		data() {
 			return {
 				currentIndex: 0,
 				slist: [],
 				flist: [],
-				carouselList:[]
+				carouselList: []
+			}
+		},
+		components: {
+			BindInfo
+		},
+		computed:{
+			zqList(){
+				return this.$store.state.list
 			}
 		},
 		onLoad() {
@@ -45,33 +57,38 @@
 			this.getPageData()
 		},
 		methods: {
-			getPageData(){
+			getPageData() {
 				//获取所有产品分类
-				getAllProductCate().then(res=>{
+				getAllProductCate().then(res => {
 					this.flist = res.data;
 					this.slist = this.flist[this.currentIndex].children;
 				})
 			},
-			toProductList(){
+			toProductList(item) {
 				uni.navigateTo({
-					url:'/pages/productList/productList'
+					url: `/pages/productList/productList?cateId=${item.id}&productType=0&cateName=${item.cateName}`
 				})
 			},
-			toSearch(){
+			toSearch() {
 				uni.navigateTo({
-					url:'/pages/search/search'
+					url: '/pages/search/search'
 				})
 			},
 			tabtap(item, index) {
 				this.currentIndex = index;
 				this.slist = this.flist[this.currentIndex].children;
+			},
+			tozq(item){
+				uni.navigateTo({
+					url: `/pages/productList/productList?cateId=null&productType=${item.productType}&cateName=${item.cateName}`
+				})
 			}
 		},
-		onPullDownRefresh(){
+		onPullDownRefresh() {
 			this.getPageData()
-			setTimeout(()=>{
+			setTimeout(() => {
 				uni.stopPullDownRefresh()
-			},1000)
+			}, 1000)
 		}
 	}
 </script>
@@ -81,23 +98,44 @@
 	page {
 		height: 100%;
 	}
-	
+
 	.container {
 		height: 100%
 	}
-	
+
 	/* #endif */
-	.container{
-		display:flex;
-		flex-direction:column;
+	.container {
+		display: flex;
+		flex-direction: column;
 		/* #ifndef H5 */
 		height: 100vh;
 		/* #endif */
 	}
-	.content {
-		overflow:auto;
-		flex:1;
+	
+	.zqList{
 		display: flex;
+		margin-bottom: 10rpx;
+		.zqItem{
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			flex-basis: calc(25% - 20rpx);
+			margin:10rpx;
+			height: 150rpx;
+			background-color: #fefefe;
+			border-radius: 10px;
+			text{
+				margin-top: 10rpx;
+			}
+		}
+	}
+
+	.content {
+		overflow: auto;
+		flex: 1;
+		display: flex;
+
 		.left-aside {
 			overflow: auto;
 			flex-shrink: 0;
@@ -133,39 +171,35 @@
 				}
 			}
 		}
-		
-		.right-content{
+
+		.right-content {
 			overflow: auto;
-			flex:1;
+			flex: 1;
 			margin-left: 20rpx;
 			margin-right: 20rpx;
-			.s-item{
-				display: flex;
-				align-items: center;
-				height: 70rpx;
-				padding-top: 8rpx;
-				font-size: 28rpx;
-			}
-			.t-list{
+			border-radius: 8px;
+			background: #fff;
+
+			.t-list {
 				display: flex;
 				flex-wrap: wrap;
 				width: 100%;
-				background: #fff;
 				padding-top: 12rpx;
-				&:after{
+
+				&:after {
 					content: '';
 					flex: 99;
 					height: 0;
 				}
 			}
-			.t-item{
-				flex-shrink: 0;
+
+			.t-item {
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				flex-direction: column;
 				width: calc(100% / 3);
-				padding:5rpx;
+				padding: 5rpx;
 				font-size: 26rpx;
 				color: #666;
 				padding-bottom: 20rpx;

@@ -1,3 +1,4 @@
+import permision from "@/js_sdk/wa-permission/permission.js";
 export const getCookie = (key) => {
 	return uni.getStorageSync(key)
 }
@@ -41,4 +42,65 @@ export const saveHeadImgFile = (base64, quality = 1) => {
 			reject('加载图片失败：' + JSON.stringify(e));
 		});
 	})
+}
+
+export const getLocation = async (cb) => {
+	// #ifdef APP-PLUS
+	if (permision.checkSystemEnableLocation()) {
+		let platform = uni.getSystemInfoSync().platform,
+			result = 1;
+		if (platform === 'android') {
+			result = await permision.requestAndroidPermission('android.permission.ACCESS_FINE_LOCATION')
+		} else if (platform === 'ios') {
+			result = await permision.judgeIosPermission("location")
+		}
+		if (result == 1) {
+			uni.chooseLocation({
+				success: function(res) {
+					cb({
+						code: 200,
+						msg: '',
+						data: res
+					})
+				}
+			});
+		} else {
+			cb({
+				code: 401,
+				msg: 'App没有获取位置的权限, 是否去开启',
+				data: null
+			})
+		}
+	} else {
+		cb({
+			code: 401,
+			msg: '系统定位权限未开启,请先开启手机定位',
+			data: null
+		})
+	}
+	// #endif
+	// #ifdef MP-WEIXIN
+	let that = this;
+	uni.authorize({
+		scope: 'scope.userLocation',
+		success() { //1.1 允许授权
+			uni.chooseLocation({
+				success: function(res) {
+					cb({
+						code: 200,
+						msg: '',
+						data: res
+					})
+				}
+			});
+		},
+		fail(e) { //1.2 拒绝授权
+			cb({
+				code: 401,
+				msg: '程序没有获取位置的权限, 是否去开启',
+				data: null
+			})
+		}
+	})
+	// #endif
 }

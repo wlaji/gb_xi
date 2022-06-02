@@ -1,9 +1,13 @@
 <template>
 	<view>
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
-			<u-cell size="large" icon="https://cdn.uviewui.com/uview/album/1.jpg"
-				:iconStyle="{'width':'80rpx','height':'80rpx','borderRadius':'50%','marginRight':'20rpx'}" title="小鱼人"
-				label="编号:1527" isLink url="/pages/set/infoSet/infoSet"></u-cell>
+			<u-cell size="large"
+				:iconStyle="{'width':'80rpx','height':'80rpx','borderRadius':'50%','marginRight':'20rpx'}"
+				:title="userInfo.nickName" :label="userInfo.recommendCode" isLink url="/pages/set/infoSet/infoSet">
+				<view slot="icon">
+					<Avatar :size="50" :src="userInfo.headImg"></Avatar>
+				</view>
+			</u-cell>
 			<u-cell title="我的收货地址" isLink url="/pages/set/addressManage/addressManage"></u-cell>
 		</u-cell-group>
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
@@ -18,7 +22,7 @@
 			</u-cell>
 			<!-- #endif -->
 		</u-cell-group>
-		
+
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
 			<u-cell title="关于国本商城" isLink url="/pages/set/aboutStore/aboutStore"></u-cell>
 		</u-cell-group>
@@ -33,6 +37,7 @@
 </template>
 
 <script>
+	import Avatar from '@/components/Avatar.vue'
 	export default {
 		data() {
 			return {
@@ -40,13 +45,21 @@
 				showModal1: false,
 			};
 		},
+		computed: {
+			userInfo() {
+				return this.$store.state.userInfo || {}
+			}
+		},
+		components: {
+			Avatar
+		},
 		methods: {
 			toLogOut() {
 				this.showModal1 = false;
 				this.$store.commit('logout');
-				uni.switchTab({
-					url: '/pages/index/index'
-				});
+				uni.reLaunch({
+					url: '/pages/login/login'
+				})
 			},
 			changeMsgPushStatus() {
 

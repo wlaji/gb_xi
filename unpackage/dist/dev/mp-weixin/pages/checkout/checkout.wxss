@@ -1,0 +1,89 @@
+@charset "UTF-8";
+.add-address-btn.data-v-a037f574 {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 20rpx;
+  background-color: #fff;
+  height: 140rpx;
+}
+.u-slot-title.data-v-a037f574,
+.u-slot-title2.data-v-a037f574 {
+  font-weight: 700;
+}
+.u-slot-title2.data-v-a037f574 {
+  color: #909193;
+}
+.container.data-v-a037f574 {
+  padding: 20rpx;
+  padding-bottom: 150rpx;
+}
+.part.data-v-a037f574 {
+  overflow: hidden;
+  background-color: #fff;
+  margin-bottom: 20rpx;
+  border-radius: 10px;
+}
+/* 购物车列表项 */
+.cart-item.data-v-a037f574 {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 20rpx;
+  background-color: #fff;
+}
+.cart-item .rightContent.data-v-a037f574 {
+  display: flex;
+  flex: 1;
+}
+.cart-item .image-wrapper.data-v-a037f574 {
+  width: 150rpx;
+  height: 150rpx;
+  flex-shrink: 0;
+  position: relative;
+}
+.cart-item .item-right.data-v-a037f574 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 0;
+  overflow: hidden;
+  position: relative;
+  padding-left: 30rpx;
+}
+.cart-item .item-right .t1.data-v-a037f574,
+.cart-item .item-right .t2.data-v-a037f574 {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+.cart-item .item-right .t2.data-v-a037f574 {
+  color: #909193;
+}
+.popupCon.data-v-a037f574 {
+  position: relative;
+  height: 800rpx;
+  padding: 0 20rpx;
+  display: flex;
+  flex-direction: column;
+}
+.popupCon .title.data-v-a037f574 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  font-weight: 700;
+  font-size: 16px;
+}
+.popupCon .con.data-v-a037f574 {
+  overflow: auto;
+  flex: 1;
+  height: 0;
+}
+.popupCon .btn-bottom.data-v-a037f574 {
+  padding: 20rpx 0;
+}
+

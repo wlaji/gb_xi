@@ -57,7 +57,7 @@
 				<view>
 					<u-button type="primary" color="#888" iconColor="#3c9cff"
 						:customStyle="{'borderRadius':'50%','width':'30px','height':'30px','padding':'10px'}" plain
-						icon="weixin-fill" openType="getPhoneNumber" @getphonenumber="getPhoneNumber"></u-button>
+						icon="weixin-fill" @click="wxLogin"></u-button>
 				</view>
 			</view>
 			还没有账号?
@@ -80,7 +80,7 @@
 		data() {
 			return {
 				inputType: 'password',
-				status: 1,
+				status: 2,
 				showModal2: false,
 				tips: '',
 				loading: false,
@@ -194,6 +194,7 @@
 							loginTel: this.form.loginTel,
 							code: this.form.code
 						}).then(res => {
+							console.log(res)
 							this.$store.commit('login', res.data); // vuex的方法
 							uni.switchTab({
 								url: '/pages/index/index'
@@ -239,6 +240,58 @@
 				} else {
 					uni.$u.toast('倒计时结束后再发送');
 				}
+			},
+			
+			//微信快捷登录
+			wxLogin() {
+				console.log(321321)
+				let that = this
+				uni.getProvider({
+					service: 'oauth',
+					success: function(res) {
+						if (res.provider.indexOf('weixin') > -1) {
+							uni.login({
+								provider: 'weixin',
+								success: loginRes => {
+									// 获取用户信息
+									uni.showLoading({
+										title: '登录中...'
+									})
+									setTimeout(function() {
+										uni.hideLoading();
+									}, 1000);
+									uni.getUserInfo({
+										provider: 'weixin',
+										success: function(infoRes) {
+											console.log(infoRes)
+											byWx({
+												openId: infoRes.userInfo
+													.openId,
+												nickName: infoRes.userInfo
+													.nickName,
+												wxUnionId: infoRes.userInfo
+													.unionId
+											}).then(res => {
+												that.$store.commit('login', res.data); // vuex的方法
+												uni.switchTab({
+													url: '/pages/index/index'
+												});
+											}).catch(err => {
+												uni.$u.toast('微信登录失败');
+											})
+										},
+										fail() {
+											uni.$u.toast('获取用户信息失败');
+										}
+									});
+								},
+								fail: (err) => {
+									uni.$u.toast('微信登录失败');
+								}
+							});
+						}
+					}
+				})
 			},
 		},
 

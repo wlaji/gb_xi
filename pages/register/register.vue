@@ -323,7 +323,7 @@
 		text-align: center;
 		font-size: 12px;
 		color: $u-tips-color;
-
+		z-index: 100;
 		text {
 			margin-left: 10rpx;
 			color: $u-primary;

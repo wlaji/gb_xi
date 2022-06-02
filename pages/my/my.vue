@@ -5,40 +5,34 @@
 			</u-navbar>
 		</view>
 		<view class="avatar">
-			<u-avatar src="https://cdn.uviewui.com/uview/album/1.jpg" size="70"></u-avatar>
+			<view @click="toSetAvatar">
+				<Avatar :src="userInfo.headImg"></Avatar>
+			</view>
 			<view class="rightArea">
 				<view class="nickname">
 					{{userInfo.nickName||'国本用户'}}
 				</view>
 				<view class="bh">
-					邀请码:{{userInfo.recommendCode}} <i class="iconfont icon-copy" style="font-size:24px" @click="copyCode(userInfo.recommendCode)"></i>
+					邀请码:{{userInfo.recommendCode}} <i class="iconfont icon-copy" style="font-size:24px"
+						@click="copyCode(userInfo.recommendCode)"></i>
 				</view>
-				
+
 			</view>
 		</view>
 		<view class="part part1">
 			<view class="top">
 				<u-icon name="level" size="25" color="#c2a160"></u-icon>
-				<text style="margin-left:10rpx;">国本商城 (V1会员)</text>
+				<text style="margin-left:10rpx;">国本商城 ({{userInfo.userLevelText}})</text>
 			</view>
 			<view class="bottom">
 				<view class="b1">
-					<text>￥0.02</text>
-					<text>累计消费</text>
-				</view>
-				<u-line direction="col" length="50rpx"></u-line>
-				<view class="b1">
-					<text>￥3300.00</text>
-					<text>奖金</text>
-				</view>
-				<view class="b1">
-					<text>3300.00</text>
+					<text>{{userInfo.points}}</text>
 					<text>积分</text>
 				</view>
 				<u-line direction="col" length="50rpx"></u-line>
 				<view class="b1">
-					<text>￥3300.00</text>
-					<text>团队业绩</text>
+					<text>￥{{userInfo.funds}}</text>
+					<text>余额</text>
 				</view>
 			</view>
 		</view>
@@ -72,11 +66,11 @@
 			</view>
 		</view>
 		<view class="part history">
-			<u-cell-group :border="false">
+			<!-- <u-cell-group :border="false">
 				<u-cell icon="clock-fill" iconStyle="color:#5EBA40;font-size:24px;" title="浏览历史" :border="false">
 				</u-cell>
-			</u-cell-group>
-			<view class="historyItemWrap">
+			</u-cell-group> -->
+			<!-- <view class="historyItemWrap">
 				<u-scroll-list indicator indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
 					<view v-for="(item, index) in goodsList" :key="index" class="history-item"
 						@click="navToDetailPage(item)">
@@ -88,7 +82,7 @@
 						</view>
 					</view>
 				</u-scroll-list>
-			</view>
+			</view> -->
 			<u-cell-group :border="false">
 				<u-cell icon="share" iconStyle="color:#9789F7;font-size:24px;" title="分享好友" isLink
 					url="/pages/set/share/share" value="分享赚米"></u-cell>
@@ -98,16 +92,23 @@
 					url="/pages/set/marketing/marketing" value="查看返佣"></u-cell>
 				<u-cell icon="red-packet" iconStyle="color:#F66D74;font-size:24px;" title="积分管理" isLink
 					url="/pages/set/jifenManage/jifenManage"></u-cell>
+				<u-cell icon="man-add-fill" iconStyle="color:#F66D74;font-size:24px;" title="我的团队" isLink
+					url="/pages/set/team/team"></u-cell>
 				<!-- <u-cell icon="plus-people-fill" iconStyle="color:#FFB273;font-size:24px;" title="积分明细" isLink
 					url="/pages/set/team/team"></u-cell> -->
-				<u-cell icon="star-fill" iconStyle="color:#fa436a;font-size:24px;" title="我的收藏" isLink
+				<!-- <u-cell icon="star-fill" iconStyle="color:#fa436a;font-size:24px;" title="我的收藏" isLink
 					url="/pages/set/collect/collect"></u-cell>
 				<u-cell icon="bell" iconStyle="color:#54B4EF;font-size:24px;" title="留言管理" isLink
 					url="/pages/set/msg/msg">
 					<u-badge slot="value" max="99" value="99"></u-badge>
-				</u-cell>
-				<u-cell icon="setting" iconStyle="color:#2b85e4;font-size:24px;" title="设置" :border="false" isLink
+				</u-cell> -->
+				<u-cell icon="setting" iconStyle="color:#2b85e4;font-size:24px;" title="设置" isLink
 					url="/pages/set/set/set"></u-cell>
+			</u-cell-group>
+
+			<u-cell-group style="margin-top: 40rpx;">
+				<u-cell icon="map" iconStyle="color:#9789F7;font-size:24px;" title="提货点管理" isLink
+					url="/pages/set/tiHuoDian/tiHuoDian"></u-cell>
 			</u-cell-group>
 		</view>
 	</view>
@@ -117,6 +118,7 @@
 	import {
 		register
 	} from '@/api/index.js'
+	import Avatar from '@/components/Avatar.vue';
 	export default {
 		data() {
 			return {
@@ -125,26 +127,30 @@
 				goodsList: []
 			}
 		},
-		computed:{
-			userInfo(){
-				return this.$store.state.userInfo
+		components: {
+			Avatar,
+		},
+		computed: {
+			userInfo() {
+				return this.$store.state.userInfo || {}
 			}
 		},
 		onLoad() {
 			this.goodsList = this.$json.goodsList
-			this.getPageData()
 			console.log(this.$store.state.userInfo)
 		},
 		methods: {
-			getPageData() {
-				
+			toSetAvatar(){
+				uni.navigateTo({
+					url:'/pages/set/infoSet/infoSet'
+				})
 			},
 			navToDetailPage() {
 				uni.navigateTo({
 					url: '/pages/productDetail/productDetail'
 				})
 			},
-			copyCode(value){
+			copyCode(value) {
 				uni.setClipboardData({
 					data: value,
 					success: () => {
@@ -161,7 +167,6 @@
 			}
 		},
 		onPullDownRefresh() {
-			this.getPageData()
 			setTimeout(() => {
 				uni.stopPullDownRefresh()
 			}, 1000)
@@ -233,7 +238,7 @@
 			flex-wrap: wrap;
 			align-items: center;
 			justify-content: center;
-			height: 250rpx;
+			height: 180rpx;
 
 			.b1 {
 				display: flex;

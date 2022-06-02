@@ -11,11 +11,6 @@ const router = createRouter({
 		level,
 		...args
 	}) => {
-		console.log({
-			type,
-			level,
-			...args
-		})
 		// #ifdef APP-PLUS
 		if (type === 3) {
 			router.$lockStatus = false;
@@ -29,12 +24,19 @@ const whiteList = ['login'];
 router.beforeEach((to, from, next) => {
 	const isLogin = uni.getStorageSync('token') ;
 	if (isLogin) {
-		next()
+		if (to.name === 'login') {
+			next({
+				name: 'home',
+				NAVTYPE: 'pushTab'
+			})
+		}else{
+			next()
+		}
 	} else {
 		if (to.meta.loginAuth) {
 			next({
 				name: 'login',
-				NAVTYPE: 'push'
+				NAVTYPE: 'replaceAll'
 			})
 		} else {
 			next()

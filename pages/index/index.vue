@@ -1,18 +1,25 @@
 <template>
 	<view class="container">
+		<BindInfo></BindInfo>
 		<view class="content">
 			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false"
 				@click="toSearch"></u-search>
 			<!-- 头部轮播 -->
 			<view class="carousel-section">
-				<u-swiper class="swiper" :list="carouselList" keyName="src" circular indicator height="400rpx"
+				<u-swiper class="swiper" :list="carouselList" keyName="url" circular indicator height="400rpx"
 					radius="5"></u-swiper>
+			</view>
+			<view style="margin-bottom:20rpx;">
+				<u-notice-bar :text="newsList" direction="column" mode="link" bgColor="#eaeef1" color="#333"
+					url="/pages/news/newsList">
+				</u-notice-bar>
 			</view>
 			<view class="category">
 				<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
 					<view v-for="(item, index) in categoryList" :key="index" class="category-item" @click="toCategory">
-						<!-- <u-image :showLoading="true" src="/static/image/2.jpg" width="50" height="50" shape="circle"></u-image> -->
-						<text style="margin-top: 4px;width: 100%;" class="u-line-1">{{item.cateName}}321321321</text>
+						<u-image :showLoading="true" src="/static/image/2.jpg" width="50" height="50" shape="circle">
+						</u-image>
+						<text style="margin-top: 4px;width: 100%;" class="u-line-1">{{item.cateName}}</text>
 					</view>
 					<view class="category-item" @click="toCategory">
 						<u-icon size="50" name="more-circle-fill" color="#2b85e4"></u-icon>
@@ -20,83 +27,108 @@
 					</view>
 				</u-scroll-list>
 			</view>
-
 			<!-- 			<view class="ad-1">
 				<u-image :showLoading="true" src="/static/temp/ad1.jpg" width="100%" height="210rpx"
 					mode="scrollToFill"></u-image>
 			</view> -->
 
-			<!-- 0元购 -->
-			<view class="hot-header">
-				<i class="iconfont icon-xianshitejia" style="font-size:30px;margin-right: 20rpx;color:#fa436a"></i>
+			<!-- 秒杀专区 -->
+			<view class="hot-header" @click="tozq(3,'秒杀')">
+				<u-icon name="clock" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
 				<view class="tit-box">
-					<text class="tit">0元购专区</text>
-				</view>
-				<u-icon name="arrow-right"></u-icon>
-			</view>
-			<view class="seckill-section">
-				<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
-					<view v-for="(item, index) in goodsList" :key="index" class="floor-item"
-						@click="navToDetailPage(item)">
-						<u-image :showLoading="true" :src="item.image" width="150rpx" height="150rpx" radius="4px">
-						</u-image>
-						<text class="title u-line-1" style="display: block;font-size:13px;">{{item.title}}</text>
-						<view>
-							<text class="price">￥0</text>
-						</view>
-					</view>
-				</u-scroll-list>
-			</view>
-
-			<!-- 分类精选 -->
-			<view class="hot-header">
-				<i class="iconfont icon-fenlei" style="font-size:30px;margin-right: 20rpx;color:#fa436a"></i>
-				<view class="tit-box">
-					<text class="tit">分类精选</text>
+					<text class="tit">秒杀专区</text>
 				</view>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="category-section">
-				<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
-					<view v-for="(item, index) in goodsList" :key="index" class="cate-item"
-						@click="navToDetailPage(item)">
-						<view class="image-wrapper">
-							<u-image :showLoading="true" :src="item.image" width="100%" height="330rpx" radius="4px">
-							</u-image>
-						</view>
-						<text class="title u-line-1" style="display: block;">{{item.title}}</text>
-						<view>
-							<text class="price">￥{{item.price}}</text>
-							<text class="originPrice">￥{{item.price}}</text>
-						</view>
-					</view>
-				</u-scroll-list>
+				<template v-if="productList['秒杀专区'].length">
+					<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+						<template v-for="(product,index) in productList['秒杀专区']">
+							<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
+						</template>
+					</u-scroll-list>
+				</template>
+				<template v-else>
+					<u-empty mode="list"></u-empty>
+				</template>
+			</view>
+
+			<!-- 0元购 -->
+			<view class="hot-header" @click="tozq(2,'0元购')">
+				<u-icon name="rmb" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
+				<view class="tit-box">
+					<text class="tit">0元购</text>
+				</view>
+				<u-icon name="arrow-right"></u-icon>
+			</view>
+			<view class="category-section">
+				<template v-if="productList['0元购'].length">
+					<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+						<template v-for="(product,index) in productList['0元购']">
+							<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
+						</template>
+					</u-scroll-list>
+				</template>
+				<template v-else>
+					<u-empty mode="list"></u-empty>
+				</template>
+			</view>
+			<!-- 推广专区 -->
+			<view class="hot-header" @click="tozq(1,'推广专区')">
+				<u-icon name="share" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
+				<view class="tit-box">
+					<text class="tit">推广专区</text>
+				</view>
+				<u-icon name="arrow-right"></u-icon>
+			</view>
+			<view class="category-section">
+				<template v-if="productList['推广'].length">
+					<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+						<template v-for="(product,index) in productList['推广']">
+							<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
+						</template>
+					</u-scroll-list>
+				</template>
+				<template v-else>
+					<u-empty mode="list"></u-empty>
+				</template>
+			</view>
+			<!-- 金币兑换 -->
+			<view class="hot-header" @click="tozq(4,'金币兑换')">
+				<u-icon name="rmb-circle" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
+				<view class="tit-box">
+					<text class="tit">金币兑换</text>
+				</view>
+				<u-icon name="arrow-right"></u-icon>
+			</view>
+			<view class="category-section">
+				<template v-if="productList['金币兑换'].length">
+					<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+						<template v-for="(product,index) in productList['金币兑换']">
+							<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
+						</template>
+					</u-scroll-list>
+				</template>
+				<template v-else>
+					<u-empty mode="list"></u-empty>
+				</template>
 			</view>
 
 			<!-- 推荐 -->
-			<view class="hot-header">
+			<view class="hot-header" @click="toCategory">
 				<i class="iconfont icon-remen" style="font-size:30px;margin-right: 20rpx;color:#fa436a"></i>
 				<view class="tit-box">
 					<text class="tit">热门推荐</text>
 				</view>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
-
 			<view class="hot-section">
-				<view v-for="(item, index) in productList" :key="index" class="hot-item" @click="navToDetailPage(item)">
-					<view class="image-wrapper">
-						<u-image :showLoading="true" :src="item.image" width="100%" height="330rpx" radius="4px">
-						</u-image>
-					</view>
-					<text class="title u-line-2" style="display: block;">{{item.productName}}</text>
-					<view>
-						<text class="price">￥{{item.price}}</text>
-						<text class="originPrice">￥{{item.price}}</text>
-					</view>
-				</view>
+				<template v-for="(product,index) in productList['产品推荐']">
+					<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
+				</template>
 			</view>
 		</view>
-		<view class="login-alert" v-if="!isLogin">
+		<view class="login-alert" v-if="false">
 			<view class="left">
 				登录国本商城打开精彩世界
 			</view>
@@ -107,9 +139,14 @@
 </template>
 
 <script>
+	import checkUpdateApp from '@/utils/appUpdate.js';
 	import updateDialog from '@/components/updateDialog.vue';
+	import ProductItem from '@/components/ProductItem.vue';
+	import BindInfo from '@/components/BindInfo.vue'
 	import {
 		getAdvertising,
+		getArticle,
+		getRecommend
 	} from '@/api/public.js'
 	import {
 		getAllProductCate,
@@ -118,24 +155,33 @@
 	export default {
 		data() {
 			return {
+				newsList: [],
 				showModal: false,
-				timeData: {},
 				carouselList: [],
-				goodsList: [],
 				indicator: true,
 				categoryList: [],
-				productList: [],
-				form: {
-					keyword: null,
-					categoryId: null,
-					page: 1,
-					pageSize: 25
-				}
+				productList: {
+					'0元购': [],
+					'产品推荐': [],
+					'推广': [],
+					'秒杀专区': [],
+					'金币兑换': []
+				},
 			};
 		},
 
 		components: {
-			updateDialog
+			updateDialog,
+			ProductItem,
+			BindInfo
+		},
+
+		watch: {
+			'$store.state.appUpdateInfo': function(val) {
+				if (val) {
+					this.showModal = true;
+				}
+			}
 		},
 
 		computed: {
@@ -145,26 +191,36 @@
 		},
 
 		onLoad() {
-			this.getPageData()
+			this.getPageData();
+			checkUpdateApp();
 		},
 		methods: {
+			tozq(productType, cateName) {
+				uni.navigateTo({
+					url: `/pages/productList/productList?cateId=null&productType=${productType}&cateName=${cateName}`
+				})
+			},
 			getPageData() {
 				//获取banner
 				getAdvertising({
 					categoryName: 'home_banner'
 				}).then(res => {
 					this.carouselList = res.data;
-					this.carouselList = this.$json.carouselList;
-				})
+				});
+				getArticle({
+					categoryName: 'news'
+				}).then(res => {
+					res.data.forEach(item => {
+						this.newsList.push(item.title);
+					})
+				});
 				//获取所有产品分类
 				getAllProductCate().then(res => {
 					this.categoryList = res.data;
 				})
-				//获取所有产品
-				getProductList(this.form).then(res => {
+				getRecommend().then(res => {
 					this.productList = res.data;
 				})
-				this.goodsList = this.$json.goodsList;
 			},
 			toLogin() {
 				uni.navigateTo({
@@ -173,7 +229,7 @@
 			},
 			navToDetailPage(item) {
 				uni.navigateTo({
-					url: '/pages/productDetail/productDetail?id='+item.id
+					url: '/pages/productDetail/productDetail?id=' + item.id
 				})
 			},
 			toCategory() {
@@ -185,9 +241,6 @@
 				uni.navigateTo({
 					url: '/pages/search/search'
 				})
-			},
-			onChange(e) {
-				this.timeData = e
 			}
 		},
 		onPullDownRefresh() {
@@ -260,50 +313,15 @@
 		background: #fff;
 	}
 
-	/* 秒杀专区 */
-	.seckill-section {
-		margin: 10px 0;
-		padding: 0 20rpx;
-		background: #fff;
-
-		.s-header {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			height: 92rpx;
-			line-height: 1;
-
-			.left {
-				display: flex;
-				align-items: center;
-			}
-
-			.tip {
-				margin: 0 20rpx 0 40rpx;
-			}
-		}
-
-		.floor-item {
-			width: 150rpx;
-			margin-right: 20rpx;
-
-			.title {
-				padding: 10rpx 0;
-			}
-
-			.price {
-				color: $price-color;
-			}
-		}
-	}
-
 	.hot-header {
 		display: flex;
 		align-items: center;
-		height: 100rpx;
+		height: 80rpx;
 		margin: 10px 0 0;
 		padding: 10rpx 20rpx;
-		background: #fff;
+		background: #f6f7fb;
+		border-radius: 4px;
+		font-weight: 700;
 
 		.tit-box {
 			flex: 1;
@@ -318,69 +336,12 @@
 
 	.category-section {
 		background-color: #fff;
-
-		.cate-item {
-			display: flex;
-			flex-direction: column;
-			width: calc(50% - 20rpx);
-			margin: 0 10rpx;
-			flex-shrink: 0;
-
-			.title {
-				padding: 10rpx 0;
-			}
-
-			.image-wrapper {
-				width: 100%;
-				height: 330rpx;
-				overflow: hidden;
-			}
-
-			.price {
-				line-height: 1;
-				color: $price-color;
-			}
-
-			.originPrice {
-				margin-left: 10rpx;
-				text-decoration: line-through;
-				color: $u-light-color;
-			}
-		}
 	}
 
 	/* 推荐 */
 	.hot-section {
-		column-count: 2;
-		column-gap: 20rpx;
-		padding: 0 20rpx;
-		background: #fff;
-
-		.hot-item {
-			display: flex;
-			flex-direction: column;
-			padding-bottom: 40rpx;
-		}
-
-		.image-wrapper {
-			width: 100%;
-			height: 330rpx;
-			overflow: hidden;
-		}
-
-		.title {
-			padding: 10rpx 0;
-		}
-
-		.price {
-			line-height: 1;
-			color: $price-color;
-		}
-
-		.originPrice {
-			margin-left: 10rpx;
-			text-decoration: line-through;
-			color: $u-light-color;
-		}
+		display: flex;
+		flex-wrap: wrap;
+		padding: 10rpx;
 	}
 </style>

@@ -1,18 +1,18 @@
 <script>
 	import Vue from 'vue';
 	import store from './store';
-	import {
-		checkForUpdates
-	} from '@/api/index.js';
+	import {getUserInfo} from '@/api/auth.js'
+	import checkUpdateApp from '@/utils/appUpdate.js';
 	export default {
 		onLaunch: function(options) {
 			let token = uni.getStorageSync('token') // 判断有没有token，有则说明登录过了，重新把缓存存进vuex
-			console.log(token)
 			if (token) {
-				let userInfo = uni.getStorageSync('userInfo')
-				store.commit('login', {
-					token,
-					userInfo
+				getUserInfo().then(res=>{
+					let userInfo = res.data;
+					store.commit('login', {
+						token,
+						userInfo
+					})
 				})
 			}
 			uni.getSystemInfo({
@@ -38,17 +38,9 @@
 			})
 
 			// #ifdef APP-PLUS
-			let platform = uni.getSystemInfoSync().platform;
 			plus.runtime.getProperty(plus.runtime.appid, (widgetInfo) => {
 				store.commit('version', widgetInfo)
-				//调用检查更新接口
-				setTimeout(() => {
-					store.commit('updateAppInfo', {
-						url: 'https://rhskieapi.oss-cn-hangzhou.aliyuncs.com/apk/lsf.apk',
-						description: '优化了一些界面',
-						bool: false, //是否强制更新
-					})
-				}, 1000)
+				checkUpdateApp();
 			})
 			// #endif
 		},
@@ -73,7 +65,7 @@
 	}
 
 	page {
-		background-color: $u-bg-color;
+		background-color: #f6f7fb;
 		color: $u-main-color;
 		font-size: 14px;
 		font-family: 'Source Han Sans', 'Sans Francisco', '微软雅黑';

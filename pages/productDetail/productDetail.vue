@@ -1,89 +1,50 @@
 <template>
 	<view class="container">
 		<view class="carousel-section">
-			<u-swiper :list="imgList" keyName="src" :autoplay="false" indicator indicatorMode="dot" height="750rpx"
+			<u-swiper :list="imgList" keyName="url" :autoplay="false" indicator indicatorMode="dot" height="750rpx"
 				radius="0"></u-swiper>
 		</view>
 		<view class="content">
 			<view class="part introduce-section">
 				<text class="title">{{productDetailInfo.productName}}</text>
 				<view class="price-box">
-					<text class="price">￥{{productDetailInfo.price}}</text>
-					<text class="m-price">¥{{productDetailInfo.price}}</text>
+					<PriceText :productItem="productDetailInfo"></PriceText>
+					<!-- <text class="m-price">¥{{productDetailInfo.price}}</text> -->
 				</view>
 				<view class="bot-row">
 					<text>销量: {{productDetailInfo.salesVolume}}</text>
-					<text>库存: {{productDetailInfo.inventory}}</text>
+					<text>库存: {{productDetailInfo.inventory === -1?'无限制':productDetailInfo.inventory}}</text>
 					<text>浏览量: {{productDetailInfo.viewVolume}}</text>
 				</view>
 			</view>
 
-			<!-- <view class="part c-list">
-				<view class="c-row">
-					<text class="tit">购买类型</text>
-					<view class="con">
-						<text class="selected-text">
-							颜色
-						</text>
-						<text class="selected-text">
-							尺码
-						</text>
-					</view>
-					<u-icon name="arrow-right"></u-icon>
-				</view>
+			<view class="part c-list">
 				<view class="c-row">
 					<text class="tit">发货</text>
-					<view class="con fh">
-						<view class="top">
-							<view class="left">
-								<text>广东广州</text>
-								<u-line direction="col" margin="20rpx" length="20rpx"></u-line>
-								<text>快递:免运费</text>
-							</view>
-							<view class="right">
-								月销 4000+
-							</view>
-						</view>
-						<view class="bm">
-							付款后48小时内发货
-						</view>
-					</view>
-				</view>
-				<view class="c-row">
-					<text class="tit">保障</text>
 					<view class="con">
-						付款后48小时内发货 · 无忧退货
+						<text>快递:</text>
+						<text v-if="productDetailInfo.postagePrice">￥{{productDetailInfo.postagePrice}}</text>
+						<text v-else>免运费</text>
 					</view>
 				</view>
-				<view class="c-row">
-					<text class="tit">参数</text>
-					<view class="bz-list con">
-						<text>品牌</text>
-						<text>材质...</text>
-					</view>
-					<u-icon name="arrow-right"></u-icon>
-				</view>
-			</view> -->
+			</view>
 
 			<!-- 评价 -->
 			<view class="eva-section" v-if="productDetailInfo&&productDetailInfo.commentList.length">
 				<view class="e-header">
 					<text class="tit">评价</text>
-					<text>(86)</text>
-					<text class="tip">好评率 100%</text>
+					<text>({{productDetailInfo.commentList.length}})</text>
+					<text class="tip">查看全部</text>
 					<u-icon name="arrow-right"></u-icon>
 				</view>
 				<template v-for="(item,index) in productDetailInfo.commentList">
-					<view class="eva-box" :key="index" v-if="index<=1">
-						<u-image :showLoading="true"
-							src="https://gd3.alicdn.com/imgextra/i4/479184430/O1CN01nCpuLc1iaz4bcSN17_!!479184430.jpg_400x400.jpg"
-							width="80rpx" height="80rpx" shape="circle"></u-image>
+					<view class="eva-box" :key="index" v-if="index<=3">
+						<Avatar :src="item.user.headImg" size="40"></Avatar>
 						<view class="right">
-							<text class="name">Leo yo</text>
-							<text class="con">商品收到了，79元两件，质量不错，试了一下有点瘦，但是加个外罩很漂亮，我很喜欢</text>
+							<text class="name">{{item.user.nickName}}</text>
+							<text class="con">{{item.comments}}</text>
 							<view class="bot">
-								<text class="attr">购买类型：XL 红色</text>
-								<text class="time">2019-04-01 19:21</text>
+								<text class="time">{{item.createTime}}</text>
 							</view>
 						</view>
 					</view>
@@ -94,7 +55,9 @@
 				<view class="d-header">
 					<text>图文详情</text>
 				</view>
-				<rich-text :nodes="productDetailInfo.descriptions||desc"></rich-text>
+				<view class="d-content">
+					<u-parse :content="productDetailInfo.descriptions"></u-parse>
+				</view>
 			</view>
 
 			<!-- 组合按钮 -->
@@ -107,53 +70,79 @@
 					<u-icon name="shopping-cart" size="24"></u-icon>
 					购物车
 				</view>
-				<view class="b1" @click="collect">
-					<!-- 	<u-icon name="heart" size="24"></u-icon> -->
-					<u-icon name="heart-fill" size="24" color="#fa436a"></u-icon>
-					收藏
-				</view>
 				<view class="action-btn">
 					<u-button class="btn1" type="primary" :customStyle="{backgroundColor: '#FFBC49',
 					border: 'none',
 					borderRadius:'0',
 					borderTopLeftRadius: '20px',
-					borderBottomLeftRadius: '20px'}" text="加入购物车"></u-button>
+					borderBottomLeftRadius: '20px'}" text="加入购物车" @click="addToCartBefore(1)"></u-button>
 					<u-button class="btn2" type="primary" :customStyle="{backgroundColor: '#FE696D',
 					border: 'none',
 					borderRadius:'0',
 					borderTopRightRadius: '20px',
-					borderBottomRightRadius: '20px'}" text="立即购买"></u-button>
+					borderBottomRightRadius: '20px'}" text="立即购买" @click="addToCartBefore(2)"></u-button>
 				</view>
 			</view>
 		</view>
+		<u-popup :show="show" mode="bottom" closeable @close="close">
+			<view class="popupCon">
+				<view class="title">
+					<u-image :showLoading="true"
+						:src="imgList[0].url"
+						width="150rpx" height="150rpx" radius="4px">
+					</u-image>
+					<PriceText :productItem="productDetailInfo" :quantity="quantity"></PriceText>
+				</view>
+				<view class="con">
+					<u-gap height="1" bgColor="#eee"></u-gap>
+					<view class="param-item">
+						<view class="label">
+							<text style="font-size: 16px;">购买数量</text>
+							<text style="color:#909193;margin-left: 10rpx;">{{productDetailInfo.inventory!=0?'有货':'无货'}}</text>
+						</view>
+						<view class="num">
+							<u-number-box v-model="quantity" integer :min="1"
+								:max="productDetailInfo.inventory===-1?9999:productDetailInfo.inventory">
+							</u-number-box>
+						</view>
+					</view>
+				</view>
+				<view class="btn-bottom">
+					<u-button type="primary" text="确定" :disabled="productDetailInfo.inventory==0"
+						color="linear-gradient(to right, rgb(255, 85, 0), rgb(240, 76, 0))" @click="addToCart">
+					</u-button>
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
 <script>
+	import Avatar from '@/components/Avatar.vue'
+	import PriceText from '@/components/PriceText.vue'
 	import {
 		getProductInfo
 	} from '@/api/product.js'
+	import {
+		addCart
+	} from '@/api/cart.js'
 	export default {
 		data() {
 			return {
+				show: false,
+				quantity: 1,
 				productDetailInfo: '',
 				productId: 1,
 				imgList: [{
-						src: 'https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg'
-					},
-					{
-						src: 'https://gd3.alicdn.com/imgextra/i3/TB1RPFPPFXXXXcNXpXXXXXXXXXX_!!0-item_pic.jpg_400x400.jpg'
-					},
-					{
-						src: 'https://gd2.alicdn.com/imgextra/i2/38832490/O1CN01IYq7gu1UGShvbEFnd_!!38832490.jpg_400x400.jpg'
-					}
-				],
-				desc: `
-					<div style="width:100%">
-						<img style="width:100%;display:block;object-fit:cover" src="/static/image/5.jpg" />
-					</div>
-				`,
+					url:''
+				}],
+				desc: '',
+				btnType:''
 			};
+		},
+		components:{
+			PriceText,
+			Avatar
 		},
 		onLoad(options) {
 			this.productId = options.id;
@@ -166,6 +155,7 @@
 					id: this.productId
 				}).then(res => {
 					this.productDetailInfo = res.data;
+					this.imgList = JSON.parse(res.data.photoPath)
 				})
 			},
 			goHome() {
@@ -179,8 +169,30 @@
 					url: '/pages/cart/cart'
 				})
 			},
-			collect() {
-
+			addToCartBefore(type) {
+				this.btnType = type;
+				this.show = true;
+			},
+			addToCart() {
+				if(this.btnType===1){
+					addCart({
+						quantity: this.quantity,
+						productId: this.productDetailInfo.id
+					}).then(res => {
+						this.$u.toast('购物车添加成功!');
+						this.show = false;
+					})
+				}else{
+					this.$store.commit('updateTempCart',[Object.assign(this.productDetailInfo,{
+						quantity: this.quantity
+					})])
+					uni.navigateTo({
+						url: '/pages/checkout/checkout'
+					})
+				}
+			},
+			close() {
+				this.show = false
 			}
 		},
 		// #ifndef MP
@@ -195,7 +207,7 @@
 
 <style lang="scss" scoped>
 	.container {
-		padding-bottom: 120rpx;
+		padding-bottom: 160rpx;
 
 		.content {
 			padding: 20rpx 10rpx;
@@ -387,6 +399,10 @@
 					border-bottom: 1px solid #ccc;
 				}
 			}
+			
+			.d-content{
+				padding: 20rpx;
+			}
 		}
 
 		.carousel-section {}
@@ -419,6 +435,41 @@
 				justify-content: center;
 				align-items: center;
 				margin-left: 20rpx;
+			}
+		}
+
+		.popupCon {
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			height: 1000rpx;
+			padding: 0 20rpx;
+
+			.title {
+				display: flex;
+				padding: 20rpx 0;
+
+				text {
+					color: $price-color;
+					margin-left: 20rpx;
+					font-size: 16px;
+				}
+			}
+
+			.con {
+				overflow: auto;
+				flex: 1;
+				height: 0;
+			}
+
+			.btn-bottom {
+				padding: 20rpx 0;
+			}
+
+			.param-item {
+				display: flex;
+				justify-content: space-between;
+				padding: 20rpx 0;
 			}
 		}
 	}

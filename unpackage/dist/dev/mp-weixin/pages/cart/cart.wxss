@@ -80,6 +80,30 @@
   padding: 4rpx 10rpx;
   font-size: 34rpx;
   height: 50rpx;
+  z-index: 1;
+  color: #fff;
+}
+.cart-item.shixiao {
+  position: relative;
+}
+.cart-item.shixiao::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.cart-item .shixiaoText {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  white-space: nowrap;
+  z-index: 10;
+  color: #fff;
 }
 /* 底部栏 */
 .action-section {

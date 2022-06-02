@@ -18,40 +18,37 @@
 			<u-icon name="grid" size="30px" @click="showDialog = true"></u-icon>
 		</view>
 		<view class="content">
-			<view v-for="(item, index) in productList" :key="index" class="product-item" @click="navToDetailPage(item)">
-				<view class="image-wrapper">
-					<u-image :showLoading="true" :src="item.image" width="100%" height="330rpx" radius="4px">
-					</u-image>
-				</view>
-				<view style="padding:10rpx;">
-					<text class="title u-line-1" style="display: block;">{{item.title}}</text>
-					<view class="btm">
-						<text class="price">￥{{item.price}}</text>
-						<text class="num">已售: 10</text>
+			<div style="height:100%">
+				<template v-if="productList.length||loadDataStatus">
+					<scroll-view scroll-y="true" class="scroll-Y" @scrolltolower="loadData">
+						<view class="productWrap">
+							<template v-for="(product, index) in productList">
+								<ProductItem :product="product" :key="index" @clickItem="navToDetailPage"></ProductItem>
+							</template>
+						</view>
+						<u-loadmore :status="status" />
+					</scroll-view>
+				</template>
+				<template v-else>
+					<view class="no-result">
+						<u-empty mode="data"></u-empty>
 					</view>
-				</view>
-			</view>
-			<u-loadmore :status="status" />
+				</template>
+			</div>
 		</view>
 		<view>
 			<u-popup class="popupConWrap" :show="showDialog" mode="right" :customStyle="{width:'600rpx'}"
 				@close="showDialog=false">
 				<view class="popupCon">
-					<view>
-						<view class="cate-item two">手机通讯</view>
-						<view class="cate-item active">全面屏手机</view>
-						<view class="cate-item">游戏手机</view>
-						<view class="cate-item">老人机</view>
-						<view class="cate-item">拍照手机</view>
-						<view class="cate-item">女性手机</view>
+					<view v-for="item in flist" :key="item.id">
+						<view class="cate-item two">{{item.cateName}}</view>
+						<view class="cate-item" :class="{'active':citem.id===form.categoryId}"
+							v-for="citem in item.children" :key="citem.id" @click="handleClick(citem)">
+							{{citem.cateName}}
+						</view>
 					</view>
-					<view>
-						<view class="cate-item two">手机通讯</view>
-						<view class="cate-item active">全面屏手机</view>
-						<view class="cate-item">游戏手机</view>
-						<view class="cate-item">老人机</view>
-						<view class="cate-item">拍照手机</view>
-						<view class="cate-item">女性手机</view>
+					<view v-for="item in zqList" :key="item.cateName">
+						<view class="cate-item two" @click="handleClickZq(item)">{{item.cateName}}</view>
 					</view>
 				</view>
 			</u-popup>
@@ -60,9 +57,15 @@
 </template>
 
 <script>
+	import {
+		getProductList,
+		getAllProductCate
+	} from '@/api/product.js'
+	import ProductItem from '@/components/ProductItem.vue'
 	export default {
 		data() {
 			return {
+				loadDataStatus: true,
 				status: 'loadmore',
 				showDialog: false,
 				priceType: 0,
@@ -74,19 +77,62 @@
 				}, {
 					name: '价格',
 				}],
-				productList: [{
-					url: '',
-					des: '',
-					num: 10,
-					price: '240'
-				}],
-				page: 0
+				flist: [],
+				productList: [],
+				form: {
+					keyword: null,
+					categoryId: null,
+					page: 1,
+					pageSize: 10,
+					productType: ''
+				},
+				total: 0,
 			};
 		},
+		components: {
+			ProductItem
+		},
+		computed:{
+			zqList(){
+				return this.$store.state.list
+			}
+		},
 		methods: {
-			navToDetailPage() {
+			handleClickZq(item){
+				uni.setNavigationBarTitle({
+					title: item.cateName
+				})
+				this.loadDataStatus = true;
+				this.form.categoryId = null;
+				this.form.productType = item.productType;
+				this.form.page = 1;
+				this.showDialog = false;
+				this.productList = [];
+				this.getPageData()
+			},
+			loadData() {
+				if (this.productList.length >= this.total) {
+					this.status = 'noMore';
+					return;
+				}
+				this.form.page += 1;
+				this.getPageData()
+			},
+			getPageData() {
+				//获取所有产品
+				this.status = 'loading'
+				getProductList(this.form).then(res => {
+					this.productList = this.productList.concat(res.data.list);
+					this.total = res.data.total;
+					if (this.productList.length >= this.total) {
+						this.status = 'noMore';
+					}
+					this.loadDataStatus = false;
+				})
+			},
+			navToDetailPage(item) {
 				uni.navigateTo({
-					url: '/pages/productDetail/productDetail'
+					url: '/pages/productDetail/productDetail?id=' + item.id
 				})
 			},
 			changeTab(index) {
@@ -104,36 +150,53 @@
 					}
 				}
 			},
-			onReachBottom() {
-				if (this.page >= 3) return;
-				this.status = 'loading';
-				this.page = ++this.page;
-				setTimeout(() => {
-					if (this.page >= 3) {
-						this.status = 'nomore';
-					} else {
-						this.status = 'loading';
-					}
-				}, 2000)
-			}
+			handleClick(item) {
+				console.log(item);
+				uni.setNavigationBarTitle({
+					title: item.cateName
+				})
+				this.loadDataStatus = true;
+				this.form.categoryId = item.id;
+				this.form.productType = 0;
+				this.form.page = 1;
+				this.showDialog = false;
+				this.productList = [];
+				this.getPageData()
+			},
 		},
-		onLoad() {
-			this.productList = this.$json.goodsList
+		onLoad(options) {
+			uni.setNavigationBarTitle({
+				title: options.cateName
+			})
+			this.form.categoryId = options.cateId;
+			this.form.productType = options.productType;
+			this.getPageData();
+			//获取所有产品分类
+			getAllProductCate().then(res => {
+				this.flist = res.data
+			})
+		},
+		onPullDownRefresh(options) {
+			this.loadDataStatus = true;
+			this.form.page = 1;
+			this.productList = [];
+			this.getPageData();
+			getAllProductCate().then(res => {
+				this.flist = res.data
+			})
+			setTimeout(() => {
+				uni.stopPullDownRefresh()
+			}, 1000)
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	page,
-	.container {
-		height: 100%;
-	}
+	@include container-100();
 
 	.container {
 		display: flex;
 		flex-direction: column;
-		padding-top: 40px;
-
 		.popupCon {
 			.cate-item {
 				display: flex;
@@ -155,11 +218,22 @@
 			}
 		}
 
+		.content {
+			height: calc(100% - 40px);
+			padding-bottom: 20rpx;
+
+			.scroll-Y {
+				height: 100%;
+
+				.productWrap {
+					display: flex;
+					flex-wrap: wrap;
+					padding: 10rpx;
+				}
+			}
+		}
+
 		.tab {
-			position: fixed;
-			top: var(--window-top);
-			left: 0;
-			right: 0;
 			display: flex;
 			align-items: center;
 			height: 40px;
@@ -199,55 +273,6 @@
 					height: 0;
 					border-bottom: 2px solid #fa436a;
 				}
-			}
-		}
-
-		.content {
-			display: flex;
-			flex-wrap: wrap;
-			padding: 10rpx;
-
-			.product-item {
-				display: flex;
-				flex-direction: column;
-				margin: 10rpx;
-				width: calc(50% - 20rpx);
-				background-color: #fff;
-				box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
-				border-radius: 4px;
-
-				.btm {
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
-				}
-			}
-
-			.image-wrapper {
-				width: 100%;
-				height: 330rpx;
-				overflow: hidden;
-			}
-
-			.title {
-				padding: 10rpx 0;
-				line-height: 30px;
-			}
-
-			.price {
-				line-height: 1;
-				color: $price-color;
-			}
-
-			.num {
-				color: $u-tips-color;
-				font-size: 12px;
-			}
-
-			.originPrice {
-				margin-left: 10rpx;
-				text-decoration: line-through;
-				color: $u-light-color;
 			}
 		}
 	}
