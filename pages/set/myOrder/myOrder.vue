@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
 		<view class="tab">
-			<view :class="[{ active: activeIndex===index }, 'tab-item']" v-for="(item,key,index) in tabList" :key="index"
-				@click="tabClick(index)">{{item}}</view>
+			<view :class="[{ active: activeIndex===index }, 'tab-item']" v-for="(item,key,index) in tabList"
+				:key="index" @click="tabClick(index)">{{item}}</view>
 		</view>
 		<view class="content">
 			<swiper :current="activeIndex" class="swiper-box" duration="300" @change="changeTab">
@@ -16,27 +16,33 @@
 								</view>
 								<view class="product-item" v-for="(citem,cindex) in item.productList" :key="cindex">
 									<view class="left-img">
-										<u-image :showLoading="true" :src="citem.image" width="100%" height="200rpx"
-											radius="4px">
-										</u-image>
+										<u-image :showLoading="true" :src="JSON.parse(citem.photoPath)[0].url"
+											width="200rpx" height="200rpx" radius="10px"></u-image>
 									</view>
 									<view class="right-con">
 										<view class="r1">
-											<text class="title u-line-1">回力女鞋高帮帆布鞋女学生韩版鞋子女</text>
-											<text class="des">白色-高帮 39</text>
+											<text class="title u-line-1">{{citem.productName}}</text>
 										</view>
 										<view class="r2">
-											<text class="price">
-												￥3300.96
-											</text>
-											<text class="num">
-												x1
-											</text>
+											<view class="price">
+												<PriceText :productItem="citem"></PriceText>
+											</view>
+											<view class="num">
+												x{{citem.quantity}}
+											</view>
 										</view>
 									</view>
 								</view>
 								<view class="priceInfo">
-									<text class="totalPrice">总价:￥{{item.orderPrice}}</text>
+									<text>总价:</text>
+									<u-text bold mode="price" :text="item.orderPrice" color="#fa436a"
+										style="flex:0"></u-text>
+								</view>
+								<view class="priceInfo">
+									<text>积分:</text>
+									<u-text bold prefixIcon="rmb-circle"
+										iconStyle="color:#c7b033;font-size:18px;margin-right:5rpx;"
+										:text="item.pointPrice" color="#fa436a" style="flex:0"></u-text>
 								</view>
 								<view class="orderBtnGroup">
 									<view class="left" @click="toOrderDetail(item.id)">
@@ -44,9 +50,10 @@
 									</view>
 									<view class="right">
 										<!-- 	<button class="u-reset-button">加入购物车</button> -->
-										<button class="u-reset-button" v-if="item.status<4" @click="cancelOrder">取消订单</button>
-										<button class="u-reset-button zf" v-if="item.status===1">立即支付</button>
-										<button class="u-reset-button pj" v-if="item.status===4">评价</button>
+										<!-- <button class="u-reset-button" v-if="item.status<4" @click="cancelOrder">取消订单</button> -->
+										<button class="u-reset-button zf" v-if="item.status===1"
+											@click="goZhifu(item.orderId,item.paymentMethod)">立即支付</button>
+										<!-- <button class="u-reset-button pj" v-if="item.status===4">评价</button> -->
 									</view>
 								</view>
 							</view>
@@ -65,10 +72,12 @@
 </template>
 
 <script>
+	import PriceText from '@/components/PriceText.vue'
 	import {
 		userGetOrderList,
 		editOrderPayment,
-		getOrderInfo
+		getOrderInfo,
+		payment
 	} from '@/api/order.js'
 	export default {
 		data() {
@@ -79,30 +88,33 @@
 				status: 'loadmore',
 				form: {
 					page: 1,
-					pageSize: 25,
+					pageSize: 4,
 					status: null,
 				},
 				total: 0,
 			};
 		},
-		computed:{
-			tabList(){
-				return this.$store.state.orderStatus||[]
+		computed: {
+			tabList() {
+				return this.$store.state.orderStatus || []
 			}
 		},
-		watch:{
-			activeIndex(newVal){
-				this.form.status = newVal?newVal:null;
-				this.form.page=1;
+		components: {
+			PriceText
+		},
+		watch: {
+			activeIndex(newVal) {
+				this.form.status = newVal ? newVal : null;
+				this.form.page = 1;
 				this.productList = [];
 				this.loadDataStatus = true;
 				this.getList()
 			}
 		},
 		methods: {
-			cancelOrder(){
+			cancelOrder() {
 				uni.navigateTo({
-					url:'/pages/set/cancelOrder/cancelOrder'
+					url: '/pages/set/cancelOrder/cancelOrder'
 				})
 			},
 			toOrderDetail(id) {
@@ -134,22 +146,59 @@
 					if (this.productList.length >= this.total) {
 						this.status = 'noMore';
 					}
-				}).finally(()=>{
+				}).finally(() => {
 					this.loadDataStatus = false;
+					this.changeTabStatus = false;
+				})
+			},
+			pay(data, provider) {
+				console.log(data, provider);
+				if (provider === 'balance') {
+					uni.redirectTo({
+						url: '/pages/payAfter/payAfter?status=' + 1
+					})
+				} else {
+					uni.requestPayment({
+						provider: provider,
+						orderInfo: data,
+						success(res) {
+							uni.redirectTo({
+								url: '/pages/payAfter/payAfter?status=' + 1
+							})
+						},
+						fail(err) {
+							uni.$u.toast(err.message);
+							uni.redirectTo({
+								url: '/pages/payAfter/payAfter?status=' + 0
+							})
+						}
+					})
+				}
+			},
+			goZhifu(orderId, paymentMethod) {
+				payment({
+					orderId
+				}).then(res => {
+					this.pay(res.data, paymentMethod.toLowerCase())
+				}).catch(err => {
+					uni.$u.toast(err.message);
 				})
 			},
 		},
-		onShow() {
+		onLoad() {
 			this.getList();
 		}
 	}
 </script>
 
 <style lang="scss">
-	page,
-	.container {
-		height: 100%;
+	.plus {
+		color: $price-color;
+		font-weight: 700;
+		margin: 0 2px;
 	}
+
+	@include container-100();
 
 	.container {
 		display: flex;
@@ -226,7 +275,7 @@
 
 				.product-item {
 					display: flex;
-					margin-bottom: 10rpx;
+					margin-bottom: 20rpx;
 
 					.left-img {
 						flex-basis: 200rpx;

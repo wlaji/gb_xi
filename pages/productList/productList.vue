@@ -18,23 +18,21 @@
 			<u-icon name="grid" size="30px" @click="showDialog = true"></u-icon>
 		</view>
 		<view class="content">
-			<div style="height:100%">
-				<template v-if="productList.length||loadDataStatus">
-					<scroll-view scroll-y="true" class="scroll-Y" @scrolltolower="loadData">
-						<view class="productWrap">
-							<template v-for="(product, index) in productList">
-								<ProductItem :product="product" :key="index" @clickItem="navToDetailPage"></ProductItem>
-							</template>
-						</view>
-						<u-loadmore :status="status" />
-					</scroll-view>
-				</template>
-				<template v-else>
-					<view class="no-result">
-						<u-empty mode="data"></u-empty>
+			<template v-if="productList.length||loadDataStatus">
+				<scroll-view scroll-y="true" class="scroll-Y" @scrolltolower="loadData">
+					<view class="productWrap">
+						<template v-for="(product, index) in productList">
+							<ProductItem :product="product" :key="index" @clickItem="navToDetailPage"></ProductItem>
+						</template>
 					</view>
-				</template>
-			</div>
+					<u-loadmore :status="status" />
+				</scroll-view>
+			</template>
+			<template v-else>
+				<view class="no-result">
+					<u-empty mode="data"></u-empty>
+				</view>
+			</template>
 		</view>
 		<view>
 			<u-popup class="popupConWrap" :show="showDialog" mode="right" :customStyle="{width:'600rpx'}"
@@ -92,13 +90,13 @@
 		components: {
 			ProductItem
 		},
-		computed:{
-			zqList(){
+		computed: {
+			zqList() {
 				return this.$store.state.list
 			}
 		},
 		methods: {
-			handleClickZq(item){
+			handleClickZq(item) {
 				uni.setNavigationBarTitle({
 					title: item.cateName
 				})
@@ -197,6 +195,7 @@
 	.container {
 		display: flex;
 		flex-direction: column;
+
 		.popupCon {
 			.cate-item {
 				display: flex;

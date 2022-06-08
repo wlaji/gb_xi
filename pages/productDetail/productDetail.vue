@@ -87,9 +87,7 @@
 		<u-popup :show="show" mode="bottom" closeable @close="close">
 			<view class="popupCon">
 				<view class="title">
-					<u-image :showLoading="true"
-						:src="imgList[0].url"
-						width="150rpx" height="150rpx" radius="4px">
+					<u-image :showLoading="true" :src="imgList[0].url" width="150rpx" height="150rpx" radius="4px">
 					</u-image>
 					<PriceText :productItem="productDetailInfo" :quantity="quantity"></PriceText>
 				</view>
@@ -98,7 +96,8 @@
 					<view class="param-item">
 						<view class="label">
 							<text style="font-size: 16px;">购买数量</text>
-							<text style="color:#909193;margin-left: 10rpx;">{{productDetailInfo.inventory!=0?'有货':'无货'}}</text>
+							<text
+								style="color:#909193;margin-left: 10rpx;">{{productDetailInfo.inventory!=0?'有货':'无货'}}</text>
 						</view>
 						<view class="num">
 							<u-number-box v-model="quantity" integer :min="1"
@@ -108,7 +107,8 @@
 					</view>
 				</view>
 				<view class="btn-bottom">
-					<u-button type="primary" text="确定" :disabled="productDetailInfo.inventory==0"
+					<u-button type="primary" text="确定" :loading="loading"
+						:disabled="productDetailInfo.inventory==0||!productDetailInfo.inventory"
 						color="linear-gradient(to right, rgb(255, 85, 0), rgb(240, 76, 0))" @click="addToCart">
 					</u-button>
 				</view>
@@ -124,23 +124,25 @@
 		getProductInfo
 	} from '@/api/product.js'
 	import {
-		addCart
+		addCart,
+		getByNowInfo
 	} from '@/api/cart.js'
 	export default {
 		data() {
 			return {
+				loading: false,
 				show: false,
 				quantity: 1,
 				productDetailInfo: '',
 				productId: 1,
 				imgList: [{
-					url:''
+					url: ''
 				}],
 				desc: '',
-				btnType:''
+				btnType: ''
 			};
 		},
-		components:{
+		components: {
 			PriceText,
 			Avatar
 		},
@@ -174,20 +176,29 @@
 				this.show = true;
 			},
 			addToCart() {
-				if(this.btnType===1){
+				this.loading = true;
+				if (this.btnType === 1) {
 					addCart({
 						quantity: this.quantity,
 						productId: this.productDetailInfo.id
 					}).then(res => {
 						this.$u.toast('购物车添加成功!');
 						this.show = false;
+					}).finally(() => {
+						this.loading = false;
 					})
-				}else{
-					this.$store.commit('updateTempCart',[Object.assign(this.productDetailInfo,{
-						quantity: this.quantity
-					})])
-					uni.navigateTo({
-						url: '/pages/checkout/checkout'
+				} else {
+					getByNowInfo({
+						quantity: this.quantity,
+						productId: this.productDetailInfo.id
+					}).then(res => {
+						this.show = false;
+						this.$store.commit('updateTempCart', res.data);
+						uni.navigateTo({
+							url: '/pages/checkout/checkout?buyNow=' + 1
+						})
+					}).finally(() => {
+						this.loading = false;
 					})
 				}
 			},
@@ -399,8 +410,8 @@
 					border-bottom: 1px solid #ccc;
 				}
 			}
-			
-			.d-content{
+
+			.d-content {
 				padding: 20rpx;
 			}
 		}

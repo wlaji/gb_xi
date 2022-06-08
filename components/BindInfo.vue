@@ -28,11 +28,11 @@
 		},
 		mounted() {
 			let userInfo = uni.getStorageSync('userInfo');
-			// if (!userInfo.loginTel) {
-			// 	this.showBindTel = true;
-			// } else if (!userInfo.identityCard) {
-			// 	this.showBindIdCard = true;
-			// }
+			if (!userInfo.loginTel) {
+				this.showBindTel = true;
+			} else if (!userInfo.identityCard) {
+				this.showBindIdCard = true;
+			}
 		}
 	}
 </script>

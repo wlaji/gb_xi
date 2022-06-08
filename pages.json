@@ -102,6 +102,7 @@
 				"loginAuth": true
 			},
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "确认订单",
 				"enablePullDownRefresh": false
 			}
@@ -297,7 +298,7 @@
 				"loginAuth": true
 			},
 			"style": {
-				"navigationBarTitleText": "积分管理",
+				"navigationBarTitleText": "余额管理",
 				"enablePullDownRefresh": false
 			}
 		}, {
@@ -417,11 +418,45 @@
 
 		}, {
 			"path": "pages/payAfter/payAfter",
+			"name": "payAfter",
 			"meta": {
 				"loginAuth": true
 			},
 			"style": {
 				"navigationBarTitleText": "订单",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/tiHuoDian/thdKucun/thdKucun",
+			"name": "thdKucun",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "库存",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/tiHuoDian/thdBuhuo/thdBuhuo",
+			"name": "thdBuhuo",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "补货",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/set/tiHuoDian/thdList/thdList",
+			"name": "thdList",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "补货列表",
 				"enablePullDownRefresh": false
 			}
 

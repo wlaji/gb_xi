@@ -8,7 +8,7 @@
 				url="/pages/set/phoneNumberVerification/phoneNumberVerification"></u-cell>
 			<u-cell title="设置登录密码" isLink url="/pages/set/setPwd/setPwd"></u-cell>
 		</u-cell-group>
-		<view class="title">
+		<!-- <view class="title">
 			社交账号绑定
 		</view>
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
@@ -18,7 +18,7 @@
 				<u-button slot="value" type="info" size="mini" text="解绑" :customStyle="{'width':'auto'}"
 					@click="showModal2 = true"></u-button>
 			</u-cell>
-		</u-cell-group>
+		</u-cell-group> -->
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
 			<u-cell title="账号注销" isLink url="/pages/set/closeAccount/closeAccount"></u-cell>
 		</u-cell-group>

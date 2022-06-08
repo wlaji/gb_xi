@@ -3,41 +3,38 @@
 		<u-subsection :list="list" :current="current" @change="changeTab">
 		</u-subsection>
 		<template v-if="current===0">
-			<view class="content" style="padding:0;display: flex;flex-direction: column;">
+			<view class="content" style="padding:0;">
 				<view class="small-title">
-					<text>姓名</text>
-					<text>日期</text>
-					<text>积分</text>
+					<text style="width: 20%;">姓名</text>
+					<text style="width: 20%;text-align: right;">日期</text>
+					<text style="width: 30%;text-align: right;">金额</text>
+					<text style="width: 30%;text-align: right;">用途</text>
 				</view>
-				<scroll-view scroll-y="true" class="jf-wrap" @scrolltolower="loadData">
-					<view class="jf-item">
-						<text>罗勇</text>
-						<text>2020-12-52</text>
-						<text>100</text>
+				<div class="jf-wrap">
+					<view class="jf-item" v-for="item in logList" :key="item.id">
+						<text style="width: 20%;">{{item.fromUser?item.fromUser.nickName:'自己'}}</text>
+						<text style="width: 20%;text-align: right;">{{item.createTimeStr}}</text>
+						<text
+							style="width: 30%;text-align: right;">{{formatSymbol(item.changeSymbol)}}{{item.rebatFunds}}</text>
+						<text style="width: 30%;text-align: right;">{{changeSymbol[item.changeSymbol]}}</text>
 					</view>
-					<view class="jf-item">
-						<text>罗勇</text>
-						<text>2020-12-52</text>
-						<text>100</text>
-					</view>
-					<view class="jf-item">
-						<text>罗勇</text>
-						<text>2020-12-52</text>
-						<text>100</text>
-					</view>
-					<u-loadmore :status="status" height="30px" />
-				</scroll-view>
+				</div>
 			</view>
 		</template>
 		<template v-else-if="current===1">
+			<u-action-sheet :show="showSheet" :actions="userList" title="请选择转账人" @close="showSheet = false"
+				@select="userSelect">
+			</u-action-sheet>
 			<view class="content input-content">
-				<view class="title">您的可用积分: <text style="color:#fa436a">3000</text></view>
 				<u-form labelPosition="left" :model="form2" ref="form2" errorType="toast" labelWidth="100px">
-					<u-form-item label="转账人手机号" prop="phone">
-						<u-input type="number" placeholder="请输入转账人手机号" v-model="form2.phone"></u-input>
+					<u-form-item label="转账人" prop="nickName" borderBottom @click="showSheet = true; hideKeyboard()"
+						ref="item1">
+						<u-input v-model="form2.nickName" disabled disabledColor="transparent" placeholder="请选择转账人"
+							border="none"></u-input>
 					</u-form-item>
-					<u-form-item label="提现金额" prop="money">
-						<u-input type="number" placeholder="请输入提现金额" v-model="form2.money"></u-input>
+					<u-form-item label="余额" prop="changeFunds" borderBottom>
+						<u-input type="number" :placeholder="'当前可转余额 '+userInfo.funds" v-model="form2.changeFunds"
+							border="none"></u-input>
 					</u-form-item>
 				</u-form>
 				<view style="margin-top:40rpx;">
@@ -49,10 +46,10 @@
 		</template>
 		<template v-else-if="current===2">
 			<view class="content input-content">
-				<view class="title">您的可用积分: <text style="color:#fa436a">3000</text></view>
 				<u-form labelPosition="left" :model="form1" ref="form1" errorType="toast" labelWidth="100px">
-					<u-form-item label="提现金额" prop="money">
-						<u-input type="number" placeholder="请输入提现金额" v-model="form1.money"></u-input>
+					<u-form-item label="提现金额" prop="changeFunds" borderBottom>
+						<u-input type="number" :placeholder="'当前可提现金额 '+userInfo.funds" v-model="form1.changeFunds"
+							border="none"></u-input>
 					</u-form-item>
 				</u-form>
 				<view style="margin-top:40rpx;">
@@ -65,52 +62,102 @@
 </template>
 
 <script>
+	import {getUserInfo} from '@/api/auth.js'
+	import {
+		getUserDirectRelation,
+		turnFunds,
+		getMyFundsLog,
+		fundsOut
+	} from '@/api/jfManage.js'
 	export default {
 		data() {
 			return {
+				changeSymbol: {
+					1: '返利',
+					2: '转账',
+					3: '收款',
+					4: '使用',
+					5: '提现'
+				},
+				logList: [],
+				showSheet: false,
+				userList: [],
 				status: 'loadmore',
 				page: 0,
-				list: ['积分明细', '积分转账', '积分提现'],
+				list: ['余额明细', '余额转账'],
 				current: 0,
 				form1: {
-					money: ''
+					changeFunds: ''
 				},
 				form2: {
-					money: '',
-					phone: ''
+					changeFunds: '',
+					toUserId: '',
+					nickName: ''
 				},
 				loading: false,
 				loading2: false,
 				rules: {
-					'money': [{
+					'changeFunds': [{
 						required: true,
 						message: '请输入提现金额',
 						trigger: ['blur'],
 					}]
 				},
 				rules2: {
-					'phone': [{
-							required: true,
-							message: '请输入手机号',
-							trigger: ['blur'],
-						},
-						{
-							validator: (rule, value, callback) => {
-								return uni.$u.test.mobile(value);
-							},
-							message: '手机号码不正确',
-							trigger: ['blur'],
-						}
-					],
-					'money': [{
+					'changeFunds': [{
 						required: true,
-						message: '请输入提现金额',
+						message: '请输入转账金额',
+						trigger: ['blur'],
+					}],
+					'nickName': [{
+						required: true,
+						message: '请选择转账人',
 						trigger: ['blur'],
 					}]
 				}
 			};
 		},
+		computed: {
+			userInfo() {
+				return this.$store.state.userInfo || {}
+			}
+		},
 		methods: {
+			updateUserInfo(){
+				getUserInfo().then(res=>{
+					let userInfo = res.data;
+					this.$store.commit('updateUserInfo', userInfo)
+				})
+			},
+			formatSymbol(symbol) {
+				let str
+				switch (symbol) {
+					case 1:
+						str = '+'
+						break;
+					case 2:
+						str = '-'
+						break;
+					case 3:
+						str = '+'
+						break;
+					case 4:
+						str = '-'
+						break;
+					case 5:
+						str = '-'
+						break;
+				}
+				return str
+			},
+			hideKeyboard() {
+				uni.hideKeyboard()
+			},
+			userSelect(item) {
+				console.log(item);
+				this.form2.toUserId = item.id;
+				this.form2.nickName = item.nickName
+			},
 			changeTab(index) {
 				console.log(index)
 				this.current = index;
@@ -124,24 +171,29 @@
 			},
 			tixian() {
 				this.$refs.form1.validate().then(() => {
-					uni.$u.toast('表单验证成功');
-					uni.showActionSheet({
-						itemList: ['微信', '支付宝'],
-						success: res => {
-							console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
-						},
-						fail: res => {
-							console.log(res.errMsg);
+					fundsOut(this.form1).then(res => {
+						if (res.data.status === 'SUCCESS') {
+							uni.$u.toast('提现成功');
+						} else {
+							uni.$u.toast('微信异常')
 						}
-					});
+					})
+
 				}).catch(err => {
 					console.log(err)
 				})
 			},
 			zhuanzhang() {
 				this.$refs.form2.validate().then(() => {
-					uni.$u.toast('表单验证成功');
-
+					turnFunds(this.form2).then(res => {
+						uni.$u.toast('转账成功');
+						this.updateUserInfo();
+						this.form2 = {
+							changeFunds: '',
+							toUserId: '',
+							nickName: ''
+						}
+					})
 				}).catch(err => {
 					console.log(err)
 				})
@@ -158,32 +210,37 @@
 						this.status = 'loading';
 					}
 				}, 2000)
-			}
+			},
+			getUserDirectRelationList() {
+				getUserDirectRelation().then(res => {
+					console.log(res);
+					res.data.forEach(item => {
+						item.name = item.nickName;
+						item.subname = item.loginTel
+					})
+					this.userList = res.data;
+				})
+			},
 		},
-		onReady() {
-
+		onLoad() {
+			this.getUserDirectRelationList();
+			getMyFundsLog().then(res => {
+				this.logList = res.data;
+			});
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	page,
-	.container {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		background-color: #fff;
-	}
+	@include container-100();
 
 	.content {
-		flex: 1;
-		height: 0;
+		height: calc(100% - 32px);
 		padding: 40rpx 20rpx;
 
 		.title {
 			font-size: 16px;
 			margin-bottom: 40rpx;
-			font-weight: 700;
 		}
 	}
 

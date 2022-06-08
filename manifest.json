@@ -23,7 +23,8 @@
         "modules" : {
             "VideoPlayer" : {},
             "Maps" : {},
-            "OAuth" : {}
+            "OAuth" : {},
+            "Payment" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -84,7 +85,14 @@
                         "appkey_android" : "67148345404ca91170eb86dbcda1c35e"
                     }
                 },
-                "geolocation" : {}
+                "geolocation" : {},
+                "payment" : {
+                    "weixin" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appid" : "wx07e43cd3f3cd4f8b",
+                        "UniversalLinks" : "https://static-8b1fbb37-a9e8-487b-85d5-09e482e099a5.bspapp.com/uni-universallinks/__UNI__106BAD1/"
+                    }
+                }
             },
             "splashscreen" : {
                 "useOriginalMsgbox" : true

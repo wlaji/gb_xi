@@ -6,7 +6,7 @@
 				<!-- <view class="t2">更准 更全 更方便</view> -->
 			</view>
 			<view class="title">
-				分享一下，佣金到手
+				国资根本，全名健康
 			</view>
 			<view class="ma">
 				<uqrcode ref="uqrcode" :text="shareUrl"></uqrcode>
@@ -53,7 +53,7 @@
 				userInfo: '',
 				canvasId: 'default_PosterCanvasId',
 				hbImg: 'https://customed-center.oss-accelerate.aliyuncs.com/web/quoteManage/20220524/20220524MZCQZeT3.jpg',
-				logoImg: 'https://customed-center.oss-accelerate.aliyuncs.com/web/quoteManage/20220524/20220524EMk3zyQb.png',
+				logoImg: 'https://customed-center.oss-accelerate.aliyuncs.com/web/quoteManage/20220607/20220607d4eK4ba5.png',
 			};
 		},
 		computed: {

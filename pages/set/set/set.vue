@@ -12,14 +12,14 @@
 		</u-cell-group>
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
 			<u-cell title="账户安全" isLink url="/pages/set/accountSecurity/accountSecurity"></u-cell>
-			<u-cell title="支付设置" isLink url="/pages/set/paymentSetting/paymentSetting"></u-cell>
+			<!-- <u-cell title="支付设置" isLink url="/pages/set/paymentSetting/paymentSetting"></u-cell> -->
 			<!-- <u-cell title="身份认证" isLink url="/pages/set/identityAuthentication /identityAuthentication "></u-cell> -->
 			<!-- #ifdef APP-PLUS -->
-			<u-cell title="消息推送">
+			<!-- <u-cell title="消息推送">
 				<view slot="value">
 					<u-switch v-model="msgPushStatus" @change="changeMsgPushStatus"></u-switch>
 				</view>
-			</u-cell>
+			</u-cell> -->
 			<!-- #endif -->
 		</u-cell-group>
 

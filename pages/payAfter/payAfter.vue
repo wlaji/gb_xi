@@ -19,7 +19,7 @@
 				<u-text text="支付失败" size="24" align="center" margin="40px 0"></u-text>
 			</view>
 			<view>
-				<u-button type="primary" text="返回" @click="goBack"></u-button>
+				<u-button type="primary" text="返回首页" @click="goHome"></u-button>
 			</view>
 		</template>
 	</view>
@@ -34,13 +34,13 @@
 		},
 		methods:{
 			goHome(){
-				uni.navigateTo({
+				uni.switchTab({
 					url:'/pages/index/index'
 				})
-			},
-			goBack(){
-				uni.navigateBack()
 			}
+		},
+		onLoad(options) {
+			this.status = Number(options.status)
 		}
 	}
 </script>

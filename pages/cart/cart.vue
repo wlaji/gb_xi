@@ -42,10 +42,16 @@
 								<!-- <text class="attr">{{item.attr_val}}</text> -->
 								<view style="margin: 20rpx 0;">
 									<template v-if="item.product.productType==4">
-										<u-text prefixIcon="rmb-circle" iconStyle="color:#fa436a;font-size:18px;margin-right:5rpx;" :text="item.pointPrice" color="#fa436a"></u-text>
+										<view style="display: flex;">
+											<u-text bold mode="price" :text="item.price" color="#fa436a" style="flex:0"></u-text>
+											<text class="plus">+</text>
+											<u-text bold prefixIcon="rmb-circle"
+												iconStyle="color:#c7b033;font-size:18px;margin-right:5rpx;"
+												:text="item.pointPrice" color="#fa436a" style="flex:0"></u-text>
+										</view>
 									</template>
 									<template v-else>
-										<u-text mode="price" :text="item.price" color="#fa436a"></u-text>
+										<u-text bold mode="price" :text="item.price" color="#fa436a"></u-text>
 									</template>
 								</view>
 								<u-number-box class="step" :value="item.quantity" :min="1"
@@ -74,7 +80,8 @@
 					<text class="t1">合计:</text>
 					<view class="t2">
 						<u-text mode="price" :text="total" :block="false" color="#fa436a"></u-text>
-						<u-text prefixIcon="rmb-circle" iconStyle="color:#fa436a;font-size:18px;margin-right:5rpx;" :text="totalJf" color="#fa436a"></u-text>
+						<u-text prefixIcon="rmb-circle" iconStyle="color:#c7b033;font-size:18px;margin-right:5rpx;"
+							:text="totalJf" color="#fa436a" v-if="totalJf>0"></u-text>
 					</view>
 				</view>
 				<u-button type="default" class="confirm-btn" text="去结算" @click="createOrder"></u-button>
@@ -101,8 +108,8 @@
 				empty: false, //空白页现实  true|false
 				cartList: [],
 				customBar: this.customBar,
-				selectedIdList:[],
-				totalJf:0
+				selectedIdList: [],
+				totalJf: 0
 			};
 		},
 		components: {
@@ -121,16 +128,16 @@
 			getPageData() {
 				getUserCart().then(res => {
 					let selectedIdList = [];
-					this.cartList.forEach(item=>{
-						if(item.checked){
+					this.cartList.forEach(item => {
+						if (item.checked) {
 							selectedIdList.push(item.id)
 						}
 					})
 					this.selectedIdList = selectedIdList;
-					res.data.forEach(item=>{
-						if(this.selectedIdList.includes(item.id)){
+					res.data.forEach(item => {
+						if (this.selectedIdList.includes(item.id)) {
 							item.checked = true
-						}else{
+						} else {
 							item.checked = false;
 						}
 					})
@@ -197,7 +204,7 @@
 					duration: 1000
 				})
 				editCart({
-					productId:this.cartList[index].productId,
+					productId: this.cartList[index].productId,
 					id: this.cartList[index].id,
 					quantity: data.value
 				}).then(res => {
@@ -230,10 +237,12 @@
 					this.empty = true;
 					return;
 				}
-				let total = 0;
+				let total = 0,
+					totalJf = 0;
 				let checked = true;
 				list.forEach(item => {
 					if (item.checked === true) {
+						totalJf += item.pointPrice
 						total += item.price;
 					} else if (checked === true) {
 						checked = false;
@@ -241,6 +250,7 @@
 				})
 				this.allChecked = checked;
 				this.total = Number(total.toFixed(2));
+				this.totalJf = totalJf;
 			},
 			//创建订单
 			createOrder() {
@@ -255,7 +265,7 @@
 					this.$u.toast('您还没有选择产品')
 					return false
 				}
-				this.$store.commit('updateTempCart',goodsData)
+				this.$store.commit('updateTempCart', goodsData)
 				uni.navigateTo({
 					url: '/pages/checkout/checkout'
 				})
@@ -276,7 +286,12 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+	.plus {
+		color: $price-color;
+		font-weight: 700;
+		margin: 0 2px;
+	}
 	.container {
 		padding-bottom: 140rpx;
 
@@ -459,17 +474,18 @@
 			align-items: center;
 			text-align: right;
 			padding-right: 40rpx;
-			
-			.t1{
+
+			.t1 {
 				margin-right: 20rpx;
 			}
-			.t2{
+
+			.t2 {
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
 			}
-			
+
 			.price {
 				color: $price-color;
 				font-weight: bold;

@@ -5,7 +5,7 @@
 			@close="showDelModal=false"></u-modal>
 		<view>
 			<template v-if="addressList.length">
-				<view class="address-item" v-for="item in addressList" :key="item.id">
+				<view class="address-item" v-for="item in addressList" :key="item.id" @click="selectAddress(item)">
 					<view class="title">
 						<text class="name">{{item.name}}</text>
 						<text class="phone">{{item.phone}}</text>
@@ -15,7 +15,9 @@
 						<text class="detail">
 							{{item.province}} {{item.city}} {{item.area}} {{item.detailedAddress}}
 						</text>
-						<u-icon name="edit-pen" size="28" color="#999" @click="toEdit(item.id)"></u-icon>
+						<view @click.stop="toEdit(item.id)">
+							<u-icon name="edit-pen" size="28" color="#999"></u-icon>
+						</view>
 					</view>
 					<view class="btm">
 						<view>
@@ -56,6 +58,13 @@
 			};
 		},
 		methods: {
+			selectAddress(item) {
+				if (!this.originPage) {
+					return
+				}
+				this.$store.commit('setDefaultAddress',item)
+				uni.navigateBack()
+			},
 			deleteDizhi(item) {
 				this.showDelModal = true;
 				this.delId = item.id
@@ -91,6 +100,9 @@
 					this.addressList = res.data;
 				})
 			}
+		},
+		onLoad(options) {
+			this.originPage = options.from || ''
 		},
 		onShow() {
 			this.getList();

@@ -90,7 +90,7 @@
 					url="/pages/set/joinUs/joinUs" value="加盟店"></u-cell>
 				<u-cell icon="rmb-circle" iconStyle="color:#F66D74;font-size:24px;" title="营销业绩" isLink
 					url="/pages/set/marketing/marketing" value="查看返佣"></u-cell>
-				<u-cell icon="red-packet" iconStyle="color:#F66D74;font-size:24px;" title="积分管理" isLink
+				<u-cell icon="red-packet" iconStyle="color:#F66D74;font-size:24px;" title="余额管理" isLink
 					url="/pages/set/jifenManage/jifenManage"></u-cell>
 				<u-cell icon="man-add-fill" iconStyle="color:#F66D74;font-size:24px;" title="我的团队" isLink
 					url="/pages/set/team/team"></u-cell>
@@ -106,7 +106,7 @@
 					url="/pages/set/set/set"></u-cell>
 			</u-cell-group>
 
-			<u-cell-group style="margin-top: 40rpx;">
+			<u-cell-group style="margin-top: 40rpx;" v-if="userInfo.isJoin===1">
 				<u-cell icon="map" iconStyle="color:#9789F7;font-size:24px;" title="提货点管理" isLink
 					url="/pages/set/tiHuoDian/tiHuoDian"></u-cell>
 			</u-cell-group>
@@ -116,6 +116,9 @@
 
 <script>
 	import {
+		getUserInfo
+	} from '@/api/auth.js'
+	import {
 		register
 	} from '@/api/index.js'
 	import Avatar from '@/components/Avatar.vue';
@@ -124,7 +127,6 @@
 			return {
 				customBar: this.customBar,
 				showNavBar: false,
-				goodsList: []
 			}
 		},
 		components: {
@@ -135,14 +137,10 @@
 				return this.$store.state.userInfo || {}
 			}
 		},
-		onLoad() {
-			this.goodsList = this.$json.goodsList
-			console.log(this.$store.state.userInfo)
-		},
 		methods: {
-			toSetAvatar(){
+			toSetAvatar() {
 				uni.navigateTo({
-					url:'/pages/set/infoSet/infoSet'
+					url: '/pages/set/infoSet/infoSet'
 				})
 			},
 			navToDetailPage() {
@@ -170,6 +168,12 @@
 			setTimeout(() => {
 				uni.stopPullDownRefresh()
 			}, 1000)
+		},
+		onShow() {
+			getUserInfo().then(res => {
+				let userInfo = res.data;
+				this.$store.commit('updateUserInfo', userInfo)
+			})
 		}
 	}
 </script>

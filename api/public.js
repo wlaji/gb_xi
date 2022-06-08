@@ -33,3 +33,47 @@ export const getRecommend = function(data) {
 	})
 }
 
+//获取我的团队
+export const getMyTeam = function(data) {
+	return request({
+		url: '/app/user/getMyTeam',
+		method: 'post',
+		data: data
+	})
+}
+
+//获取我的业绩
+export const getMyPerformance = function(data) {
+	return request({
+		url: '/app/fundslog/getMyPerformance',
+		method: 'get',
+		params: data
+	})
+}
+
+//加盟
+export const addJoinCheck = function(data) {
+	return request({
+		url: '/app/join/addJoinCheck',
+		method: 'post',
+		data: data
+	})
+}
+
+//获取附近提货点
+export const getJoinByAreaId = function(data) {
+	return request({
+		url: '/app/join/getJoinByAreaId',
+		method: 'get',
+		params: data
+	})
+}
+
+//获取邮费配置
+export const getConfigValue = function(data) {
+	return request({
+		url: '/app/config/getConfigValue',
+		method: 'post',
+		data: data
+	})
+}

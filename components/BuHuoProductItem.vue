@@ -4,7 +4,7 @@
 			<u-image :showLoading="true" :src="JSON.parse(product.photoPath)[0].url" mode="aspectFit" width="100%" height="200rpx" radius="4px">
 			</u-image>
 		</view>
-		<view class="right">
+		<view class="bottom">
 			<view class="top">
 				<u-text :lines="1" block margin="10rpx 0" :text="product.productName"></u-text>
 				<view class="btm">
@@ -43,12 +43,13 @@
 <style lang="scss" scoped>
 	.product-item {
 		display: flex;
+		flex-direction: column;
 		margin: 10rpx;
-		width: 100%;
+		min-width: calc(50% - 20rpx);
+		width: calc(50% - 20rpx);
 		background-color: #fff;
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 		border-radius: 4px;
-		padding:10rpx;
 		
 		.qtyInput{
 			display: flex;
@@ -64,17 +65,19 @@
 	}
 
 	.image-wrapper {
-		width: 50%;
+		width: 100%;
 		height: 200rpx;
 		overflow: hidden;
+		padding: 10rpx;
 		flex-shrink: 0;
 	}
 	
-	.right{
+	.bottom{
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
 		flex:1;
+		padding: 10rpx;
 		.top{
 			display: flex;
 			flex-direction: column;

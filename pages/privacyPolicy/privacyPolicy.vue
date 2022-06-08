@@ -8,9 +8,9 @@
 			您在同意本应用服务使用协议之时，即视为您已经同意本隐私权政策全部内容。本隐私权政策属于本应用服务使用协议不可分割的一部分。
 		</view>
 		<view class="conWrap" style="text-align: right;">
-			<view>深圳群魔信息科技有限公司</view>
-			<view>本版本发布日期：2021年10月11日</view>
-			<view>本版本生效日期：2020年10月11日</view>
+			<view>国本健康</view>
+			<view>本版本发布日期：2022年6月1日</view>
+			<view>本版本生效日期：2022年6月1日</view>
 		</view>
 		<view class="conWrap">
 			<view class="title">

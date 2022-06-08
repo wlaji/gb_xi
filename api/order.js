@@ -24,6 +24,7 @@ export const editOrderPayment = function(data) {
 	})
 }
 
+//购物车下单
 export const addOrderByCart = function(data) {
 	return request({
 		url: '/app/orders/addOrderByCart',
@@ -32,9 +33,19 @@ export const addOrderByCart = function(data) {
 	})
 }
 
+//直接下单
 export const addOrder = function(data) {
 	return request({
 		url: '/app/orders/addOrder',
+		method: 'post',
+		data
+	})
+}
+
+//支付
+export const payment = function(data) {
+	return request({
+		url: '/app/pay/payment',
 		method: 'post',
 		data
 	})

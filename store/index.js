@@ -9,57 +9,60 @@ const store = new Vuex.Store({
 	state: {
 		hasLogin: false,
 		userInfo: null,
-		newVersionCode:0,
-		currentVersionCode:0,
-		versionInfo:'',
-		appUpdateInfo:null,
-		list:[
-			{
-				cateName:'秒杀',
-				productType:3,
-				iconName:'clock'
+		newVersionCode: 0,
+		currentVersionCode: 0,
+		versionInfo: '',
+		appUpdateInfo: null,
+		defaultAddress: '',
+		list: [{
+				cateName: '秒杀',
+				productType: 3,
+				iconName: 'clock'
 			},
 			{
-				cateName:'0元购',
-				productType:2,
-				iconName:'rmb'
+				cateName: '0元购',
+				productType: 2,
+				iconName: 'rmb'
 			},
 			{
-				cateName:'推广专区',
-				productType:1,
-				iconName:'share'
+				cateName: '推广专区',
+				productType: 1,
+				iconName: 'share'
 			},
-			
+
 			{
-				cateName:'金币兑换',
-				productType:4,
-				iconName:'rmb-circle'
+				cateName: '金币兑换',
+				productType: 4,
+				iconName: 'rmb-circle'
 			}
 		],
-		orderStatus:{
-			0:'全部',
-			1:'待付款',
-			2:'待发货',
-			3:'待收货',
-			4:'已签收',
-			5:'已取消',
+		orderStatus: {
+			0: '全部',
+			1: '待付款',
+			2: '待发货',
+			3: '待收货',
+			4: '已签收',
+			5: '已取消',
 		},
-		tempCart:uni.getStorageSync('tempCart')||[],
+		tempCart: uni.getStorageSync('tempCart') || [],
 	},
 	mutations: {
-		updateTempCart(state,data){
-			state.tempCart = data;
-			uni.setStorageSync('tempCart',data)
+		setDefaultAddress(state, data) {
+			state.defaultAddress = data;
 		},
-		updateUserInfo(state,data){
+		updateTempCart(state, data) {
+			state.tempCart = data;
+			uni.setStorageSync('tempCart', data)
+		},
+		updateUserInfo(state, data) {
 			state.userInfo = data;
-			uni.setStorageSync('userInfo',data);
+			uni.setStorageSync('userInfo', data);
 		},
 		login(state, res) {
 			state.hasLogin = true;
 			state.userInfo = res.userInfo;
-			uni.setStorageSync('userInfo',res.userInfo);
-			uni.setStorageSync('token',res.token)
+			uni.setStorageSync('userInfo', res.userInfo);
+			uni.setStorageSync('token', res.token)
 		},
 		logout(state) {
 			state.hasLogin = false;
@@ -71,12 +74,12 @@ const store = new Vuex.Store({
 				key: 'token'
 			});
 		},
-		version(state,widgetInfo){
+		version(state, widgetInfo) {
 			state.versionInfo = widgetInfo;
 			state.currentVersionCode = widgetInfo.versionCode;
 		},
-		updateAppInfo(state,data){
-			console.log(data,'后台返回的更新结果')
+		updateAppInfo(state, data) {
+			console.log(data, '后台返回的更新结果')
 			state.appUpdateInfo = data;
 			state.newVersionCode = data.versions
 		}
@@ -85,8 +88,8 @@ const store = new Vuex.Store({
 		isLogin(state) {
 			return state.hasLogin
 		},
-		hasNewVersion(state){
-			return state.newVersionCode>state.currentVersionCode?true:false
+		hasNewVersion(state) {
+			return state.newVersionCode > state.currentVersionCode ? true : false
 		}
 	},
 	actions: {

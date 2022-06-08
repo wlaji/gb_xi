@@ -32,6 +32,15 @@ export const editCart = function(data) {
   })
 }
 
+//立即下单数据组装
+export const getByNowInfo = function(data) {
+	return request({
+		url: '/app/product/getByNowInfo',
+		method: 'post',
+		data
+	})
+}
+
 
 
 

@@ -1,5 +1,6 @@
 <template>
-	<view class="container">
+	<view class="container" :style="{paddingTop:customBar+'px'}">
+		<u-navbar leftText="返回" title="确认订单" fixed @leftClick="goBack"></u-navbar>
 		<u-popup :show="show" mode="bottom" closeable @close="close">
 			<view class="popupCon">
 				<view class="title">订单备注</view>
@@ -14,31 +15,28 @@
 			</view>
 		</u-popup>
 		<view class="part">
-			<u-cell-group :border="false">
-				<u-cell size="large" icon="map-fill" :border="false" :iconStyle="{color:'red'}" title="中建五局二公司"
-					label="肖伟成 15773003996" isLink url="/pages/set/addressManage/addressManage"></u-cell>
+			<u-cell-group :border="false" v-if="defaultAddress">
+				<u-cell size="large" icon="map-fill" :border="false" :iconStyle="{color:'red'}"
+					:title="defaultAddress.detailedAddress" :label="defaultAddress.name+defaultAddress.phone" isLink
+					url="/pages/set/addressManage/addressManage?from='checkout'"></u-cell>
+			</u-cell-group>
+			<u-cell-group :border="false" v-else>
+				<u-cell size="large" icon="map-fill" :border="false" :iconStyle="{color:'red'}" title="暂无地址" label=""
+					isLink url="/pages/set/addressManage/addressManage?from='checkout'"></u-cell>
 			</u-cell-group>
 		</view>
 		<view class="part" v-for="(item,index) in goodsData" :key="index">
 			<view class="cart-item">
 				<view class="rightContent">
 					<view class="image-wrapper">
-						<u-image :showLoading="true" :src="JSON.parse(item.photoPath)[0].url" width="150rpx"
+						<u-image :showLoading="true" :src="JSON.parse(item.product.photoPath)[0].url" width="150rpx"
 							height="150rpx" radius="10px"></u-image>
 					</view>
 					<view class="item-right">
 						<view class="t1">
-							<text class="title u-line-1" style="display: block;">{{item.productName}}</text>
+							<text class="title u-line-1" style="display: block;">{{item.product.productName}}</text>
 							<view>
-								<template v-if="item.productType==4">
-									<u-text prefixIcon="rmb-circle"
-										iconStyle="color:#fa436a;font-size:18px;margin-right:5rpx;"
-										:text="item.pointPrice*item.quantity" color="#fa436a"></u-text>
-								</template>
-								<template v-else>
-									<u-text mode="price" :text="item.price*item.quantity" color="#fa436a" align="right">
-									</u-text>
-								</template>
+								<PriceText :productItem="item.product"></PriceText>
 							</view>
 						</view>
 						<view class="t2">
@@ -51,7 +49,9 @@
 		</view>
 		<view class="part">
 			<u-cell-group :border="false">
-				<u-cell :border="false" title="配送服务" value="快递 免邮">
+				<u-cell :border="false" title="配送服务" :value="'快递 '+(calcPostage==0?'免邮':'￥'+calcPostage)">
+				</u-cell>
+				<u-cell :border="false" title="提货点" value="暂无">
 				</u-cell>
 				<!-- <u-cell :border="false" title="优惠" value="￥3">
 				</u-cell> -->
@@ -67,15 +67,25 @@
 						￥{{total}}
 					</view>
 				</u-cell>
+				<u-cell :border="false" title="宝豆">
+					<view slot="value" class="u-slot-title">
+						<u-text bold prefixIcon="rmb-circle" iconStyle="color:#c7b033;font-size:18px;margin-right:5rpx;"
+							:text="totalJf" color="#000000" style="flex:0"></u-text>
+					</view>
+					<view slot="label" class="customLabel">
+						<text>可用宝豆{{userInfo.points}}</text>
+						<text style="color:red;margin-left: 10px;" v-if="!jfStatus">宝豆不足</text>
+					</view>
+				</u-cell>
 				<u-cell :border="false" title="合计">
 					<view slot="value" class="u-slot-title">
-						￥{{total}}
+						￥{{totalPrice}}
 					</view>
 				</u-cell>
 			</u-cell-group>
 		</view>
 		<view class="part">
-			<PayList></PayList>
+			<PayList @changeMethod="changeMethod"></PayList>
 		</view>
 		<view class="add-address-btn">
 			<u-button :loading="loading" color="linear-gradient(to right, rgb(255, 85, 0), rgb(240, 76, 0))" text="提交订单"
@@ -85,27 +95,131 @@
 </template>
 
 <script>
-	import PayList from '@/components/PayList.vue'
+	import PriceText from '@/components/PriceText.vue'
+	import PayList from '@/components/PayList.vue';
+	import {
+		addOrder,
+		addOrderByCart,
+		payment
+	} from '@/api/order.js'
+	import {
+		getUserAddressList,
+	} from '@/api/auth.js'
+	import {
+		getJoinByAreaId,
+		getConfigValue
+	} from '@/api/public.js'
 	export default {
 		data() {
 			return {
-				loading:false,
+				customBar: this.customBar,
+				loading: false,
 				bezhuIndex: '',
 				beizhu: '',
 				show: false,
-				total: 0,
 				discount: 0,
+				addressList: [],
+				postage: 0,
+				paymentMethod: 'WxPay',
+				buyNow: 0
 			}
 		},
 		components: {
-			PayList
+			PayList,
+			PriceText
 		},
 		computed: {
+			jfStatus() {
+				return Number(this.userInfo.points) >= this.totalJf
+			},
 			goodsData() {
 				return this.$store.state.tempCart
+			},
+			totalJf() {
+				let list = this.goodsData;
+				let total = 0;
+				list.forEach(item => {
+					total += item.pointPrice
+				})
+				return Number(total.toFixed(2)) || 0;
+			},
+			defaultAddress() {
+				if (!this.addressList) {
+					return null;
+				}
+				let list = this.addressList;
+				if (this.$store.state.defaultAddress) {
+					console.log(this.$store.state.defaultAddress)
+					let findDefault = list.find(item => {
+						return item.id == this.$store.state.defaultAddress.id
+					})
+					if (findDefault) {
+						return findDefault
+					}
+				} else {
+					let findDefault = list.find(item => {
+						return item.isDefault === 1
+					})
+					if (findDefault) {
+						return findDefault
+					} else {
+						return list[0]
+					}
+				}
+			},
+			calcPostage() {
+				let list = this.goodsData,
+					postage = this.postage,
+					totalPrice = this.total;
+				if (totalPrice > postage) {
+					return 0
+				} else {
+					let price = 0;
+					list.forEach(item => {
+						if (item.product.postagePrice > price) {
+							price = item.product.postagePrice
+						}
+					})
+					return Number(price.toFixed(2))
+				}
+			},
+			userInfo() {
+				return this.$store.state.userInfo || {}
+			},
+			total() {
+				let list = this.goodsData;
+				let total = 0;
+				list.forEach(item => {
+					total += item.price
+				})
+				return Number(total.toFixed(2)) || 0;
+			},
+			totalPrice() {
+				return Number((this.total + this.calcPostage).toFixed(2))
+			}
+		},
+		watch: {
+			defaultAddress(newValue) {
+				getJoinByAreaId({
+					areaId: newValue.areaId
+				}).then(res => {
+					console.log(res)
+				})
 			}
 		},
 		methods: {
+			goBack() {
+				if (this.buyNow == 1) {
+					uni.navigateBack()
+				} else {
+					uni.switchTab({
+						url: '/pages/cart/cart'
+					})
+				}
+			},
+			changeMethod(method) {
+				this.paymentMethod = method
+			},
 			addBezhuBefore(index) {
 				this.bezhuIndex = index;
 				this.beizhu = ''
@@ -117,33 +231,128 @@
 			close() {
 				this.show = false
 			},
-			calcTotal() {
-				let list = this.goodsData;
-				let total = 0;
-				list.forEach(item => {
-					total += item.price
-				})
-				this.total = Number(total.toFixed(2));
+			pay(data, provider) {
+				console.log(data, provider);
+				if (provider === 'balance') {
+					uni.redirectTo({
+						url: '/pages/payAfter/payAfter?status=' + 1
+					})
+				} else {
+					uni.requestPayment({
+						provider: provider,
+						orderInfo: data,
+						success(res) {
+							uni.redirectTo({
+								url: '/pages/payAfter/payAfter?status=' + 1
+							})
+						},
+						fail(err) {
+							uni.$u.toast(err.message);
+							uni.redirectTo({
+								url: '/pages/payAfter/payAfter?status=' + 0
+							})
+						}
+					})
+				}
 			},
 			submitOrder() {
-				console.log(this.payMentMethod);
+				if (!this.defaultAddress) {
+					uni.$u.toast('请选择收货地址');
+					return false;
+				}
+				if (!this.paymentMethod) {
+					uni.$u.toast('请选择支付方式');
+					return false;
+				}
 				this.loading = true;
-				uni.$u.sleep(300).then(() => {
-					console.log('定时结束');
-					this.loading = false;
-					uni.navigateTo({
-						url:'/pages/payAfter/payAfter'
+				let list = this.goodsData;
+				let cartIdList = list.map(item => {
+					return item.id
+				});
+				let defaultAddress = this.defaultAddress;
+				let postData
+				if (this.buyNow == 1) {
+					postData = {
+						productId: this.goodsData[0].product.id,
+						quantity: this.goodsData[0].quantity,
+						provinceId: defaultAddress.provinceId,
+						province: defaultAddress.province,
+						cityId: defaultAddress.cityId,
+						city: defaultAddress.city,
+						areaId: defaultAddress.areaId,
+						area: defaultAddress.area,
+						detailedAddress: defaultAddress.detailedAddress,
+						pickupPointId: null,
+						paymentMethod: this.paymentMethod,
+					};
+					addOrder(postData).then(res => {
+						uni.$u.toast('下单成功');
+						payment({
+							orderId: res.data
+						}).then(res => {
+							this.pay(res.data, this.paymentMethod.toLowerCase())
+						}).catch(err => {
+							uni.$u.toast(err.message);
+						})
+					}).finally(() => {
+						this.loading = false;
 					})
+				} else {
+					postData = {
+						cartIdList: cartIdList,
+						provinceId: defaultAddress.provinceId,
+						province: defaultAddress.province,
+						cityId: defaultAddress.cityId,
+						city: defaultAddress.city,
+						areaId: defaultAddress.areaId,
+						area: defaultAddress.area,
+						detailedAddress: defaultAddress.detailedAddress,
+						pickupPointId: null,
+						paymentMethod: this.paymentMethod,
+					};
+					//调用下单
+					addOrderByCart(postData).then(res => {
+						uni.$u.toast('下单成功');
+						payment({
+							orderId: res.data
+						}).then(res => {
+							this.pay(res.data, this.paymentMethod.toLowerCase())
+						}).catch(err => {
+							uni.$u.toast(err.message);
+						})
+					}).finally(() => {
+						this.loading = false;
+					})
+				}
+			},
+			getList() {
+				getUserAddressList().then(res => {
+					this.addressList = res.data;
 				})
 			}
 		},
-		onShow() {
-			this.calcTotal()
+		onLoad(options) {
+			this.buyNow = options.buyNow || 0
+			this.getList();
+			getConfigValue({
+				groupName: 'order',
+				configName: 'free_shipping'
+			}).then(res => {
+				console.log(res);
+				this.postage = Number(res.data);
+			})
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.customLabel {
+		margin-top: 5px;
+		font-size: 12px;
+		color: #909193;
+		line-height: 18px;
+	}
+
 	.add-address-btn {
 		display: flex;
 		align-items: center;
@@ -159,6 +368,7 @@
 	.u-slot-title,
 	.u-slot-title2 {
 		font-weight: 700;
+		text-align: right;
 	}
 
 	.u-slot-title2 {

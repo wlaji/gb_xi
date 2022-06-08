@@ -33,86 +33,94 @@
 			</view> -->
 
 			<!-- 秒杀专区 -->
-			<view class="hot-header" @click="tozq(3,'秒杀')">
-				<u-icon name="clock" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
-				<view class="tit-box">
-					<text class="tit">秒杀专区</text>
+			<template v-if="productList['秒杀专区'].length">
+				<view class="hot-header" @click="tozq(3,'秒杀')">
+					<u-icon name="clock" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
+					<view class="tit-box">
+						<text class="tit">秒杀专区</text>
+					</view>
+					<u-icon name="arrow-right"></u-icon>
 				</view>
-				<u-icon name="arrow-right"></u-icon>
-			</view>
-			<view class="category-section">
-				<template v-if="productList['秒杀专区'].length">
-					<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
-						<template v-for="(product,index) in productList['秒杀专区']">
-							<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
-						</template>
-					</u-scroll-list>
-				</template>
-				<template v-else>
-					<u-empty mode="list"></u-empty>
-				</template>
-			</view>
+				<view class="category-section">
+					<template v-if="productList['秒杀专区'].length">
+						<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+							<template v-for="(product,index) in productList['秒杀专区']">
+								<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
+							</template>
+						</u-scroll-list>
+					</template>
+					<template v-else>
+						<u-empty mode="list"></u-empty>
+					</template>
+				</view>
+			</template>
 
 			<!-- 0元购 -->
-			<view class="hot-header" @click="tozq(2,'0元购')">
-				<u-icon name="rmb" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
-				<view class="tit-box">
-					<text class="tit">0元购</text>
+			<template v-if="productList['0元购'].length">
+				<view class="hot-header" @click="tozq(2,'0元购')">
+					<u-icon name="rmb" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
+					<view class="tit-box">
+						<text class="tit">0元购</text>
+					</view>
+					<u-icon name="arrow-right"></u-icon>
 				</view>
-				<u-icon name="arrow-right"></u-icon>
-			</view>
-			<view class="category-section">
-				<template v-if="productList['0元购'].length">
-					<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
-						<template v-for="(product,index) in productList['0元购']">
-							<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
-						</template>
-					</u-scroll-list>
-				</template>
-				<template v-else>
-					<u-empty mode="list"></u-empty>
-				</template>
-			</view>
+				<view class="category-section">
+					<template v-if="productList['0元购'].length">
+						<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+							<template v-for="(product,index) in productList['0元购']">
+								<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
+							</template>
+						</u-scroll-list>
+					</template>
+					<template v-else>
+						<u-empty mode="list"></u-empty>
+					</template>
+				</view>
+			</template>
 			<!-- 推广专区 -->
-			<view class="hot-header" @click="tozq(1,'推广专区')">
-				<u-icon name="share" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
-				<view class="tit-box">
-					<text class="tit">推广专区</text>
+			<template v-if="productList['推广'].length">
+				<view class="hot-header" @click="tozq(1,'推广专区')">
+					<u-icon name="share" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
+					<view class="tit-box">
+						<text class="tit">推广专区</text>
+					</view>
+					<u-icon name="arrow-right"></u-icon>
 				</view>
-				<u-icon name="arrow-right"></u-icon>
-			</view>
-			<view class="category-section">
-				<template v-if="productList['推广'].length">
-					<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
-						<template v-for="(product,index) in productList['推广']">
-							<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
-						</template>
-					</u-scroll-list>
-				</template>
-				<template v-else>
-					<u-empty mode="list"></u-empty>
-				</template>
-			</view>
+				<view class="category-section">
+					<template v-if="productList['推广'].length">
+						<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+							<template v-for="(product,index) in productList['推广']">
+								<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
+							</template>
+						</u-scroll-list>
+					</template>
+					<template v-else>
+						<u-empty mode="list"></u-empty>
+					</template>
+				</view>
+			</template>
 			<!-- 金币兑换 -->
-			<view class="hot-header" @click="tozq(4,'金币兑换')">
-				<u-icon name="rmb-circle" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
-				<view class="tit-box">
-					<text class="tit">金币兑换</text>
+			<template v-if="productList['金币兑换'].length">
+				<view class="hot-header" @click="tozq(4,'金币兑换')">
+					<u-icon name="rmb-circle" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
+					<view class="tit-box">
+						<text class="tit">金币兑换</text>
+					</view>
+					<u-icon name="arrow-right"></u-icon>
 				</view>
-				<u-icon name="arrow-right"></u-icon>
-			</view>
-			<view class="category-section">
-				<template v-if="productList['金币兑换'].length">
-					<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
-						<template v-for="(product,index) in productList['金币兑换']">
-							<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
-						</template>
-					</u-scroll-list>
-				</template>
-				<template v-else>
-					<u-empty mode="list"></u-empty>
-				</template>
-			</view>
+				<view class="category-section">
+					<template v-if="productList['金币兑换'].length">
+						<u-scroll-list :indicator="indicator" indicatorColor="#fff0f0" indicatorActiveColor="#f56c6c">
+							<template v-for="(product,index) in productList['金币兑换']">
+								<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
+							</template>
+						</u-scroll-list>
+					</template>
+					<template v-else>
+						<u-empty mode="list"></u-empty>
+					</template>
+				</view>
+			</template>
 
 			<!-- 推荐 -->
 			<view class="hot-header" @click="toCategory">
