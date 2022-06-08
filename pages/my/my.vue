@@ -43,25 +43,25 @@
 			</u-cell-group>
 
 			<view class="bottom">
-				<view class="b1">
+				<view class="b1" @click="toOrder(1)">
 					<i class="iconfont icon-daifukuan"></i>
 					<text>待付款</text>
 				</view>
-				<view class="b1">
+				<view class="b1" @click="toOrder(2)">
 					<i class="iconfont icon-daifahuo"></i>
 					<text>待发货</text>
 				</view>
-				<view class="b1">
+				<view class="b1" @click="toOrder(3)">
 					<i class="iconfont icon-daishouhuo"></i>
 					<text>待收货</text>
 				</view>
-				<view class="b1">
+				<view class="b1" @click="toOrder(4)">
 					<i class="iconfont icon-daipingjia"></i>
-					<text>待评价</text>
+					<text>已签收</text>
 				</view>
-				<view class="b1">
+				<view class="b1" @click="toOrder(5)">
 					<i class="iconfont icon-shouhou"></i>
-					<text>售后/退款</text>
+					<text>已取消</text>
 				</view>
 			</view>
 		</view>
@@ -138,6 +138,11 @@
 			}
 		},
 		methods: {
+			toOrder(status){
+				uni.navigateTo({
+					url:'/pages/set/myOrder/myOrder?status='+status
+				})
+			},
 			toSetAvatar() {
 				uni.navigateTo({
 					url: '/pages/set/infoSet/infoSet'

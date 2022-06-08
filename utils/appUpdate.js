@@ -8,13 +8,11 @@ export default function() {
 	// 设备系统平台--安卓||ios
 	var platform = uni.getSystemInfoSync().platform;
 	plus.runtime.getProperty(plus.runtime.appid, (widgetInfo) => {
-		console.log(widgetInfo);
 		if(platform === "android"){
 			checkForUpdates({
 				versions: widgetInfo.versionCode,
 				platform: 'android'
 			}).then(result => {
-				console.log('检查跟新返回-》', result)
 				const url = result.data.url;
 				const description = result.data.description;
 				const bool = parseInt(result.data.bool);

@@ -14,7 +14,7 @@
 				</view>
 			</view>
 		</u-popup>
-		<view class="part">
+		<view class="part" style="margin-top: 20rpx;">
 			<u-cell-group :border="false" v-if="defaultAddress">
 				<u-cell size="large" icon="map-fill" :border="false" :iconStyle="{color:'red'}"
 					:title="defaultAddress.detailedAddress" :label="defaultAddress.name+defaultAddress.phone" isLink

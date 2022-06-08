@@ -183,12 +183,11 @@
 			ProductItem,
 			BindInfo
 		},
+		
 
 		watch: {
 			'$store.state.appUpdateInfo': function(val) {
-				if (val) {
-					this.showModal = true;
-				}
+				this.showModal = this.$store.getters.hasNewVersion
 			}
 		},
 

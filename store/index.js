@@ -79,7 +79,6 @@ const store = new Vuex.Store({
 			state.currentVersionCode = widgetInfo.versionCode;
 		},
 		updateAppInfo(state, data) {
-			console.log(data, '后台返回的更新结果')
 			state.appUpdateInfo = data;
 			state.newVersionCode = data.versions
 		}

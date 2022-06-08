@@ -30,7 +30,11 @@
 		},
 		methods: {
 			checkUpdate(){
-				this.showModal = true;
+				if(this.$store.getters.hasNewVersion){
+					this.showModal = true
+				}else{
+					uni.$u.toast('已经是最新版本了~')
+				}
 			}
 		},
 		onLoad() {

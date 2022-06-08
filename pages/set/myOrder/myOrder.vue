@@ -35,8 +35,8 @@
 								</view>
 								<view class="priceInfo">
 									<text>总价:</text>
-									<u-text bold mode="price" :text="item.orderPrice" color="#fa436a"
-										style="flex:0"></u-text>
+									<u-text bold mode="price" :text="item.orderPrice" color="#fa436a" style="flex:0">
+									</u-text>
 								</view>
 								<view class="priceInfo">
 									<text>积分:</text>
@@ -102,15 +102,6 @@
 		components: {
 			PriceText
 		},
-		watch: {
-			activeIndex(newVal) {
-				this.form.status = newVal ? newVal : null;
-				this.form.page = 1;
-				this.productList = [];
-				this.loadDataStatus = true;
-				this.getList()
-			}
-		},
 		methods: {
 			cancelOrder() {
 				uni.navigateTo({
@@ -125,6 +116,11 @@
 			//swiper 切换
 			changeTab(e) {
 				this.activeIndex = e.target.current;
+				this.form.status = this.activeIndex ? this.activeIndex : null;
+				this.form.page = 1;
+				this.productList = [];
+				this.loadDataStatus = true;
+				this.getList()
 			},
 			//顶部tab点击
 			tabClick(index) {
@@ -185,8 +181,12 @@
 				})
 			},
 		},
-		onLoad() {
-			this.getList();
+		onLoad(options) {
+			this.form.status = Number(options.status) || null;
+			this.activeIndex = this.form.status || 0
+			this.$nextTick(()=>{
+				this.getList();
+			})
 		}
 	}
 </script>

@@ -277,6 +277,7 @@
 													url: '/pages/index/index'
 												});
 											}).catch(err => {
+												console.log(err)
 												uni.$u.toast('微信登录失败');
 											})
 										},

@@ -43,7 +43,8 @@
 								<view style="margin: 20rpx 0;">
 									<template v-if="item.product.productType==4">
 										<view style="display: flex;">
-											<u-text bold mode="price" :text="item.price" color="#fa436a" style="flex:0"></u-text>
+											<u-text bold mode="price" :text="item.price" color="#fa436a" style="flex:0">
+											</u-text>
 											<text class="plus">+</text>
 											<u-text bold prefixIcon="rmb-circle"
 												iconStyle="color:#c7b033;font-size:18px;margin-right:5rpx;"
@@ -58,9 +59,10 @@
 									:max="item.product.inventory===-1?9999:item.product.inventory" integer
 									@change="numberChange($event,index)" @overlimit="overlimit"></u-number-box>
 							</view>
-							<u-icon name="close" :color="item.product.deleted===1?'#ffffff':'#909399'" class="del-btn"
-								@click="deleteCartItem(index)">
-							</u-icon>
+							<view @click="deleteCartItem(index)">
+								<u-icon name="close" :color="item.product.deleted===1?'#ffffff':'#909399'" class="del-btn">
+								</u-icon>
+							</view>
 						</view>
 					</view>
 				</template>
@@ -215,6 +217,7 @@
 			},
 			//删除弹窗
 			deleteCartItem(index) {
+				console.log(index)
 				this.showDelModal = true;
 				this.currentIndex = index
 			},
@@ -274,9 +277,6 @@
 		onShow() {
 			this.getPageData()
 		},
-		onHide() {
-			uni.removeStorageSync('productId')
-		},
 		onPullDownRefresh() {
 			this.getPageData()
 			setTimeout(() => {
@@ -292,6 +292,7 @@
 		font-weight: 700;
 		margin: 0 2px;
 	}
+
 	.container {
 		padding-bottom: 140rpx;
 
