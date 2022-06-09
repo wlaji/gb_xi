@@ -231,7 +231,7 @@
 						})
 					} else if (data.package === 'Sign=WXPay') {
 						uni.requestPayment({
-							provider: provider,
+							provider: 'wxpay',
 							orderInfo: data,
 							success(res) {
 								uni.redirectTo({
