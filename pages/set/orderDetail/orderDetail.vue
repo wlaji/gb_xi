@@ -1,36 +1,32 @@
 <template>
 	<view class="container">
 		<view class="part">
-			<view class="product-item" v-for="(citem,cindex) in productList[0].goodsList" :key="cindex">
+			<view class="product-item" v-for="(citem,cindex) in orderInfo.productList" :key="cindex">
 				<view class="left-img">
-					<u-image :showLoading="true" :src="citem.image" width="100%" height="200rpx" radius="4px">
-					</u-image>
+					<u-image :showLoading="true" :src="JSON.parse(citem.photoPath)[0].url" width="200rpx"
+						height="200rpx" radius="10px"></u-image>
 				</view>
 				<view class="right-con">
 					<view class="r1">
-						<text class="title u-line-1">回力女鞋高帮帆布鞋女学生韩版鞋子女</text>
-						<text class="des">白色-高帮 39</text>
+						<text class="title u-line-1">{{citem.productName}}</text>
 					</view>
 					<view class="r2">
-						<text class="price">
-							￥3300.96
-						</text>
-						<text class="oprice">
-							￥3300.96
-						</text>
-						<text class="num">
-							x1
-						</text>
+						<view class="price">
+							<PriceText :productItem="citem"></PriceText>
+						</view>
+						<view class="num">
+							x{{citem.quantity}}
+						</view>
 					</view>
 				</view>
 			</view>
 			<view class="priceInfo">
-				<u-transition :show="showMore">
+				<!-- <u-transition :show="showMore">
 					<view class="price-item">
 						<view class="label">商品总价</view>
 						<view class="price">
-							<text>商品总价</text>
-							<text class="num">￥718.00</text>
+							<u-text mode="price" :text="(orderInfo.orderPrice + orderInfo.mixPayPrice).toFixed(2)" style="flex:0">
+							</u-text>
 						</view>
 					</view>
 					<view class="price-item">
@@ -47,12 +43,35 @@
 							<text class="num">-￥200.00</text>
 						</view>
 					</view>
-				</u-transition>
+				</u-transition> -->
+				<view class="price-item">
+					<view class="label">商品总价</view>
+					<view class="price">
+						<u-text mode="price" :text="(orderInfo.orderPrice + orderInfo.mixPayPrice).toFixed(2)" style="flex:0" size="14" color="#909193">
+						</u-text>
+					</view>
+				</view>
+				<view class="price-item">
+					<view class="label">运费</view>
+					<view class="price">
+						<text class="num">￥{{orderInfo.shippingPrice}}</text>
+					</view>
+				</view>
+				<view class="price-item">
+					<view class="label">宝豆</view>
+					<view class="price">
+						<u-text bold prefixIcon="rmb-circle"
+							iconStyle="color:#c7b033;font-size:14px;margin-right:5rpx;"
+							:text="orderInfo.pointPrice" color="#fa436a" style="flex:0" size="14"></u-text>
+					</view>
+				</view>
 				<view class="price-item actualPayment">
 					<view class="label">实付款</view>
 					<view class="price">
-						<u-icon :name="showMore?'arrow-up':'arrow-down'" color="#909193" labelPos="left" label="￥718.00"
-							labelColor="#333" @click="showMore=!showMore"></u-icon>
+						<u-text mode="price" bold
+							:text="(orderInfo.orderPrice + orderInfo.mixPayPrice + orderInfo.shippingPrice).toFixed(2)"
+							style="flex:0" size="14" color="#333">
+						</u-text>
 					</view>
 				</view>
 			</view>
@@ -63,113 +82,106 @@
 			</view>
 			<view class="info-item">
 				<view class="label">收货信息</view>
-				<view class="text">
-					肖伟成, 86-15773003996, 湖南省 岳阳市 岳阳楼区 五里牌街道 中建五局二公司
+				<view class="text" v-if="orderInfo">
+					{{cusAddress}}
 				</view>
 			</view>
 			<view class="info-item order-bh">
 				<view class="label">订单编号</view>
 				<view class="text">
-					1321321321321321321321
+					{{orderInfo.orderId}}
 					<u-line direction="col" length="14px" :hairline="false" margin="0 10rpx"></u-line>
-					<text style="color:#333" @click="copy('321321321321')">复制</text>
+					<text style="color:#333" @click="copy(orderInfo.orderId)">复制</text>
+				</view>
+			</view>
+			<view class="info-item order-bh" v-if="orderInfo.deliverySlipNumber">
+				<view class="label">运单号</view>
+				<view class="text">
+					{{orderInfo.deliverySlipNumber}}
+					<u-line direction="col" length="14px" :hairline="false" margin="0 10rpx"></u-line>
+					<text style="color:#333" @click="copy(orderInfo.deliverySlipNumber)">复制</text>
 				</view>
 			</view>
 			<view class="info-item">
 				<view class="label">创建时间</view>
 				<view class="text">
-					2021-12-23 15:14:20
+					{{orderInfo.createTime}}
 				</view>
 			</view>
 			<view class="info-item">
-				<view class="label">付款时间</view>
+				<view class="label">支付方式</view>
 				<view class="text">
-					2021-12-23 15:14:20
-				</view>
-			</view>
-			<view class="info-item">
-				<view class="label">发货时间</view>
-				<view class="text">
-					2021-12-23 15:14:20
-				</view>
-			</view>
-			<view class="info-item">
-				<view class="label">成交时间</view>
-				<view class="text">
-					2021-12-23 15:14:20
+					{{payList[orderInfo.paymentMethod]}}
 				</view>
 			</view>
 		</view>
-		<view class="orderBtnGroup u-border-top">
+		<!-- <view class="orderBtnGroup u-border-top">
 			<view class="left">
-				<text>更多</text>
 			</view>
 			<view class="right">
-				<!-- 	<button class="u-reset-button">加入购物车</button> -->
-				<button class="u-reset-button">取消订单</button>
-				<button class="u-reset-button zf">立即支付</button>
-				<button class="u-reset-button pj">评价</button>
+				<button class="u-reset-button" v-if="orderInfo.status===1"
+					@click="cancelOrderDefault(orderInfo.orderId)">取消订单</button>
+				<button class="u-reset-button zf" v-if="orderInfo.status===1"
+					@click="goZhifu(orderInfo.orderId,orderInfo.paymentMethod)">立即支付</button>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
 <script>
+	import PriceText from '@/components/PriceText.vue'
+	import {
+		getOrderInfo,
+		payment,
+		cancelOrder
+	} from '@/api/order.js'
 	export default {
 		data() {
 			return {
-				showMore: false,
-				productList: [{
-					time: '2019-04-06 11:37',
-					state: 1,
-					goodsList: [{
-							image: '/static/image/2.jpg',
-						},
-						{
-							image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg',
-						},
-						{
-							image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg',
-						},
-						{
-							image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg',
-						},
-						{
-							image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg',
-						},
-						{
-							image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4031878334,2682695508&fm=11&gp=0.jpg',
-						},
-						{
-							image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1620020012,789258862&fm=26&gp=0.jpg',
-						}
-					]
-				}]
+				payList: {
+					Balance: '余额',
+					WxPay: '微信支付',
+					Mix:'混合支付'
+				},
+				orderInfo: '',
+				showMore: false
 			};
 		},
-		methods:{
-			copy(value){
-				console.log(value)
+		components: {
+			PriceText
+		},
+		computed: {
+			cusAddress() {
+				let orderInfo = this.orderInfo;
+				return `${orderInfo.address.name},${orderInfo.address.phone},${orderInfo.address.province} ${orderInfo.address.city} ${orderInfo.address.area||''} ${orderInfo.address.detailedAddress}`
+			}
+		},
+		methods: {
+			copy(value) {
 				uni.setClipboardData({
-				    data: value,
-				    success: function () {
+					data: value,
+					success: function() {
 						uni.$u.toast('复制成功');
-				    },
+					},
 					fail(err) {
 						console.log(err)
 					}
 				});
 			}
 		},
-		onLoad() {
-			this.productList = this.$json.orderList
+		onLoad(options) {
+			getOrderInfo({
+				id: options.id
+			}).then(res => {
+				this.orderInfo = res.data;
+			})
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.container {
-		padding: 20rpx 0 70px;
+		padding: 20rpx;
 	}
 
 	.part {
@@ -239,6 +251,7 @@
 
 	.priceInfo {
 		margin-top: 20rpx;
+
 		.price-item {
 			display: flex;
 			justify-content: space-between;
@@ -253,7 +266,7 @@
 				color: $u-tips-color;
 
 				.num {
-					font-size: 12px;
+					font-size: 14px;
 					margin-left: 20rpx;
 				}
 			}

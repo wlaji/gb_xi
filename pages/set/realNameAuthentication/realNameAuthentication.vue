@@ -47,23 +47,10 @@
 						required: true,
 						message: '请输入真实姓名',
 						trigger: ['blur'],
-					}, {
-						validator: (rule, value, callback) => {
-							return uni.$u.test.chinese(value);
-						},
-						message: '请输入正确的姓名',
-						trigger: ['blur'],
 					}],
 					'identityCard': [{
 							required: true,
 							message: '请输入身份证号码',
-							trigger: ['blur'],
-						},
-						{
-							validator: (rule, value, callback) => {
-								return uni.$u.test.idCard(value);
-							},
-							message: '身份证号码不正确',
 							trigger: ['blur'],
 						}
 					]

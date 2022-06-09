@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view class="tab">
+		<!-- <view class="tab">
 			<view class="tab-left">
 				<view :class="[{ active: activeIndex===0 }, 'tab-item']" @click="changeTab(0)">综合排序</view>
 				<view :class="[{ active: activeIndex===1 }, 'tab-item']" @click="changeTab(1)">销量优先</view>
@@ -16,7 +16,7 @@
 			</view>
 			<u-line direction="col" length="16px" margin="0 20rpx" color="#333"></u-line>
 			<u-icon name="grid" size="30px" @click="showDialog = true"></u-icon>
-		</view>
+		</view> -->
 		<view class="content">
 			<template v-if="productList.length||loadDataStatus">
 				<scroll-view scroll-y="true" class="scroll-Y" @scrolltolower="loadData">
@@ -218,7 +218,8 @@
 		}
 
 		.content {
-			height: calc(100% - 40px);
+			height: 100%;
+			// height: calc(100% - 40px);
 			padding-bottom: 20rpx;
 
 			.scroll-Y {
@@ -245,7 +246,6 @@
 			.tab-left {
 				flex: 1;
 				display: flex;
-				justify-content: space-around;
 				height: 100%;
 			}
 

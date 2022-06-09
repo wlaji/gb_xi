@@ -17,8 +17,8 @@
 		<view class="part" style="margin-top: 20rpx;">
 			<u-cell-group :border="false" v-if="defaultAddress">
 				<u-cell size="large" icon="map-fill" :border="false" :iconStyle="{color:'red'}"
-					:title="defaultAddress.detailedAddress" :label="defaultAddress.name+defaultAddress.phone" isLink
-					url="/pages/set/addressManage/addressManage?from='checkout'"></u-cell>
+					:title="defaultAddress.detailedAddress" :label="defaultAddress.name +' '+ defaultAddress.phone"
+					isLink url="/pages/set/addressManage/addressManage?from='checkout'"></u-cell>
 			</u-cell-group>
 			<u-cell-group :border="false" v-else>
 				<u-cell size="large" icon="map-fill" :border="false" :iconStyle="{color:'red'}" title="暂无地址" label=""
@@ -51,8 +51,8 @@
 			<u-cell-group :border="false">
 				<u-cell :border="false" title="配送服务" :value="'快递 '+(calcPostage==0?'免邮':'￥'+calcPostage)">
 				</u-cell>
-				<u-cell :border="false" title="提货点" value="暂无">
-				</u-cell>
+				<!-- <u-cell :border="false" title="提货点" value="暂无">
+				</u-cell> -->
 				<!-- <u-cell :border="false" title="优惠" value="￥3">
 				</u-cell> -->
 				<!-- <u-cell :border="false" title="订单备注" value="无备注" isLink @click="addBezhuBefore(index)">
@@ -77,7 +77,7 @@
 						<text style="color:red;margin-left: 10px;" v-if="!jfStatus">宝豆不足</text>
 					</view>
 				</u-cell>
-				<u-cell :border="false" title="合计">
+				<u-cell :border="false" title="实付款">
 					<view slot="value" class="u-slot-title">
 						￥{{totalPrice}}
 					</view>
@@ -86,6 +86,10 @@
 		</view>
 		<view class="part">
 			<PayList @changeMethod="changeMethod"></PayList>
+		</view>
+		<view class="part" style="padding: 10px;" v-if="paymentMethod==='Mix'">
+			<u-input v-model="mixPayPrice" type="digit" :placeholder="`请输入您要支付的余额(可用余额:${userInfo.funds})`" clearable>
+			</u-input>
 		</view>
 		<view class="add-address-btn">
 			<u-button :loading="loading" color="linear-gradient(to right, rgb(255, 85, 0), rgb(240, 76, 0))" text="提交订单"
@@ -121,7 +125,8 @@
 				addressList: [],
 				postage: 0,
 				paymentMethod: 'WxPay',
-				buyNow: 0
+				buyNow: 0,
+				mixPayPrice: '',
 			}
 		},
 		components: {
@@ -200,11 +205,11 @@
 		},
 		watch: {
 			defaultAddress(newValue) {
-				getJoinByAreaId({
-					areaId: newValue.areaId
-				}).then(res => {
-					console.log(res)
-				})
+				// getJoinByAreaId({
+				// 	areaId: newValue.areaId
+				// }).then(res => {
+				// 	console.log(res)
+				// })
 			}
 		},
 		methods: {
@@ -232,12 +237,11 @@
 				this.show = false
 			},
 			pay(data, provider) {
-				console.log(data, provider);
 				if (provider === 'balance') {
 					uni.redirectTo({
 						url: '/pages/payAfter/payAfter?status=' + 1
 					})
-				} else {
+				} else if (provider === 'wxpay') {
 					uni.requestPayment({
 						provider: provider,
 						orderInfo: data,
@@ -247,12 +251,38 @@
 							})
 						},
 						fail(err) {
-							uni.$u.toast(err.message);
+							uni.$u.toast(err.errMsg);
 							uni.redirectTo({
 								url: '/pages/payAfter/payAfter?status=' + 0
 							})
 						}
 					})
+				} else {
+					if (data === 'success') {
+						uni.redirectTo({
+							url: '/pages/payAfter/payAfter?status=' + 1
+						})
+					} else if (data.package === 'Sign=WXPay') {
+						uni.requestPayment({
+							provider: provider,
+							orderInfo: data,
+							success(res) {
+								uni.redirectTo({
+									url: '/pages/payAfter/payAfter?status=' + 1
+								})
+							},
+							fail(err) {
+								uni.$u.toast(err.errMsg);
+								uni.redirectTo({
+									url: '/pages/payAfter/payAfter?status=' + 0
+								})
+							}
+						})
+					} else {
+						uni.redirectTo({
+							url: '/pages/payAfter/payAfter?status=' + 0
+						})
+					}
 				}
 			},
 			submitOrder() {
@@ -284,15 +314,22 @@
 						detailedAddress: defaultAddress.detailedAddress,
 						pickupPointId: null,
 						paymentMethod: this.paymentMethod,
+						phone: defaultAddress.phone,
+						mixPayPrice: this.mixPayPrice,
+						name: defaultAddress.name
 					};
 					addOrder(postData).then(res => {
-						uni.$u.toast('下单成功');
 						payment({
 							orderId: res.data
 						}).then(res => {
 							this.pay(res.data, this.paymentMethod.toLowerCase())
 						}).catch(err => {
 							uni.$u.toast(err.message);
+							setTimeout(() => {
+								uni.redirectTo({
+									url: '/pages/payAfter/payAfter?status=' + 0
+								})
+							}, 1000)
 						})
 					}).finally(() => {
 						this.loading = false;
@@ -309,16 +346,23 @@
 						detailedAddress: defaultAddress.detailedAddress,
 						pickupPointId: null,
 						paymentMethod: this.paymentMethod,
+						mixPayPrice: this.mixPayPrice,
+						phone: defaultAddress.phone,
+						name: defaultAddress.name
 					};
 					//调用下单
 					addOrderByCart(postData).then(res => {
-						uni.$u.toast('下单成功');
 						payment({
 							orderId: res.data
 						}).then(res => {
 							this.pay(res.data, this.paymentMethod.toLowerCase())
 						}).catch(err => {
 							uni.$u.toast(err.message);
+							setTimeout(() => {
+								uni.redirectTo({
+									url: '/pages/payAfter/payAfter?status=' + 0
+								})
+							}, 1000)
 						})
 					}).finally(() => {
 						this.loading = false;
@@ -333,6 +377,8 @@
 		},
 		onLoad(options) {
 			this.buyNow = options.buyNow || 0
+		},
+		onShow() {
 			this.getList();
 			getConfigValue({
 				groupName: 'order',

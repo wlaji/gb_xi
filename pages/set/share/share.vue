@@ -6,7 +6,7 @@
 				<!-- <view class="t2">更准 更全 更方便</view> -->
 			</view>
 			<view class="title">
-				国资根本，全名健康
+				国之根本，全民健康
 			</view>
 			<view class="ma">
 				<uqrcode ref="uqrcode" :text="shareUrl"></uqrcode>

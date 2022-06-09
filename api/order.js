@@ -50,3 +50,22 @@ export const payment = function(data) {
 		data
 	})
 }
+
+//取消订单
+export const cancelOrder = function(data) {
+	return request({
+		url: '/app/orders/cancelOrder',
+		method: 'post',
+		data
+	})
+}
+
+
+//确认收货
+export const confirmOrder = function(data) {
+	return request({
+		url: '/app/orders/confirmOrder',
+		method: 'post',
+		data
+	})
+}

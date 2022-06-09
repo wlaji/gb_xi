@@ -12,7 +12,7 @@
 				</view>
 				<div class="jf-wrap">
 					<view class="jf-item" v-for="item in logList" :key="item.id">
-						<text style="width: 20%;">{{item.fromUser?item.fromUser.nickName:'自己'}}</text>
+						<text style="width: 20%;">{{item.fromUser?item.fromUser.userName:'自己'}}</text>
 						<text style="width: 20%;text-align: right;">{{item.createTimeStr}}</text>
 						<text
 							style="width: 30%;text-align: right;">{{formatSymbol(item.changeSymbol)}}{{item.rebatFunds}}</text>
@@ -27,9 +27,9 @@
 			</u-action-sheet>
 			<view class="content input-content">
 				<u-form labelPosition="left" :model="form2" ref="form2" errorType="toast" labelWidth="100px">
-					<u-form-item label="转账人" prop="nickName" borderBottom @click="showSheet = true; hideKeyboard()"
+					<u-form-item label="转账人" prop="userName" borderBottom @click="showSheet = true; hideKeyboard()"
 						ref="item1">
-						<u-input v-model="form2.nickName" disabled disabledColor="transparent" placeholder="请选择转账人"
+						<u-input v-model="form2.userName" disabled disabledColor="transparent" placeholder="请选择转账人"
 							border="none"></u-input>
 					</u-form-item>
 					<u-form-item label="余额" prop="changeFunds" borderBottom>
@@ -92,7 +92,7 @@
 				form2: {
 					changeFunds: '',
 					toUserId: '',
-					nickName: ''
+					userName: ''
 				},
 				loading: false,
 				loading2: false,
@@ -109,7 +109,7 @@
 						message: '请输入转账金额',
 						trigger: ['blur'],
 					}],
-					'nickName': [{
+					'userName': [{
 						required: true,
 						message: '请选择转账人',
 						trigger: ['blur'],
@@ -156,7 +156,7 @@
 			userSelect(item) {
 				console.log(item);
 				this.form2.toUserId = item.id;
-				this.form2.nickName = item.nickName
+				this.form2.userName = item.name
 			},
 			changeTab(index) {
 				console.log(index)
@@ -191,7 +191,7 @@
 						this.form2 = {
 							changeFunds: '',
 							toUserId: '',
-							nickName: ''
+							userName: ''
 						}
 					})
 				}).catch(err => {
@@ -215,7 +215,7 @@
 				getUserDirectRelation().then(res => {
 					console.log(res);
 					res.data.forEach(item => {
-						item.name = item.nickName;
+						item.name = item.userName;
 						item.subname = item.loginTel
 					})
 					this.userList = res.data;

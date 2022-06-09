@@ -6,7 +6,7 @@
 					<view class="left">
 						<Avatar :src="item.headImg" size="50"></Avatar>
 						<view style="margin-left: 20rpx;">
-							<view class="name">{{item.nickName}}</view>
+							<view class="name">{{item.nickName||item.userName}}</view>
 							<view class="date">
 								<u-text mode="date" :text="item.fuStarDate" color="#666" size="12"></u-text>
 							</view>

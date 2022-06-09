@@ -460,6 +460,17 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/viewWl/viewWl",
+			"name": "viewWl",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "查看物流",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	],
 	"tabBar": {

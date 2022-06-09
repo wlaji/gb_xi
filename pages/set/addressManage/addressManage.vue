@@ -26,7 +26,9 @@
 									@change="changeStatus($event,item)"></u-checkbox>
 							</u-checkbox-group>
 						</view>
-						<text @click="deleteDizhi(item)">删除</text>
+						<view @click.stop="deleteDizhi(item)">
+							<text>删除</text>
+						</view>
 					</view>
 				</view>
 			</template>

@@ -29,14 +29,14 @@
 					<u-form-item label="手机号" prop="loginTel" borderBottom>
 						<u-input type="number" placeholder="请输入手机号" v-model="form.loginTel" border="none"></u-input>
 					</u-form-item>
-					<u-form-item label="验证码" prop="code" borderBottom>
+				<!-- 	<u-form-item label="验证码" prop="code" borderBottom>
 						<u-input type="number" placeholder="请输入验证码" v-model="form.code" border="none">
 							<template slot="suffix">
 								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
 								<u-button @tap="getCode" :text="tips" type="success" size="mini"></u-button>
 							</template>
 						</u-input>
-					</u-form-item>
+					</u-form-item> -->
 					<u-form-item label="密码" prop="password" borderBottom>
 						<u-input :type="inputType" placeholder="请输入密码" v-model="form.password" border="none">
 							<template slot="suffix">
@@ -95,7 +95,7 @@
 				loading: false,
 				form: {
 					loginTel: '',
-					code: '',
+					// code: '',
 					password:'',
 					recommendUserCode: ''
 				},
@@ -113,19 +113,19 @@
 							trigger: ['blur'],
 						}
 					],
-					'code': [{
-							required: true,
-							message: '请输入验证码',
-							trigger: ['blur'],
-						},
-						{
-							validator: (rule, value, callback) => {
-								return uni.$u.test.code(value, 6);
-							},
-							message: '验证码格式不正确',
-							trigger: ['blur'],
-						}
-					],
+					// 'code': [{
+					// 		required: true,
+					// 		message: '请输入验证码',
+					// 		trigger: ['blur'],
+					// 	},
+					// 	{
+					// 		validator: (rule, value, callback) => {
+					// 			return uni.$u.test.code(value, 6);
+					// 		},
+					// 		message: '验证码格式不正确',
+					// 		trigger: ['blur'],
+					// 	}
+					// ],
 					'password':[
 						{
 							required: true,

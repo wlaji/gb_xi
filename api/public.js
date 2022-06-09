@@ -77,3 +77,13 @@ export const getConfigValue = function(data) {
 		data: data
 	})
 }
+
+//获取物流信息
+export const getExpressData = function(data) {
+	return request({
+		url: '/app/orders/getExpressData',
+		method: 'get',
+		params: data
+	})
+}
+

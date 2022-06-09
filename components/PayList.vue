@@ -38,15 +38,15 @@
 							'font-size': '20px'
 						}
 					},
-					// {
-					// 	name: 'Mix',
-					// 	title: '混合支付',
-					// 	icon: 'rmb-circle',
-					// 	iconStyle: {
-					// 		'color': '#adbe5e',
-					// 		'font-size': '20px'
-					// 	}
-					// },
+					{
+						name: 'Mix',
+						title: '混合支付',
+						icon: 'rmb-circle',
+						iconStyle: {
+							'color': '#adbe5e',
+							'font-size': '20px'
+						}
+					},
 				],
 				payMentMethod: 'WxPay',
 			};

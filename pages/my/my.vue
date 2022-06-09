@@ -23,11 +23,13 @@
 			<view class="top">
 				<u-icon name="level" size="25" color="#c2a160"></u-icon>
 				<text style="margin-left:10rpx;">国本商城 ({{userInfo.userLevelText}})</text>
+				<text style="margin-left:10rpx;" v-if="userInfo.isFuStar">福星</text>
+				<text style="margin-left:10rpx;" v-if="userInfo.isJoin">合伙人</text>
 			</view>
 			<view class="bottom">
 				<view class="b1">
 					<text>{{userInfo.points}}</text>
-					<text>积分</text>
+					<text>宝豆</text>
 				</view>
 				<u-line direction="col" length="50rpx"></u-line>
 				<view class="b1">

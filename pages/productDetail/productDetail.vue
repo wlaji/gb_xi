@@ -18,7 +18,7 @@
 				</view>
 			</view>
 
-			<view class="part c-list">
+			<!-- <view class="part c-list">
 				<view class="c-row">
 					<text class="tit">发货</text>
 					<view class="con">
@@ -27,7 +27,7 @@
 						<text v-else>免运费</text>
 					</view>
 				</view>
-			</view>
+			</view> -->
 
 			<!-- 评价 -->
 			<view class="eva-section" v-if="productDetailInfo&&productDetailInfo.commentList.length">

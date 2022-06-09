@@ -1,15 +1,18 @@
 <template>
 	<view class="container">
+		<u-modal :show="show" title="取消订单" content='确认取消此订单吗?' closeOnClickOverlay @close="show=false"
+			@confirm="submitCancelForm"></u-modal>
 		<view class="tab">
 			<view :class="[{ active: activeIndex===index }, 'tab-item']" v-for="(item,key,index) in tabList"
 				:key="index" @click="tabClick(index)">{{item}}</view>
 		</view>
 		<view class="content">
-			<swiper :current="activeIndex" class="swiper-box" duration="300" @change="changeTab">
+			<swiper :current="activeIndex" class="swiper-box" duration="300" @change="changeTab" disable-touch>
 				<swiper-item class="tab-content" v-for="(tabItem,tabIndex) in tabList" :key="tabIndex">
 					<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
 						<template v-if="productList.length||loadDataStatus">
-							<view v-for="(item, index) in productList" :key="index" class="product-item-wrap">
+							<view v-for="(item, index) in productList" :key="index" class="product-item-wrap"
+								@click="toOrderDetail(item.id)">
 								<view class="product-title u-border-bottom">
 									<text>{{item.createTime}}</text>
 									<text class="status">{{tabList[item.status]}}</text>
@@ -34,25 +37,36 @@
 									</view>
 								</view>
 								<view class="priceInfo">
-									<text>总价:</text>
-									<u-text bold mode="price" :text="item.orderPrice" color="#fa436a" style="flex:0">
-									</u-text>
-								</view>
-								<view class="priceInfo">
-									<text>积分:</text>
+									<text>宝豆:</text>
 									<u-text bold prefixIcon="rmb-circle"
 										iconStyle="color:#c7b033;font-size:18px;margin-right:5rpx;"
 										:text="item.pointPrice" color="#fa436a" style="flex:0"></u-text>
 								</view>
+								<view class="priceInfo">
+									<text>总计:</text>
+									<u-text bold mode="price"
+										:text="(item.orderPrice + item.mixPayPrice +item.shippingPrice).toFixed(2)"
+										color="#fa436a" style="flex:0">
+									</u-text>
+								</view>
+
 								<view class="orderBtnGroup">
-									<view class="left" @click="toOrderDetail(item.id)">
+									<view class="left" @click.stop="toOrderDetail(item.id)">
 										<text>更多</text>
 									</view>
 									<view class="right">
+										<!-- <u-count-down :time="formatTime(item.createTime)" format="HH:mm:ss"></u-count-down> -->
 										<!-- 	<button class="u-reset-button">加入购物车</button> -->
-										<!-- <button class="u-reset-button" v-if="item.status<4" @click="cancelOrder">取消订单</button> -->
-										<button class="u-reset-button zf" v-if="item.status===1"
-											@click="goZhifu(item.orderId,item.paymentMethod)">立即支付</button>
+										<template v-if="item.status===1">
+											<button class="u-reset-button"
+												@click.stop="cancelOrderDefault(item.orderId)">取消订单</button>
+											<button class="u-reset-button zf"
+												@click.stop="goZhifu(item.orderId,item.paymentMethod)">立即支付</button>
+										</template>
+										<template v-if="item.status===3">
+											<button class="u-reset-button" @click.stop="viewWuliu(item)">查看物流</button>
+											<button class="u-reset-button zf" @click.stop="confirmShouhuo(item.orderId)">确认收货</button>
+										</template>
 										<!-- <button class="u-reset-button pj" v-if="item.status===4">评价</button> -->
 									</view>
 								</view>
@@ -77,21 +91,25 @@
 		userGetOrderList,
 		editOrderPayment,
 		getOrderInfo,
-		payment
+		payment,
+		cancelOrder,
+		confirmOrder
 	} from '@/api/order.js'
 	export default {
 		data() {
 			return {
+				show: false,
 				loadDataStatus: true,
 				activeIndex: 0,
 				productList: [],
 				status: 'loadmore',
 				form: {
 					page: 1,
-					pageSize: 4,
+					pageSize: 10,
 					status: null,
 				},
 				total: 0,
+				cancelOrderId: '',
 			};
 		},
 		computed: {
@@ -103,10 +121,41 @@
 			PriceText
 		},
 		methods: {
-			cancelOrder() {
+			viewWuliu(item){
 				uni.navigateTo({
-					url: '/pages/set/cancelOrder/cancelOrder'
+					// url:`/pages/viewWl/viewWl?expressNum=${item.deliverySlipNumber}&phone=${item.address.phone}`
+					url:`/pages/viewWl/viewWl?expressNum=${item.deliverySlipNumber}&phone=${item.address.phone}`
 				})
+			},
+			confirmShouhuo(orderId){
+				confirmOrder({
+					orderId
+				}).then(res=>{
+					uni.$u.toast('确认收货成功');
+					this.form.page = 1;
+					this.productList = [];
+					this.loadDataStatus = true;
+					this.getList()
+				})
+			},
+			submitCancelForm() {
+				cancelOrder({
+					orderId: this.cancelOrderId
+				}).then(res => {
+					this.show = false;
+					this.form.page = 1;
+					this.productList = [];
+					this.loadDataStatus = true;
+					this.getList()
+				})
+			},
+			formatTime(time) {
+				console.log(Number(new Date(time)))
+				console.log(Number(new Date()))
+			},
+			cancelOrderDefault(orderId) {
+				this.cancelOrderId = orderId;
+				this.show = true;
 			},
 			toOrderDetail(id) {
 				uni.navigateTo({
@@ -124,6 +173,9 @@
 			},
 			//顶部tab点击
 			tabClick(index) {
+				if(this.loadDataStatus){
+					return false;
+				}
 				this.activeIndex = index;
 			},
 			loadData() {
@@ -142,18 +194,21 @@
 					if (this.productList.length >= this.total) {
 						this.status = 'noMore';
 					}
+					this.$nextTick(()=>{
+						this.loadDataStatus = false;
+					})
 				}).finally(() => {
-					this.loadDataStatus = false;
-					this.changeTabStatus = false;
+					setTimeout(()=>{
+						this.loadDataStatus = false;
+					},1000)
 				})
 			},
 			pay(data, provider) {
-				console.log(data, provider);
 				if (provider === 'balance') {
 					uni.redirectTo({
 						url: '/pages/payAfter/payAfter?status=' + 1
 					})
-				} else {
+				} else if (provider === 'wxpay') {
 					uni.requestPayment({
 						provider: provider,
 						orderInfo: data,
@@ -163,12 +218,38 @@
 							})
 						},
 						fail(err) {
-							uni.$u.toast(err.message);
+							uni.$u.toast(err.errMsg);
 							uni.redirectTo({
 								url: '/pages/payAfter/payAfter?status=' + 0
 							})
 						}
 					})
+				} else {
+					if (data === 'success') {
+						uni.redirectTo({
+							url: '/pages/payAfter/payAfter?status=' + 1
+						})
+					} else if (data.package === 'Sign=WXPay') {
+						uni.requestPayment({
+							provider: provider,
+							orderInfo: data,
+							success(res) {
+								uni.redirectTo({
+									url: '/pages/payAfter/payAfter?status=' + 1
+								})
+							},
+							fail(err) {
+								uni.$u.toast(err.errMsg);
+								uni.redirectTo({
+									url: '/pages/payAfter/payAfter?status=' + 0
+								})
+							}
+						})
+					} else {
+						uni.redirectTo({
+							url: '/pages/payAfter/payAfter?status=' + 0
+						})
+					}
 				}
 			},
 			goZhifu(orderId, paymentMethod) {
@@ -178,13 +259,18 @@
 					this.pay(res.data, paymentMethod.toLowerCase())
 				}).catch(err => {
 					uni.$u.toast(err.message);
+					setTimeout(() => {
+						uni.redirectTo({
+							url: '/pages/payAfter/payAfter?status=' + 0
+						})
+					}, 1000)
 				})
 			},
 		},
 		onLoad(options) {
 			this.form.status = Number(options.status) || null;
-			this.activeIndex = this.form.status || 0
-			this.$nextTick(()=>{
+			this.activeIndex = this.form.status || 0;
+			this.$nextTick(() => {
 				this.getList();
 			})
 		}
@@ -331,7 +417,7 @@
 					display: flex;
 					align-items: center;
 					justify-content: flex-end;
-					line-height: 40px;
+					margin-bottom: 10rpx;
 
 					.totalPrice,
 					.discountPrice {
@@ -359,6 +445,7 @@
 					.right {
 						display: flex;
 						flex-wrap: wrap;
+						align-items: center;
 						justify-content: flex-end;
 
 						button {
