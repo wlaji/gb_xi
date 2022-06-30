@@ -18,7 +18,7 @@
 					</u-input>
 				</u-form-item>
 				<u-form-item label="身份证" prop="loginTel" borderBottom>
-					<u-input type="number" placeholder="请输入身份证号码" v-model="bindIdCardForm.identityCard" border="none">
+					<u-input type="idcard" placeholder="请输入身份证号码" v-model="bindIdCardForm.identityCard" border="none">
 					</u-input>
 				</u-form-item>
 			</u-form>

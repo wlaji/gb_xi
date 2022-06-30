@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<template v-if="team.children.length">
-			<view class="teamWrap" v-for="(item,index) in team.children">
+			<view class="teamWrap" v-for="(item,index) in team.children" :key="index">
 				<view class="team-item">
 					<view class="left">
 						<Avatar :src="item.headImg" size="50"></Avatar>
@@ -22,7 +22,7 @@
 					</view>
 				</view>
 				<view class="team-item-children" v-if="item.children.length">
-					<view class="team-item" v-for="citem in item.children">
+					<view class="team-item" v-for="(citem,cindex) in item.children" :key="cindex">
 						<view class="left">
 							<Avatar :src="citem.headImg" size="50"></Avatar>
 							<view style="margin-left: 20rpx;">

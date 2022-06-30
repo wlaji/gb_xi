@@ -242,16 +242,26 @@
 						url: '/pages/payAfter/payAfter?status=' + 1
 					})
 				} else if (provider === 'wxpay') {
+					console.log(data)
 					uni.requestPayment({
-						provider: provider,
-						orderInfo: data,
+						"provider": "wxpay",
+						"orderInfo": {
+							'appid':data.appid,
+							'noncestr':data.noncestr,
+							'package':data.package,
+							'partnerid':data.partnerid,
+							'timestamp':data.timeStamp,
+							'prepayid':data.prepayid,
+							'sign':data.sign,
+						},
 						success(res) {
 							uni.redirectTo({
 								url: '/pages/payAfter/payAfter?status=' + 1
 							})
 						},
 						fail(err) {
-							uni.$u.toast(err.errMsg);
+							console.log(err)
+							uni.$u.toast(err);
 							uni.redirectTo({
 								url: '/pages/payAfter/payAfter?status=' + 0
 							})
@@ -272,7 +282,7 @@
 								})
 							},
 							fail(err) {
-								uni.$u.toast(err.errMsg);
+								uni.$u.toast(err);
 								uni.redirectTo({
 									url: '/pages/payAfter/payAfter?status=' + 0
 								})
@@ -319,18 +329,25 @@
 						name: defaultAddress.name
 					};
 					addOrder(postData).then(res => {
-						payment({
-							orderId: res.data
-						}).then(res => {
-							this.pay(res.data, this.paymentMethod.toLowerCase())
-						}).catch(err => {
-							uni.$u.toast(err.message);
-							setTimeout(() => {
-								uni.redirectTo({
-									url: '/pages/payAfter/payAfter?status=' + 0
-								})
-							}, 1000)
+						uni.request({
+							url:'https://www.guoben.shop/test/index/wxpay',
+							method:'get',
+							success: res => {
+								this.pay(res.data.data, this.paymentMethod.toLowerCase())
+							},
 						})
+						// payment({
+						// 	orderId: res.data
+						// }).then(res => {
+						// 	this.pay(res.data, this.paymentMethod.toLowerCase())
+						// }).catch(err => {
+						// 	uni.$u.toast(err.message);
+						// 	setTimeout(() => {
+						// 		uni.redirectTo({
+						// 			url: '/pages/payAfter/payAfter?status=' + 0
+						// 		})
+						// 	}, 1000)
+						// })
 					}).finally(() => {
 						this.loading = false;
 					})
@@ -352,18 +369,25 @@
 					};
 					//调用下单
 					addOrderByCart(postData).then(res => {
-						payment({
-							orderId: res.data
-						}).then(res => {
-							this.pay(res.data, this.paymentMethod.toLowerCase())
-						}).catch(err => {
-							uni.$u.toast(err.message);
-							setTimeout(() => {
-								uni.redirectTo({
-									url: '/pages/payAfter/payAfter?status=' + 0
-								})
-							}, 1000)
+						uni.request({
+							url:'https://www.guoben.shop/test/index/wxpay',
+							method:'get',
+							success: res => {
+								this.pay(res.data.data, this.paymentMethod.toLowerCase())
+							},
 						})
+						// payment({
+						// 	orderId: res.data
+						// }).then(res => {
+						// 	this.pay(res.data, this.paymentMethod.toLowerCase())
+						// }).catch(err => {
+						// 	uni.$u.toast(err.message);
+						// 	setTimeout(() => {
+						// 		uni.redirectTo({
+						// 			url: '/pages/payAfter/payAfter?status=' + 0
+						// 		})
+						// 	}, 1000)
+						// })
 					}).finally(() => {
 						this.loading = false;
 					})

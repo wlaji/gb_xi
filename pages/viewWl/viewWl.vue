@@ -19,7 +19,7 @@
 					</view>
 				</view>
 				<u-steps current="0" direction="column">
-					<u-steps-item :title="item.context" :desc="item.time" v-for="item in wlData.data"></u-steps-item>
+					<u-steps-item :title="item.context" :desc="item.time" v-for="(item,index) in wlData.data" :key="index"></u-steps-item>
 				</u-steps>
 			</template>
 		</template>

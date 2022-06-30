@@ -218,7 +218,7 @@
 							})
 						},
 						fail(err) {
-							uni.$u.toast(err.errMsg);
+							uni.$u.toast('取消支付');
 							uni.redirectTo({
 								url: '/pages/payAfter/payAfter?status=' + 0
 							})
@@ -239,7 +239,7 @@
 								})
 							},
 							fail(err) {
-								uni.$u.toast(err.errMsg);
+								uni.$u.toast('取消支付');
 								uni.redirectTo({
 									url: '/pages/payAfter/payAfter?status=' + 0
 								})

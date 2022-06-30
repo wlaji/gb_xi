@@ -45,11 +45,20 @@ export const addOrder = function(data) {
 //支付
 export const payment = function(data) {
 	return request({
-		url: '/app/pay/payment',
+		url: 'https://www.guoben.shop/test/index/wxpay',
 		method: 'post',
 		data
 	})
 }
+
+// //支付
+// export const payment = function(data) {
+// 	return request({
+// 		url: '/app/pay/payment',
+// 		method: 'get',
+// 		data
+// 	})
+// }
 
 //取消订单
 export const cancelOrder = function(data) {
