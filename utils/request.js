@@ -4,7 +4,7 @@ import {getCookie} from '@/utils/util'
 // 创建axios实例
 const service = axios.create({
 	baseURL: process.env.NODE_ENV === 'development' ?
-		'hhttp://139.196.204.139:8088' : 'http://139.196.204.139:8088',//https://app.guoben.shop/
+		'https://www.guoben.shop' : 'http://139.196.204.139:8088',//https://app.guoben.shop/
 	timeout: 100000,
 	transformRequest: [(data) => {
 		data = JSON.stringify(data);
@@ -38,8 +38,8 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
 	(res) => {
-		let code = res.data.code
-		if(code===200){
+		let success = res.data.success
+		if(success){
 			return res.data
 		}else{
 			return Promise.reject(res.data)

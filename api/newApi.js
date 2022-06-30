@@ -18,3 +18,13 @@ export const register = function(data,headers) {
 		data
 	})
 }
+
+//登录
+export const login = function(data) {
+	return request({
+		url: '/v1/login/login',
+		method: 'post',
+		data
+	})
+}
+

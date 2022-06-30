@@ -119,7 +119,7 @@
 						},
 						{
 							validator: (rule, value, callback) => {
-								return uni.$u.test.code(value, 6);
+								return uni.$u.test.code(value, 10);
 							},
 							message: '验证码格式不正确',
 							trigger: ['blur'],

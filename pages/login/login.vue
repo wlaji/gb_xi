@@ -12,10 +12,10 @@
 			</view>
 			<view class="input-content">
 				<u-form labelPosition="top" :model="form" ref="form1" labelWidth="auto" errorType="toast" borderBottom>
-					<u-form-item label="手机号" prop="loginTel" borderBottom>
-						<u-input type="number" placeholder="请输入手机号" v-model="form.loginTel" border="none"></u-input>
+					<u-form-item label="手机号" prop="mobile" borderBottom>
+						<u-input type="number" placeholder="请输入手机号" v-model="form.mobile" border="none"></u-input>
 					</u-form-item>
-					<u-form-item label="验证码" prop="code" borderBottom v-if="status===1">
+					<u-form-item label="验证码" prop="code" borderBottom v-if="status===2">
 						<u-input type="number" placeholder="请输入验证码" v-model="form.code" border="none">
 							<template slot="suffix">
 								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
@@ -23,7 +23,7 @@
 							</template>
 						</u-input>
 					</u-form-item>
-					<u-form-item label="密码" prop="password" borderBottom v-if="status===2">
+					<u-form-item label="密码" prop="password" borderBottom v-if="status===1">
 						<u-input :type="inputType" placeholder="请输入密码" v-model="form.password" border="none">
 							<template slot="suffix">
 								<u-icon name="eye" @click="changeType"
@@ -36,8 +36,8 @@
 					<u-button @click="toLogin" :loading="loading" loadingText="正在登录" type="primary">登录</u-button>
 				</view>
 				<view class="fuzhu">
-					<text class="t1" @click="changeLoginMethod">{{status===1?'密码登录':'验证码登录'}}</text>
-					<template v-if="status===2">
+					<text class="t1" @click="changeLoginMethod">{{status===2?'密码登录':'验证码登录'}}</text>
+					<template v-if="status===1">
 						<text class="t2" @click="helpHandle">忘记密码</text>
 					</template>
 					<template v-else>
@@ -68,30 +68,33 @@
 
 <script>
 	import noCode from '@/components/noCode.vue'
+	// import {
+	// 	byPassword,
+	// 	byCode,
+	// 	sendLoginCode,
+	// 	byWx,
+	// 	byJsWx
+	// } from '@/api/auth.js'
 	import {
-		byPassword,
-		byCode,
-		sendLoginCode,
-		byWx,
-		byJsWx
-	} from '@/api/auth.js'
+		login
+	} from '@/api/newApi.js'
 
 	export default {
 		data() {
 			return {
 				inputType: 'password',
-				status: 2,
+				status: 1,
 				showModal2: false,
 				tips: '',
 				loading: false,
 				form: {
-					loginTel: '',
+					mobile: '',
 					code: '',
 					password: ''
 				},
 				checked: false,
 				rules: {
-					'loginTel': [{
+					'mobile': [{
 							required: true,
 							message: '请输入手机号',
 							trigger: ['blur'],
@@ -140,13 +143,13 @@
 				}
 			},
 			changeLoginMethod() {
-				if (this.status === 1) {
-					this.status = 2
-				} else {
+				if (this.status === 2) {
 					this.status = 1
+				} else {
+					this.status = 2
 				}
 				this.form = {
-					loginTel: '',
+					mobile: '',
 					code: '',
 					password: ''
 				}
@@ -188,34 +191,17 @@
 			toLogin() {
 				this.$refs.form1.validate().then(() => {
 					this.loading = true;
-					//status=1 代表验证码登录 2为密码登录
-					if (this.status === 1) {
-						byCode({
-							loginTel: this.form.loginTel,
-							code: this.form.code
-						}).then(res => {
-							console.log(res)
-							this.$store.commit('login', res.data); // vuex的方法
-							uni.switchTab({
-								url: '/pages/index/index'
-							});
-						}).finally(() => {
-							this.loading = false;
-						})
-					} else {
-						byPassword({
-							loginTel: this.form.loginTel,
-							password: this.form.password
-						}).then(res => {
-							this.$store.commit('login', res.data); // vuex的方法
-							uni.switchTab({
-								url: '/pages/index/index'
-							});
-						}).finally(() => {
-							this.loading = false;
-						})
-					}
-
+					login(Object.assign(this.form, {
+						type: this.status
+					})).then(res => {
+						console.log(res);
+						this.$store.commit('login', res.data[0]); // vuex的方法
+						uni.switchTab({
+							url: '/pages/index/index'
+						});
+					}).finally(() => {
+						this.loading = false;
+					})
 				}).catch(err => {
 					console.log(err)
 				})
@@ -225,13 +211,13 @@
 			},
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
-					let loginTel = this.form.loginTel;
-					if (!loginTel) {
+					let mobile = this.form.mobile;
+					if (!mobile) {
 						uni.$u.toast('请先输入手机号');
 						return false;
 					}
 					sendLoginCode({
-						loginTel
+						mobile
 					}).then(res => {
 						uni.$u.toast('验证码已发送,请注意短信!');
 						// 通知验证码组件内部开始倒计时
@@ -241,7 +227,7 @@
 					uni.$u.toast('倒计时结束后再发送');
 				}
 			},
-			
+
 			//微信快捷登录
 			wxLogin() {
 				console.log(321321)
@@ -272,7 +258,8 @@
 												wxUnionId: infoRes.userInfo
 													.unionId
 											}).then(res => {
-												that.$store.commit('login', res.data); // vuex的方法
+												that.$store.commit('login', res
+													.data); // vuex的方法
 												uni.switchTab({
 													url: '/pages/index/index'
 												});
