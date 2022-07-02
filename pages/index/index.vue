@@ -198,7 +198,7 @@
 		},
 
 		onLoad() {
-			this.getPageData();
+			// this.getPageData();
 			checkUpdateApp();
 		},
 		methods: {

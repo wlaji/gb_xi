@@ -119,7 +119,7 @@
 						},
 						{
 							validator: (rule, value, callback) => {
-								return uni.$u.test.code(value, 10);
+								return uni.$u.test.code(value, 6);
 							},
 							message: '验证码格式不正确',
 							trigger: ['blur'],
@@ -129,12 +129,17 @@
 						required: true,
 						message: '请输入密码',
 						trigger: ['blur'],
-					}]
+					},{
+							validator: (rule, value, callback) => {
+								return uni.$u.test.code(value, 10);
+							},
+							message: '密码长度不能小于10位',
+							trigger: ['blur'],
+						}]
 				},
 			}
 		},
 		onLoad() {
-
 		},
 		methods: {
 			changeType() {

@@ -141,20 +141,6 @@
         },
         "usingComponents" : true
     },
-    "h5" : {
-        "devServer" : {
-            "host" : "localhost",
-            "port" : 80,
-			"proxy": {
-				"/api": {                    
-					"target":"https://www.guoben.shop",
-					"changeOrigin": true,//是否跨域
-					"secure": false,// 设置支持https协议的代理
-					"pathRewrite":{"^/api":"/"}
-				}
-			}
-        }
-    },
     "mp-alipay" : {
         "usingComponents" : true
     },

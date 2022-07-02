@@ -483,12 +483,13 @@
 				"iconPath": "static/image/home.png",
 				"selectedIconPath": "static/image/home_selected.png",
 				"text": "首页"
-			}, {
-				"pagePath": "pages/productCategory/productCategory",
-				"iconPath": "static/image/category.png",
-				"selectedIconPath": "static/image/category_selected.png",
-				"text": "分类"
 			},
+			// {
+			// 	"pagePath": "pages/productCategory/productCategory",
+			// 	"iconPath": "static/image/category.png",
+			// 	"selectedIconPath": "static/image/category_selected.png",
+			// 	"text": "分类"
+			// },
 			{
 				"pagePath": "pages/cart/cart",
 				"iconPath": "static/image/cart.png",

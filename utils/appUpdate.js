@@ -1,10 +1,14 @@
 import store from '../store/index.js'
 //检测接口
 import {
-	checkForUpdates
-} from '@/api/index.js'
+	appInfo
+} from '@/api/newApi.js'
 //苹果商店app链接
 export default function() {
+	appInfo().then(res=>{
+		console.log(res)
+	});
+	return
 	// 设备系统平台--安卓||ios
 	var platform = uni.getSystemInfoSync().platform;
 	plus.runtime.getProperty(plus.runtime.appid, (widgetInfo) => {

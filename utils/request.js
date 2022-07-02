@@ -6,16 +6,16 @@ const service = axios.create({
 	baseURL: process.env.NODE_ENV === 'development' ?
 		'https://www.guoben.shop' : 'http://139.196.204.139:8088',//https://app.guoben.shop/
 	timeout: 100000,
-	transformRequest: [(data) => {
-		data = JSON.stringify(data);
-		return data
-	}],
+	// transformRequest: [(data) => {
+	// 	data = JSON.stringify(data);
+	// 	return data
+	// }],
 	headers: {
 		get: {
-			'Content-Type': 'application/json;charset=utf-8'
+			'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
 		},
 		post: {
-			'Content-Type': 'application/json;charset=utf-8'
+			'Content-type': 'application/json;charset=utf-8'
 		}
 	},
 })
@@ -35,6 +35,14 @@ service.interceptors.request.use(
 	}
 );
 
+function getErrMessage(message){
+	let errmsg =''
+	for(let i in message){
+		errmsg = message[i]
+	}
+	return errmsg
+}
+
 // 响应拦截器
 service.interceptors.response.use(
 	(res) => {
@@ -42,6 +50,7 @@ service.interceptors.response.use(
 		if(success){
 			return res.data
 		}else{
+			uni.$u.toast(getErrMessage(res.data.message));
 			return Promise.reject(res.data)
 		}
 		// if (res.status === 200) {
