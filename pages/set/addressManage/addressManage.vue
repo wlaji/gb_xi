@@ -8,18 +8,18 @@
 				<view class="address-item" v-for="item in addressList" :key="item.id" @click="selectAddress(item)">
 					<view class="title">
 						<text class="name">{{item.name}}</text>
-						<text class="phone">{{item.phone}}</text>
+						<text class="phone">{{item.mobile}}</text>
 						<text class="tag" v-if="item.isDefault">默认</text>
 					</view>
-					<view class="address-con u-border-bottom">
+					<view class="address-con">
 						<text class="detail">
-							{{item.province}} {{item.city}} {{item.area}} {{item.detailedAddress}}
+							{{item.province}} {{item.city}} {{item.country}} {{item.detail}}
 						</text>
 						<view @click.stop="toEdit(item.id)">
 							<u-icon name="edit-pen" size="28" color="#999"></u-icon>
 						</view>
 					</view>
-					<view class="btm">
+					<!-- <view class="btm">
 						<view>
 							<u-checkbox-group>
 								<u-checkbox label="默认地址" shape="circle" labelSize="14" :checked="item.isDefault===1"
@@ -29,7 +29,7 @@
 						<view @click.stop="deleteDizhi(item)">
 							<text>删除</text>
 						</view>
-					</view>
+					</view> -->
 				</view>
 			</template>
 			<template v-else>
@@ -38,18 +38,21 @@
 				</view>
 			</template>
 		</view>
-		<view class="add-address-btn">
+		<view class="add-address-btn" v-if="!addressList.length">
 			<u-button type="primary" text="新增收货地址" icon="plus" @click="toPlusAddress"></u-button>
 		</view>
 	</view>
 </template>
 
 <script>
+	// import {
+	// 	getUserAddressList,
+	// 	deleteUserAddressList,
+	// 	editUserAddressList
+	// } from '@/api/auth.js'
 	import {
-		getUserAddressList,
-		deleteUserAddressList,
-		editUserAddressList
-	} from '@/api/auth.js'
+		getUserAddress
+	} from '@/api/newApi.js'
 	export default {
 		data() {
 			return {
@@ -64,7 +67,7 @@
 				if (!this.originPage) {
 					return
 				}
-				this.$store.commit('setDefaultAddress',item)
+				this.$store.commit('setDefaultAddress', item)
 				uni.navigateBack()
 			},
 			deleteDizhi(item) {
@@ -93,13 +96,12 @@
 			},
 			toEdit(id) {
 				uni.navigateTo({
-					url: `/pages/set/editAddress/editAddress?type=edit&id=${id}`
+					url: `/pages/set/editAddress/editAddress?type=edit`
 				})
 			},
 			getList() {
-				getUserAddressList().then(res => {
-					console.log(res.data);
-					this.addressList = res.data;
+				getUserAddress().then(res=>{
+					this.addressList = res.data
 				})
 			}
 		},

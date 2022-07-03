@@ -5,40 +5,36 @@
 		<template v-if="current===0">
 			<view class="content" style="padding:0;">
 				<view class="small-title">
-					<text style="width: 20%;">姓名</text>
-					<text style="width: 20%;text-align: right;">日期</text>
-					<text style="width: 30%;text-align: right;">金额</text>
-					<text style="width: 30%;text-align: right;">用途</text>
+					<text style="width: 30%;text-align: center;">日期</text>
+					<text style="width: 30%;text-align: center;">金额</text>
+					<text style="width: 30%;text-align: center;">用途</text>
 				</view>
 				<div class="jf-wrap">
 					<view class="jf-item" v-for="item in logList" :key="item.id">
-						<text style="width: 20%;">{{item.fromUser?item.fromUser.userName:'自己'}}</text>
-						<text style="width: 20%;text-align: right;">{{item.createTimeStr}}</text>
-						<text
-							style="width: 30%;text-align: right;">{{formatSymbol(item.changeSymbol)}}{{item.rebatFunds}}</text>
-						<text style="width: 30%;text-align: right;">{{changeSymbol[item.changeSymbol]}}</text>
+						<text style="width: 30%;text-align: center;">
+							<u-text mode="date" :text="item.create_time" block size="12"></u-text>
+						</text>
+						<text style="width: 30%;text-align: center;">{{item.type===1?'+':'-'}}{{item.amount}}</text>
+						<text style="width: 30%;text-align: center;">{{item.name}}</text>
 					</view>
 				</div>
 			</view>
 		</template>
 		<template v-else-if="current===1">
-			<u-action-sheet :show="showSheet" :actions="userList" title="请选择转账人" @close="showSheet = false"
-				@select="userSelect">
-			</u-action-sheet>
+			<BindPayPwd></BindPayPwd>
 			<view class="content input-content">
 				<u-form labelPosition="left" :model="form2" ref="form2" errorType="toast" labelWidth="100px">
-					<u-form-item label="转账人" prop="userName" borderBottom @click="showSheet = true; hideKeyboard()"
-						ref="item1">
-						<u-input v-model="form2.userName" disabled disabledColor="transparent" placeholder="请选择转账人"
-							border="none"></u-input>
+					<u-form-item label="转账人手机号" prop="mobile" borderBottom>
+						<u-input v-model="form2.mobile" disabledColor="transparent" placeholder="请输入手机号" border="none">
+						</u-input>
 					</u-form-item>
-					<u-form-item label="余额" prop="changeFunds" borderBottom>
-						<u-input type="number" :placeholder="'当前可转余额 '+userInfo.funds" v-model="form2.changeFunds"
+					<u-form-item label="余额" prop="money" borderBottom>
+						<u-input type="digit" :placeholder="'当前可转余额 '+userInfo.balance" v-model="form2.money"
 							border="none"></u-input>
 					</u-form-item>
 				</u-form>
 				<view style="margin-top:40rpx;">
-					<u-button @click="zhuanzhang" type="primary" :loading="loading2" loadingText="正在转账">
+					<u-button @click="zhuanzhangBefore" type="primary" :loading="loading2" loadingText="正在转账">
 						转账
 					</u-button>
 				</view>
@@ -47,8 +43,8 @@
 		<template v-else-if="current===2">
 			<view class="content input-content">
 				<u-form labelPosition="left" :model="form1" ref="form1" errorType="toast" labelWidth="100px">
-					<u-form-item label="提现金额" prop="changeFunds" borderBottom>
-						<u-input type="number" :placeholder="'当前可提现金额 '+userInfo.funds" v-model="form1.changeFunds"
+					<u-form-item label="提现金额" prop="money" borderBottom>
+						<u-input type="number" :placeholder="'当前可提现金额 '+userInfo.balance" v-model="form1.money"
 							border="none"></u-input>
 					</u-form-item>
 				</u-form>
@@ -58,60 +54,62 @@
 				</view>
 			</view>
 		</template>
+		<u-modal :show="show" @close="close" closeOnClickOverlay title="支付密码" @confirm="toSubmit">
+			<view class="slot-content">
+				<u-input type="password" v-model="form2.paypass" focus placeholder="请输入支付密码" border="surround" prefixIcon="lock-fill">
+				</u-input>
+			</view>
+		</u-modal>
 	</view>
 </template>
 
 <script>
-	import {getUserInfo} from '@/api/auth.js'
+	import BindPayPwd from '@/components/BindPayPwd.vue'
 	import {
-		getUserDirectRelation,
-		turnFunds,
-		getMyFundsLog,
-		fundsOut
-	} from '@/api/jfManage.js'
+		myBalanceLog,
+		balanceTransaction
+	} from '@/api/newApi.js'
+
 	export default {
 		data() {
 			return {
-				changeSymbol: {
-					1: '返利',
-					2: '转账',
-					3: '收款',
-					4: '使用',
-					5: '提现'
-				},
+				show: false,
 				logList: [],
-				showSheet: false,
-				userList: [],
 				status: 'loadmore',
-				page: 0,
 				list: ['余额明细', '余额转账'],
 				current: 0,
 				form1: {
-					changeFunds: ''
+					money: ''
 				},
 				form2: {
-					changeFunds: '',
-					toUserId: '',
-					userName: ''
+					money: '',
+					mobile: '',
+					paypass: ''
 				},
 				loading: false,
 				loading2: false,
 				rules: {
-					'changeFunds': [{
+					'money': [{
 						required: true,
 						message: '请输入提现金额',
 						trigger: ['blur'],
 					}]
 				},
 				rules2: {
-					'changeFunds': [{
+					'money': [{
 						required: true,
 						message: '请输入转账金额',
 						trigger: ['blur'],
 					}],
-					'userName': [{
+					'mobile': [{
 						required: true,
-						message: '请选择转账人',
+						message: '请选择转账人手机号',
+						trigger: ['blur'],
+					}, {
+						validator: (rule, value, callback) => {
+							return uni.$u.test.mobile(value);
+						},
+						message: '手机号码不正确',
 						trigger: ['blur'],
 					}]
 				}
@@ -122,9 +120,19 @@
 				return this.$store.state.userInfo || {}
 			}
 		},
+		components:{
+			BindPayPwd
+		},
 		methods: {
-			updateUserInfo(){
-				getUserInfo().then(res=>{
+			toSubmit() {
+				this.show = false;
+				this.zhuanzhang();
+			},
+			close() {
+				this.show = false
+			},
+			updateUserInfo() {
+				getUserInfo().then(res => {
 					let userInfo = res.data;
 					this.$store.commit('updateUserInfo', userInfo)
 				})
@@ -149,14 +157,6 @@
 						break;
 				}
 				return str
-			},
-			hideKeyboard() {
-				uni.hideKeyboard()
-			},
-			userSelect(item) {
-				console.log(item);
-				this.form2.toUserId = item.id;
-				this.form2.userName = item.name
 			},
 			changeTab(index) {
 				console.log(index)
@@ -183,50 +183,32 @@
 					console.log(err)
 				})
 			},
-			zhuanzhang() {
+			zhuanzhangBefore() {
 				this.$refs.form2.validate().then(() => {
-					turnFunds(this.form2).then(res => {
-						uni.$u.toast('转账成功');
-						this.updateUserInfo();
-						this.form2 = {
-							changeFunds: '',
-							toUserId: '',
-							userName: ''
-						}
-					})
+					this.show = true;
 				}).catch(err => {
 					console.log(err)
 				})
 			},
-			loadData() {
-				console.log('加载数据')
-				if (this.page >= 3) return;
-				this.status = 'loading';
-				this.page = ++this.page;
-				setTimeout(() => {
-					if (this.page >= 3) {
-						this.status = 'nomore';
-					} else {
-						this.status = 'loading';
+			zhuanzhang() {
+				balanceTransaction(this.form2).then(res => {
+					uni.$u.toast('转账成功');
+					this.updateUserInfo();
+					this.form2 = {
+						money: '',
+						toUserId: '',
+						mobile: ''
 					}
-				}, 2000)
-			},
-			getUserDirectRelationList() {
-				getUserDirectRelation().then(res => {
-					console.log(res);
-					res.data.forEach(item => {
-						item.name = item.userName;
-						item.subname = item.loginTel
-					})
-					this.userList = res.data;
 				})
 			},
 		},
 		onLoad() {
-			this.getUserDirectRelationList();
-			getMyFundsLog().then(res => {
-				this.logList = res.data;
-			});
+			myBalanceLog({
+				page: 1,
+				size: 1000000
+			}).then(res => {
+				this.logList = res.data[0].data
+			})
 		}
 	}
 </script>
@@ -237,6 +219,7 @@
 	.content {
 		height: calc(100% - 32px);
 		padding: 40rpx 20rpx;
+		font-size: 12px;
 
 		.title {
 			font-size: 16px;

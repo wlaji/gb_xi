@@ -22,20 +22,13 @@
 		}, {
 			"path": "pages/productDetail/productDetail",
 			"name": "productDetail",
+			"meta": {
+				"loginAuth": true
+			},
+			"name": "productDetail",
 			"style": {
-				"navigationBarTitleText": "产品详情",
-				"enablePullDownRefresh": false,
-				"app-plus": {
-					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "rgba(231, 231, 231,.7)",
-							"borderRadius": "16px",
-							"placeholder": "请输入搜索关键字",
-							"disabled": true,
-							"placeholderColor": "#606266"
-						}
-					}
-				}
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "商品详情"
 			}
 		}, {
 			"path": "pages/my/my",
@@ -208,7 +201,7 @@
 				"loginAuth": true
 			},
 			"style": {
-				"navigationBarTitleText": "团队成员",
+				"navigationBarTitleText": "积分明细",
 				"enablePullDownRefresh": false
 			}
 		}, {
@@ -471,6 +464,16 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/set/setPayPwd/setPayPwd",
+			"name": "setPayPwd",
+			"meta": {
+				"loginAuth": true
+			},
+			"style": {
+				"navigationBarTitleText": "设置交易密码",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
 	"tabBar": {

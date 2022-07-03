@@ -1,47 +1,21 @@
 <template>
 	<view class="container">
-		<template v-if="team.children.length">
-			<view class="teamWrap" v-for="(item,index) in team.children" :key="index">
-				<view class="team-item">
-					<view class="left">
-						<Avatar :src="item.headImg" size="50"></Avatar>
-						<view style="margin-left: 20rpx;">
-							<view class="name">{{item.nickName||item.userName}}</view>
-							<view class="date">
-								<u-text mode="date" :text="item.fuStarDate" color="#666" size="12"></u-text>
-							</view>
-						</view>
-					</view>
-					<view class="right">
-						<template v-if="item.isFuStar">
-							<u-text text="福星" size="14" color="#fdb44d"></u-text>
-						</template>
-						<template v-if="item.isJoin">
-							<u-text text="合伙人" size="14" color="#fdb44d"></u-text>
-						</template>
-					</view>
+		<template v-if="team.length">
+			<view class="content" style="padding:0;">
+				<view class="small-title">
+					<text style="width: 30%;text-align: center;">日期</text>
+					<text style="width: 30%;text-align: center;">金额</text>
+					<text style="width: 30%;text-align: center;">用途</text>
 				</view>
-				<view class="team-item-children" v-if="item.children.length">
-					<view class="team-item" v-for="(citem,cindex) in item.children" :key="cindex">
-						<view class="left">
-							<Avatar :src="citem.headImg" size="50"></Avatar>
-							<view style="margin-left: 20rpx;">
-								<view class="name">{{citem.nickName}}</view>
-								<view class="date">
-									<u-text mode="date" :text="citem.fuStarDate" color="#666" size="12"></u-text>
-								</view>
-							</view>
-						</view>
-						<view class="right">
-							<template v-if="citem.isFuStar">
-								<u-text text="福星" size="14" color="#fdb44d"></u-text>
-							</template>
-							<template v-if="citem.isJoin">
-								<u-text text="合伙人" size="14" color="#fdb44d"></u-text>
-							</template>
-						</view>
+				<div class="jf-wrap">
+					<view class="jf-item" v-for="item in team" :key="item.id">
+						<text style="width: 30%;text-align: center;">
+							<u-text mode="date" :text="item.create_time" block size="12"></u-text>
+						</text>
+						<text style="width: 30%;text-align: center;">{{item.type===1?'+':'-'}}{{item.num}}</text>
+						<text style="width: 30%;text-align: center;">{{item.name}}</text>
 					</view>
-				</view>
+				</div>
 			</view>
 		</template>
 		<template v-else>
@@ -55,14 +29,12 @@
 <script>
 	import Avatar from '@/components/Avatar.vue';
 	import {
-		getMyTeam
-	} from '@/api/public.js'
+		myCpLog
+	} from '@/api/newApi.js'
 	export default {
 		data() {
 			return {
-				team:{
-					children:[]
-				}
+				team: []
 			};
 		},
 		components: {
@@ -72,48 +44,42 @@
 
 		},
 		onLoad() {
-			getMyTeam().then(res => {
-				this.team = res.data;
+			myCpLog({
+				page: 1,
+				size: 100000
+			}).then(res => {
+				this.team = res.data[0].data;
 			})
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.container {
-		position: relative;
-	}
-
-	.teamWrap {
-		padding-top: 20rpx;
-
-		.team-item {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 10rpx;
-			background-color: #fff;
-
-			.left {
-				display: flex;
-				align-items: center;
-
-				.name {
-					margin-bottom: 10rpx;
-				}
-			}
-			.right{
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-			}
+	.content {
+		font-size: 12px;
+	
+		.title {
+			font-size: 16px;
+			margin-bottom: 40rpx;
 		}
 	}
-
-	.team-item-children {
-		.team-item {
-			padding-left: 50rpx;
+	
+	.small-title {
+		display: flex;
+		justify-content: space-between;
+		color: $u-tips-color;
+		padding: 20rpx;
+	}
+	
+	.jf-wrap {
+		overflow: auto;
+		flex: 1;
+	
+		.jf-item {
+			display: flex;
+			justify-content: space-between;
+			color: $u-content-color;
+			padding: 10rpx 20rpx;
 		}
 	}
 </style>

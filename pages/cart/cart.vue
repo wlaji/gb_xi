@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<BindInfo></BindInfo>
+		<!-- <BindInfo></BindInfo> -->
 		<u-toast ref="uToast"></u-toast>
 		<u-modal :show="showDelModal" :showCancelButton="true" closeOnClickOverlay content='确认删除该宝贝?' confirmText="删除"
 			cancelText="我再想想" confirmColor="#E44273" @confirm="confirmDel" @cancel="showDelModal = false;"
@@ -22,10 +22,7 @@
 			<!-- 列表 -->
 			<view class="cart-list">
 				<template v-for="(item, index) in cartList">
-					<view class="cart-item" :key="item.id" :class="{'shixiao':item.product.deleted===1}">
-						<view class="shixiaoText" v-if="item.product.deleted===1">
-							已失效
-						</view>
+					<view class="cart-item" :key="item.id">
 						<view class="checkbox">
 							<u-checkbox-group @change="check('item',index)">
 								<u-checkbox shape="circle" activeColor="#E44273" :checked="item.checked">
@@ -34,33 +31,22 @@
 						</view>
 						<view class="rightContent">
 							<view class="image-wrapper">
-								<u-image :showLoading="true" :src="JSON.parse(item.product.photoPath)[0].url"
+								<u-image :showLoading="true" :src="'https://www.guoben.shop'+item.pic"
 									width="230rpx" height="230rpx" radius="8px"></u-image>
 							</view>
 							<view class="item-right">
-								<text class="title u-line-1" style="display: block;">{{item.product.productName}}</text>
+								<text class="title u-line-1" style="display: block;">{{item.product_name}}</text>
 								<!-- <text class="attr">{{item.attr_val}}</text> -->
 								<view style="margin: 20rpx 0;">
-									<template v-if="item.product.productType==4">
-										<view style="display: flex;">
-											<u-text bold mode="price" :text="item.price" color="#fa436a" style="flex:0">
-											</u-text>
-											<text class="plus">+</text>
-											<u-text bold prefixIcon="rmb-circle"
-												iconStyle="color:#c7b033;font-size:18px;margin-right:5rpx;"
-												:text="item.pointPrice" color="#fa436a" style="flex:0"></u-text>
-										</view>
-									</template>
-									<template v-else>
-										<u-text bold mode="price" :text="item.price" color="#fa436a"></u-text>
-									</template>
+									<u-text mode="price" :text="item.discount_amount * item.qty" color="#fa436a"></u-text>
 								</view>
-								<u-number-box class="step" :value="item.quantity" :min="1"
-									:max="item.product.inventory===-1?9999:item.product.inventory" integer
-									@change="numberChange($event,index)" @overlimit="overlimit"></u-number-box>
+								<u-number-box class="step" v-model="item.qty" :min="1"
+									:max="item.stock" integer
+									@change="numberChange($event,item)" @overlimit="overlimit"></u-number-box>
 							</view>
 							<view @click="deleteCartItem(index)">
-								<u-icon name="close" :color="item.product.deleted===1?'#ffffff':'#909399'" class="del-btn">
+								<u-icon name="close" color="#909399"
+									class="del-btn">
 								</u-icon>
 							</view>
 						</view>
@@ -98,7 +84,6 @@
 		deleteCart,
 		editCart
 	} from '@/api/cart.js';
-	import BindInfo from '@/components/BindInfo.vue'
 	export default {
 		data() {
 			return {
@@ -114,9 +99,6 @@
 				totalJf: 0
 			};
 		},
-		components: {
-			BindInfo
-		},
 		watch: {
 			//显示空白页
 			cartList(e) {
@@ -128,24 +110,8 @@
 		},
 		methods: {
 			getPageData() {
-				getUserCart().then(res => {
-					let selectedIdList = [];
-					this.cartList.forEach(item => {
-						if (item.checked) {
-							selectedIdList.push(item.id)
-						}
-					})
-					this.selectedIdList = selectedIdList;
-					res.data.forEach(item => {
-						if (this.selectedIdList.includes(item.id)) {
-							item.checked = true
-						} else {
-							item.checked = false;
-						}
-					})
-					this.cartList = res.data;
-					this.calcTotal(); //计算总价
-				})
+				this.cartList = this.$store.state.cart;
+				this.calcTotal(); //计算总价
 			},
 			goDetail() {
 				if (!this.leftIcon) {
@@ -157,14 +123,9 @@
 				})
 			},
 			confirmDel() {
-				let id = this.cartList[this.currentIndex].id;
-				deleteCart({
-					idList: [id]
-				}).then(res => {
-					this.getPageData();
-				}).finally(() => {
-					this.showDelModal = false;
-				})
+				this.$store.commit('delCart',this.currentIndex);
+				this.showDelModal = false;
+				this.getPageData();
 			},
 			//选中状态处理
 			check(type, index) {
@@ -198,40 +159,21 @@
 			},
 			//数量
 			numberChange(data, index) {
-				console.log(this.cartList);
-				this.$refs.uToast.show({
-					type: 'loading',
-					title: '正在加载',
-					message: "正在加载",
-					duration: 1000
-				})
-				editCart({
-					productId: this.cartList[index].productId,
-					id: this.cartList[index].id,
-					quantity: data.value
-				}).then(res => {
+				this.$nextTick(()=>{
+					this.$store.commit('updateCart',this.cartList);
 					this.getPageData()
-				}).finally(() => {
-
 				})
 			},
 			//删除弹窗
 			deleteCartItem(index) {
-				console.log(index)
 				this.showDelModal = true;
 				this.currentIndex = index
 			},
 			//清空
 			clearCart() {
-				let idList = this.cartList.map(item => item.id);
-				deleteCart({
-					idList
-				}).then(res => {
-					this.getPageData();
-				}).finally(() => {
-					this.showDelModal2 = false;
-				})
-
+				this.$store.commit('updateCart',[]);
+				this.showDelModal2 = false;
+				this.getPageData();
 			},
 			//计算总价
 			calcTotal() {
@@ -245,15 +187,13 @@
 				let checked = true;
 				list.forEach(item => {
 					if (item.checked === true) {
-						totalJf += item.pointPrice
-						total += item.price;
+						total += Number(item.discount_amount) * item.qty;
 					} else if (checked === true) {
 						checked = false;
 					}
 				})
 				this.allChecked = checked;
 				this.total = Number(total.toFixed(2));
-				this.totalJf = totalJf;
 			},
 			//创建订单
 			createOrder() {
@@ -275,7 +215,7 @@
 			}
 		},
 		onShow() {
-			this.getPageData()
+			this.getPageData();
 		},
 		onPullDownRefresh() {
 			this.getPageData()

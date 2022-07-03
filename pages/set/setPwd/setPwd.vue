@@ -1,151 +1,178 @@
 <template>
 	<view class="container">
-		<view class="tips" style="margin-bottom: 20rpx;">
-			注意: 微信快捷登录后, 初始密码是 <text style="color:red">123456</text>,请及时修改~
-		</view>
 		<view class="input-content">
-			<u-form labelPosition="left" :model="form" ref="form" labelWidth="100px" errorType="toast" borderBottom>
-				<u-form-item label="原密码" prop="oldPassword" borderBottom>
-					<u-input :type="inputType3" placeholder="请输入原密码" v-model="form.oldPassword" border="none" clearable>
+			<u-form labelPosition="top" :model="form" ref="form1" labelWidth="auto" errorType="toast" borderBottom>
+				<u-form-item label="手机号" prop="mobile" borderBottom>
+					<u-input type="number" placeholder="请输入手机号" v-model="form.mobile" border="none"></u-input>
+				</u-form-item>
+				<u-form-item label="验证码" prop="code" borderBottom>
+					<u-input type="number" placeholder="请输入验证码" v-model="form.code" border="none">
 						<template slot="suffix">
-							<u-icon name="eye" @click="changeType3"
-								:color="inputType3==='password'?'#333333':'#2b85e4'"></u-icon>
+							<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
+							<u-button @tap="getCode" :text="tips" type="success" size="mini"></u-button>
 						</template>
 					</u-input>
 				</u-form-item>
-				<u-form-item label="新密码" prop="newPassword" borderBottom>
-					<u-input :type="inputType1" placeholder="请输入新密码" v-model="form.newPassword" border="none" clearable>
+				<u-form-item label="密码" prop="password" borderBottom>
+					<u-input :type="inputType" placeholder="请输入新密码" v-model="form.password" border="none">
 						<template slot="suffix">
-							<u-icon name="eye" @click="changeType1"
-								:color="inputType1==='password'?'#333333':'#2b85e4'"></u-icon>
-						</template>
-					</u-input>
-				</u-form-item>
-				<u-form-item label="确认密码" prop="newPassword2" borderBottom>
-					<u-input :type="inputType2" placeholder="请输入新密码" v-model="form.newPassword2" border="none" clearable>
-						<template slot="suffix">
-							<u-icon name="eye" @click="changeType2"
-								:color="inputType2==='password'?'#333333':'#2b85e4'"></u-icon>
+							<u-icon name="eye" @click="changeType"
+								:color="inputType==='password'?'#333333':'#2b85e4'"></u-icon>
 						</template>
 					</u-input>
 				</u-form-item>
 			</u-form>
 			<view style="margin-top:40rpx;">
-				<u-button type="primary" @click="submit" :loading="loading" loadingText="正在修改">提交</u-button>
+				<u-button @click="toResetPwd" type="primary">重置密码</u-button>
+			</view>
+			<view class="fuzhu">
+				<noCode></noCode>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import noCode from '@/components/noCode.vue';
 	import {
-		changePassword
-	} from '@/api/auth.js'
+		sendSms,
+		updatePassword
+	} from '@/api/newApi.js'
 	export default {
 		data() {
 			return {
+				smsToken: '',
+				inputType: 'password',
+				status: 1,
+				beforeStatus: '',
+				tips: '',
 				form: {
-					oldPassword: '',
-					newPassword: '',
-					newPassword2: '',
+					mobile: '',
+					code: '',
+					password: '',
 				},
-				loading: false,
 				rules: {
-					'oldPassword': [{
-						required: true,
-						message: '请输入原密码',
-						trigger: ['blur'],
-					}],
-					'newPassword': [{
+					'mobile': [{
 							required: true,
-							message: '请输入新密码',
+							message: '请输入手机号',
 							trigger: ['blur'],
 						},
 						{
 							validator: (rule, value, callback) => {
-								if (value !== this.form.newPassword2) {
-									return false;
-								}
-								return true
+								return uni.$u.test.mobile(value);
 							},
-							message: '两次密码不一致',
+							message: '手机号码不正确',
 							trigger: ['blur'],
 						}
 					],
-					'newPassword2': [{
+					'code': [{
 							required: true,
-							message: '请输入新密码',
+							message: '请输入验证码',
 							trigger: ['blur'],
 						},
 						{
 							validator: (rule, value, callback) => {
-								if (value !== this.form.newPassword) {
-									return false;
-								}
-								return true
+								return uni.$u.test.code(value, 6);
 							},
-							message: '两次密码不一致',
+							message: '验证码格式不正确',
 							trigger: ['blur'],
 						}
-					]
+					],
+					'password': [{
+						required: true,
+						message: '请输入密码',
+						trigger: ['blur'],
+					}]
 				},
-				inputType1: 'password',
-				inputType2: 'password',
-				inputType3: 'password',
-			};
+			}
+		},
+		components: {
+			noCode
+		},
+		onReady() {
+			this.$refs.form1.setRules(this.rules);
 		},
 		methods: {
-			changeType1() {
-				if (this.inputType1 === 'password') {
-					this.inputType1 = 'number'
+			changeType() {
+				if (this.inputType === 'password') {
+					this.inputType = 'number'
 				} else {
-					this.inputType1 = 'password'
+					this.inputType = 'password'
 				}
 			},
-			changeType2() {
-				if (this.inputType2 === 'password') {
-					this.inputType2 = 'number'
+			navBack() {
+				uni.navigateBack();
+			},
+			codeChange(text) {
+				this.tips = text;
+			},
+			getCode() {
+				if (this.$refs.uCode.canGetCode) {
+					let mobile = this.form.mobile;
+					if (!mobile) {
+						uni.$u.toast('请先输入手机号');
+						return false;
+					}
+					if (this.$refs.uCode.canGetCode) {
+						sendSms({
+							tel: mobile
+						}).then(res => {
+							console.log(res)
+							uni.$u.toast('验证码已发送,请注意短信!');
+							// 通知验证码组件内部开始倒计时
+							this.$refs.uCode.start();
+							this.smsToken = res.data[0].token
+						})
+					} else {
+						uni.$u.toast('倒计时结束后再发送');
+					}
 				} else {
-					this.inputType2 = 'password'
+					uni.$u.toast('倒计时结束后再发送');
 				}
 			},
-			changeType3() {
-				if (this.inputType3 === 'password') {
-					this.inputType3 = 'number'
-				} else {
-					this.inputType3 = 'password'
-				}
-			},
-			submit() {
-				this.$refs.form.validate().then(() => {
-					this.loading = true;
-					changePassword(this.form).then(res => {
-						uni.setStorageSync('token', res.data.token);
-						uni.$u.toast('修改密码成功')
-						uni.navigateBack()
-					}).finally(() => {
-						this.loading = false;
+			toResetPwd() {
+				this.$refs.form1.validate().then(() => {
+					updatePassword(this.form, {
+						token: this.smsToken
+					}).then(res => {
+						uni.$u.toast('密码已重置');
+						setTimeout(() => {
+							uni.navigateBack()
+						}, 1000)
 					})
 				}).catch(err => {
 					console.log(err)
 				})
 			}
 		},
-		onReady() {
-			this.$refs.form.setRules(this.rules);
-		},
+
 	}
 </script>
 
 <style lang="scss" scoped>
 	.container {
-		padding: 20rpx;
-		background-color: #fff;
+		position: relative;
+		overflow: hidden;
+		box-sizing: border-box;
 	}
 
 	.input-content {
+		padding: 0 20rpx;
+
 		/deep/ .u-line {
 			margin: 0 !important;
 		}
 	}
+
+	.fuzhu {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		height: 80rpx;
+
+		.t2 {
+			color: $u-tips-color;
+		}
+	}
 </style>
+

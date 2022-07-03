@@ -38,7 +38,8 @@ service.interceptors.request.use(
 function getErrMessage(message){
 	let errmsg =''
 	for(let i in message){
-		errmsg = message[i]
+		errmsg = message[i];
+		break
 	}
 	return errmsg
 }
@@ -115,7 +116,7 @@ axios.defaults.adapter = function(config) {
 					header: response.header,
 					config: config
 				};
-
+				console.log(response)
 				settle(resolve, reject, response);
 			}
 		})

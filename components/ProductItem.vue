@@ -1,14 +1,17 @@
 <template>
 	<view class="product-item" @click="handleClick(product)">
 		<view class="image-wrapper">
-			<u-image :showLoading="true" :src="JSON.parse(product.photoPath)[0].url" mode="aspectFit" width="100%" height="330rpx" radius="4px">
+			<u-image :showLoading="true" :src="'https://www.guoben.shop'+product.pic" mode="aspectFit" width="100%" height="330rpx" radius="4px">
 			</u-image>
 		</view>
 		<view style="padding:10rpx;">
-			<u-text :lines="1" block margin="10rpx 0" :text="product.productName"></u-text>
+			<u-text :lines="1" block margin="10rpx 0" :text="product.product_name"></u-text>
 			<view class="btm">
-				<PriceText :productItem="product"></PriceText>
-				<text class="num">已售: {{product.salesVolume}}</text>
+				<div style="display: flex;align-items: center;">
+					<u-text mode="price" :text="product.discount_amount" color="#fa436a"></u-text>
+					<u-text mode="price" decoration="line-through" size="12" :text="product.product_amount" color="#ccc"></u-text>
+				</div>
+				<text class="num">库存: {{product.stock}}</text>
 			</view>
 		</view>
 	</view>

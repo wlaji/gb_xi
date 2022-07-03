@@ -43,6 +43,7 @@
 	import {
 		getSharePoster
 	} from '@/js_sdk/QuShe-SharerPoster/QS-SharePoster/QS-SharePoster.js';
+	import {refreshToken} from '@/api/newApi.js'
 	export default {
 		data() {
 			return {
@@ -58,11 +59,8 @@
 		},
 		computed: {
 			shareUrl() {
-				let userInfo = this.$store.state.userInfo;
-				if(!userInfo){
-					return '';
-				}
-				return `http://app.guoben.shop/register?num=${userInfo.recommendCode}`
+				let token = uni.getStorageSync('token');
+				return `http://app.guoben.shop/register?num=${token}`
 			}
 		},
 		methods: {
@@ -220,7 +218,13 @@
 				});
 				// #endif
 			}
+		},
+		onShow() {
+			refreshToken().then(res=>{
+				uni.setStorageSync('token',res.data[0].token)
+			})
 		}
+		
 	}
 </script>
 

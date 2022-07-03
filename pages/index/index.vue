@@ -2,9 +2,8 @@
 	<view class="container">
 		<BindInfo></BindInfo>
 		<view class="content">
-			<u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false"
+			<!-- <u-search placeholder="请输入搜索关键字" disabled shape="round" margin="10px" bgColor="#ffffff" :showAction="false"
 				@click="toSearch"></u-search>
-			<!-- 头部轮播 -->
 			<view class="carousel-section">
 				<u-swiper class="swiper" :list="carouselList" keyName="url" circular indicator height="400rpx"
 					radius="5"></u-swiper>
@@ -26,14 +25,14 @@
 						<text>查看更多</text>
 					</view>
 				</u-scroll-list>
-			</view>
+			</view> -->
 			<!-- 			<view class="ad-1">
 				<u-image :showLoading="true" src="/static/temp/ad1.jpg" width="100%" height="210rpx"
 					mode="scrollToFill"></u-image>
 			</view> -->
 
 			<!-- 秒杀专区 -->
-			<template v-if="productList['秒杀专区'].length">
+			<!-- <template v-if="productList['秒杀专区'].length">
 				<view class="hot-header" @click="tozq(3,'秒杀')">
 					<u-icon name="clock" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
 					<view class="tit-box">
@@ -53,10 +52,10 @@
 						<u-empty mode="list"></u-empty>
 					</template>
 				</view>
-			</template>
+			</template> -->
 
 			<!-- 0元购 -->
-			<template v-if="productList['0元购'].length">
+			<!-- <template v-if="productList['0元购'].length">
 				<view class="hot-header" @click="tozq(2,'0元购')">
 					<u-icon name="rmb" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
 					<view class="tit-box">
@@ -76,9 +75,9 @@
 						<u-empty mode="list"></u-empty>
 					</template>
 				</view>
-			</template>
+			</template> -->
 			<!-- 推广专区 -->
-			<template v-if="productList['推广'].length">
+			<!-- <template v-if="productList['推广'].length">
 				<view class="hot-header" @click="tozq(1,'推广专区')">
 					<u-icon name="share" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
 					<view class="tit-box">
@@ -98,9 +97,9 @@
 						<u-empty mode="list"></u-empty>
 					</template>
 				</view>
-			</template>
+			</template> -->
 			<!-- 金币兑换 -->
-			<template v-if="productList['金币兑换'].length">
+			<!-- <template v-if="productList['金币兑换'].length">
 				<view class="hot-header" @click="tozq(4,'金币兑换')">
 					<u-icon name="rmb-circle" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
 					<view class="tit-box">
@@ -121,26 +120,33 @@
 					</template>
 				</view>
 			</template>
-
+ -->
 			<!-- 推荐 -->
-			<view class="hot-header" @click="toCategory">
-				<i class="iconfont icon-remen" style="font-size:30px;margin-right: 20rpx;color:#fa436a"></i>
+			<view class="hot-header" v-if="bdGoodList.length">
+				<u-icon name="share" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
 				<view class="tit-box">
-					<text class="tit">热门推荐</text>
+					<text class="tit">报单专区</text>
 				</view>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
 			<view class="hot-section">
-				<template v-for="(product,index) in productList['产品推荐']">
+				<template v-for="(product,index) in bdGoodList">
 					<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
 				</template>
 			</view>
-		</view>
-		<view class="login-alert" v-if="false">
-			<view class="left">
-				登录国本商城打开精彩世界
+
+			<view class="hot-header" v-if="jfGoodList.length">
+				<u-icon name="rmb-circle" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
+				<view class="tit-box">
+					<text class="tit">积分专区</text>
+				</view>
+				<u-icon name="arrow-right"></u-icon>
 			</view>
-			<button type="default" class="u-reset-button" @click="toLogin">立即登录</button>
+			<view class="hot-section">
+				<template v-for="(product,index) in jfGoodList">
+					<ProductItem :key="index" :product="product" @clickItem="navToDetailPage"></ProductItem>
+				</template>
+			</view>
 		</view>
 		<updateDialog :showModal.sync="showModal"></updateDialog>
 	</view>
@@ -152,14 +158,8 @@
 	import ProductItem from '@/components/ProductItem.vue';
 	import BindInfo from '@/components/BindInfo.vue'
 	import {
-		getAdvertising,
-		getArticle,
-		getRecommend
-	} from '@/api/public.js'
-	import {
-		getAllProductCate,
-		getProductList
-	} from '@/api/product.js'
+		goodlist
+	} from '@/api/newApi.js'
 	export default {
 		data() {
 			return {
@@ -175,6 +175,8 @@
 					'秒杀专区': [],
 					'金币兑换': []
 				},
+				bdGoodList: [],
+				jfGoodList: []
 			};
 		},
 
@@ -183,7 +185,6 @@
 			ProductItem,
 			BindInfo
 		},
-		
 
 		watch: {
 			'$store.state.appUpdateInfo': function(val) {
@@ -198,7 +199,7 @@
 		},
 
 		onLoad() {
-			// this.getPageData();
+			this.getPageData();
 			checkUpdateApp();
 		},
 		methods: {
@@ -208,25 +209,23 @@
 				})
 			},
 			getPageData() {
-				//获取banner
-				getAdvertising({
-					categoryName: 'home_banner'
+				//报单区
+				goodlist({
+					type: 0
 				}).then(res => {
-					this.carouselList = res.data;
-				});
-				getArticle({
-					categoryName: 'news'
-				}).then(res => {
-					res.data.forEach(item => {
-						this.newsList.push(item.title);
+					this.bdGoodList = res.data[0];
+					this.bdGoodList.forEach(item => {
+						item.type = 0
 					})
-				});
-				//获取所有产品分类
-				getAllProductCate().then(res => {
-					this.categoryList = res.data;
 				})
-				getRecommend().then(res => {
-					this.productList = res.data;
+				//积分商品区
+				goodlist({
+					type: 1
+				}).then(res => {
+					this.jfGoodList = res.data[0];
+					this.jfGoodList.forEach(item => {
+						item.type = 1
+					})
 				})
 			},
 			toLogin() {
@@ -236,7 +235,7 @@
 			},
 			navToDetailPage(item) {
 				uni.navigateTo({
-					url: '/pages/productDetail/productDetail?id=' + item.id
+					url: '/pages/productDetail/productDetail?id=' + item.id + '&type=' + item.type
 				})
 			},
 			toCategory() {

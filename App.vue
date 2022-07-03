@@ -5,16 +5,10 @@
 	import checkUpdateApp from '@/utils/appUpdate.js';
 	export default {
 		onLaunch: function(options) {
-			// let token = uni.getStorageSync('token') // 判断有没有token，有则说明登录过了，重新把缓存存进vuex
-			// if (token) {
-			// 	getUserInfo().then(res=>{
-			// 		let userInfo = res.data;
-			// 		store.commit('login', {
-			// 			token,
-			// 			userInfo
-			// 		})
-			// 	})
-			// }
+			let token = uni.getStorageSync('token') // 判断有没有token，有则说明登录过了，重新把缓存存进vuex
+			if (token) {
+				store.dispatch('updateUserInfo')
+			}
 			uni.getSystemInfo({
 				success: function(e) {
 					Vue.prototype.statusBar = e.statusBarHeight

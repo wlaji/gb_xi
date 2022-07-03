@@ -5,41 +5,37 @@ import {
 } from '@/api/newApi.js'
 //苹果商店app链接
 export default function() {
-	appInfo().then(res=>{
-		console.log(res)
-	});
-	return
 	// 设备系统平台--安卓||ios
 	var platform = uni.getSystemInfoSync().platform;
 	plus.runtime.getProperty(plus.runtime.appid, (widgetInfo) => {
 		if(platform === "android"){
-			checkForUpdates({
+			appInfo({
 				versions: widgetInfo.versionCode,
-				platform: 'android'
-			}).then(result => {
-				const url = result.data.url;
-				const description = result.data.description;
-				const bool = parseInt(result.data.bool);
-				const versions = result.data.versions;
+				type: 1
+			}).then(res=>{
+				let result = res.data[0];
+				const url = result[2].content;
+				const description = result[3].content;
+				const bool = Number(result[4].content);
+				const versions = Number(result[1].content);
 				store.commit('updateAppInfo',{
 					url,
 					description,
 					bool,
 					versions
 				})
-			}).catch(err=>{
-				console.log(err)
 			})
+	
 		}else if(platform==='ios'){
-			checkForUpdates({
+			appInfo({
 				versions: widgetInfo.versionCode,
-				platform: 'ios'
-			}).then(result => {
-				console.log('检查跟新返回-》', result)
-				const url = result.data.url;
-				const description = result.data.description;
-				const bool = parseInt(result.data.bool);
-				const versions = result.data.versions;
+				type: 2
+			}).then(res => {
+				let result = res.data[0];
+				const url = result[1].content;
+				const description = result[2].content;
+				const bool = Number(result[3].content);
+				const versions = Number(result[0].content);
 				store.commit('updateAppInfo',{
 					url,
 					description,

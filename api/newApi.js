@@ -1,5 +1,14 @@
 import request from '@/utils/request';
 
+//获取用户信息
+export const userinfo = function(data) {
+	return request({
+		url: '/v1/user/userinfo',
+		method: 'get',
+		params: data
+	})
+}
+
 //发送短信
 export const sendSms = function(data) {
 	return request({
@@ -25,16 +34,6 @@ export const login = function(data) {
 		url: '/v1/login/login',
 		method: 'post',
 		data
-	})
-}
-
-
-//获取基本信息
-export const appInfo = function(data) {
-	return request({
-		url: '/v1/login/appInfo',
-		method: 'get',
-		params:data
 	})
 }
 
@@ -69,7 +68,7 @@ export const goodinfo = function(data) {
 //身份证验证
 export const checkId = function(data) {
 	return request({
-		url: '/api/user/checkId',
+		url: '/v1/user/checkId',
 		method: 'post',
 		data
 	})
@@ -115,7 +114,7 @@ export const myCpLog = function(data) {
 //修改交易密码
 export const payPwd = function(data) {
 	return request({
-		url: '/api/user/register',
+		url: '/v1/user/updatePayPass',
 		method: 'post',
 		data
 	})
@@ -157,4 +156,20 @@ export const orderlist = function(data) {
 	})
 }
 
+//刷新token
+export const refreshToken = function(data) {
+	return request({
+		url: '/v1/user/refreshToken',
+		method: 'post',
+		data
+	})
+}
 
+//更新
+export const appInfo = function(data) {
+	return request({
+		url: '/v1/login/appInfo',
+		method: 'get',
+		params:data
+	})
+}

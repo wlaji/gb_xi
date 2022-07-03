@@ -13,12 +13,12 @@
 			</view>
 			<u-form labelPosition="left" :model="bindIdCardForm" ref="bindIdCardForm" labelWidth="100" errorType="toast"
 				borderBottom>
-				<u-form-item label="姓名" prop="userName" borderBottom>
-					<u-input type="text" placeholder="请输入真实姓名" v-model="bindIdCardForm.userName" border="none">
+				<u-form-item label="姓名" prop="name" borderBottom>
+					<u-input type="text" placeholder="请输入真实姓名" v-model="bindIdCardForm.name" border="none">
 					</u-input>
 				</u-form-item>
-				<u-form-item label="身份证" prop="loginTel" borderBottom>
-					<u-input type="idcard" placeholder="请输入身份证号码" v-model="bindIdCardForm.identityCard" border="none">
+				<u-form-item label="身份证" prop="num" borderBottom>
+					<u-input type="idcard" placeholder="请输入身份证号码" v-model="bindIdCardForm.num" border="none">
 					</u-input>
 				</u-form-item>
 			</u-form>
@@ -31,29 +31,27 @@
 
 <script>
 	import {
-		bindIdCard,
-		getUserInfo
-	} from '@/api/auth.js'
+		checkId
+	} from '@/api/newApi.js'
 	export default {
 		data() {
 			return {
 				loading: false,
 				bindIdCardForm: {
-					userName: '',
-					identityCard: '',
+					name: '',
+					num: '',
 				},
 				bindIdCardFormRules: {
-					'userName': [{
+					'name': [{
 						required: true,
 						message: '请输入真实姓名',
 						trigger: ['blur'],
 					}],
-					'identityCard': [{
-							required: true,
-							message: '请输入身份证号码',
-							trigger: ['blur'],
-						}
-					]
+					'num': [{
+						required: true,
+						message: '请输入身份证号码',
+						trigger: ['blur'],
+					}]
 				},
 			};
 		},
@@ -61,16 +59,11 @@
 			submit() {
 				this.$refs.bindIdCardForm.validate().then(() => {
 					this.loading = true;
-					bindIdCard(this.bindIdCardForm).then(res => {
+					checkId(this.bindIdCardForm).then(async res => {
 						uni.$u.toast('身份证绑定成功');
-						return getUserInfo();
-					}).then(userInfo => {
-						console.log(userInfo)
-						this.$store.commit('updateUserInfo', userInfo.data);
+						await store.dispatch('updateUserInfo');
 						this.$nextTick(()=>{
-							uni.switchTab({
-								url:'/pages/index/index'
-							})
+							uni.navigateBack()
 						})
 					}).finally(() => {
 						this.loading = false;

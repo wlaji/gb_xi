@@ -1,24 +1,12 @@
 <template>
 	<view class="container" :style="{paddingTop:customBar+'px'}">
 		<u-navbar leftText="返回" title="确认订单" fixed @leftClick="goBack"></u-navbar>
-		<u-popup :show="show" mode="bottom" closeable @close="close">
-			<view class="popupCon">
-				<view class="title">订单备注</view>
-				<view class="con">
-					<u-textarea v-model="beizhu" placeholder="请输入订单备注" count></u-textarea>
-				</view>
-				<view class="btn-bottom">
-					<u-button type="primary" text="确定"
-						color="linear-gradient(to right, rgb(255, 85, 0), rgb(240, 76, 0))" @click="addBeizhu">
-					</u-button>
-				</view>
-			</view>
-		</u-popup>
+		<BindPayPwd></BindPayPwd>
 		<view class="part" style="margin-top: 20rpx;">
 			<u-cell-group :border="false" v-if="defaultAddress">
 				<u-cell size="large" icon="map-fill" :border="false" :iconStyle="{color:'red'}"
-					:title="defaultAddress.detailedAddress" :label="defaultAddress.name +' '+ defaultAddress.phone"
-					isLink url="/pages/set/addressManage/addressManage?from='checkout'"></u-cell>
+					:title="defaultAddress.detail" :label="defaultAddress.name +' '+ defaultAddress.mobile" isLink
+					url="/pages/set/addressManage/addressManage?from='checkout'"></u-cell>
 			</u-cell-group>
 			<u-cell-group :border="false" v-else>
 				<u-cell size="large" icon="map-fill" :border="false" :iconStyle="{color:'red'}" title="暂无地址" label=""
@@ -29,19 +17,19 @@
 			<view class="cart-item">
 				<view class="rightContent">
 					<view class="image-wrapper">
-						<u-image :showLoading="true" :src="JSON.parse(item.product.photoPath)[0].url" width="150rpx"
+						<u-image :showLoading="true" :src="'https://www.guoben.shop'+item.pic" width="150rpx"
 							height="150rpx" radius="10px"></u-image>
 					</view>
 					<view class="item-right">
 						<view class="t1">
-							<text class="title u-line-1" style="display: block;">{{item.product.productName}}</text>
+							<text class="title u-line-1" style="display: block;">{{item.product_name}}</text>
 							<view>
-								<PriceText :productItem="item.product"></PriceText>
+								<u-text mode="price" :text="item.discount_amount * item.qty" color="#fa436a"></u-text>
 							</view>
 						</view>
 						<view class="t2">
 							<text></text>
-							<text>x{{item.quantity}}</text>
+							<text>x{{item.qty}}</text>
 						</view>
 					</view>
 				</view>
@@ -49,8 +37,8 @@
 		</view>
 		<view class="part">
 			<u-cell-group :border="false">
-				<u-cell :border="false" title="配送服务" :value="'快递 '+(calcPostage==0?'免邮':'￥'+calcPostage)">
-				</u-cell>
+				<!-- <u-cell :border="false" title="配送服务" :value="'快递 '+(calcPostage==0?'免邮':'￥'+calcPostage)">
+				</u-cell> -->
 				<!-- <u-cell :border="false" title="提货点" value="暂无">
 				</u-cell> -->
 				<!-- <u-cell :border="false" title="优惠" value="￥3">
@@ -67,52 +55,32 @@
 						￥{{total}}
 					</view>
 				</u-cell>
-				<u-cell :border="false" title="宝豆">
-					<view slot="value" class="u-slot-title">
-						<u-text bold prefixIcon="rmb-circle" iconStyle="color:#c7b033;font-size:18px;margin-right:5rpx;"
-							:text="totalJf" color="#000000" style="flex:0"></u-text>
-					</view>
-					<view slot="label" class="customLabel">
-						<text>可用宝豆{{userInfo.points}}</text>
-						<text style="color:red;margin-left: 10px;" v-if="!jfStatus">宝豆不足</text>
-					</view>
-				</u-cell>
-				<u-cell :border="false" title="实付款">
-					<view slot="value" class="u-slot-title">
-						￥{{totalPrice}}
-					</view>
-				</u-cell>
 			</u-cell-group>
 		</view>
 		<view class="part">
-			<PayList @changeMethod="changeMethod"></PayList>
-		</view>
-		<view class="part" style="padding: 10px;" v-if="paymentMethod==='Mix'">
-			<u-input v-model="mixPayPrice" type="digit" :placeholder="`请输入您要支付的余额(可用余额:${userInfo.funds})`" clearable>
-			</u-input>
+			<PayList @changeMethod="changeMethod" :type="goodsData[0].type"></PayList>
 		</view>
 		<view class="add-address-btn">
 			<u-button :loading="loading" color="linear-gradient(to right, rgb(255, 85, 0), rgb(240, 76, 0))" text="提交订单"
-				@click="submitOrder"></u-button>
+				@click="submitOrderBefore"></u-button>
 		</view>
+		<u-modal :show="show" @close="close" closeOnClickOverlay title="支付密码" @confirm="toSubmit">
+			<view class="slot-content">
+				<u-input type="password" v-model="paypass" focus placeholder="请输入支付密码" border="surround" prefixIcon="lock-fill">
+				</u-input>
+			</view>
+		</u-modal>
 	</view>
 </template>
 
 <script>
-	import PriceText from '@/components/PriceText.vue'
 	import PayList from '@/components/PayList.vue';
 	import {
-		addOrder,
-		addOrderByCart,
-		payment
-	} from '@/api/order.js'
-	import {
-		getUserAddressList,
-	} from '@/api/auth.js'
-	import {
-		getJoinByAreaId,
-		getConfigValue
-	} from '@/api/public.js'
+		getUserAddress,
+		placeOrder,
+		getPreOrder
+	} from '@/api/newApi.js'
+	import BindPayPwd from '@/components/BindPayPwd.vue'
 	export default {
 		data() {
 			return {
@@ -124,18 +92,19 @@
 				discount: 0,
 				addressList: [],
 				postage: 0,
-				paymentMethod: 'WxPay',
+				paymentMethod: '',
 				buyNow: 0,
 				mixPayPrice: '',
+				paypass: ''
 			}
 		},
 		components: {
 			PayList,
-			PriceText
+			BindPayPwd
 		},
 		computed: {
 			jfStatus() {
-				return Number(this.userInfo.points) >= this.totalJf
+				return Number(this.userInfo.cp) >= this.totalJf
 			},
 			goodsData() {
 				return this.$store.state.tempCart
@@ -149,44 +118,7 @@
 				return Number(total.toFixed(2)) || 0;
 			},
 			defaultAddress() {
-				if (!this.addressList) {
-					return null;
-				}
-				let list = this.addressList;
-				if (this.$store.state.defaultAddress) {
-					console.log(this.$store.state.defaultAddress)
-					let findDefault = list.find(item => {
-						return item.id == this.$store.state.defaultAddress.id
-					})
-					if (findDefault) {
-						return findDefault
-					}
-				} else {
-					let findDefault = list.find(item => {
-						return item.isDefault === 1
-					})
-					if (findDefault) {
-						return findDefault
-					} else {
-						return list[0]
-					}
-				}
-			},
-			calcPostage() {
-				let list = this.goodsData,
-					postage = this.postage,
-					totalPrice = this.total;
-				if (totalPrice > postage) {
-					return 0
-				} else {
-					let price = 0;
-					list.forEach(item => {
-						if (item.product.postagePrice > price) {
-							price = item.product.postagePrice
-						}
-					})
-					return Number(price.toFixed(2))
-				}
+				return this.addressList[0]
 			},
 			userInfo() {
 				return this.$store.state.userInfo || {}
@@ -195,22 +127,10 @@
 				let list = this.goodsData;
 				let total = 0;
 				list.forEach(item => {
-					total += item.price
+					total += Number(item.discount_amount) * item.qty;
 				})
 				return Number(total.toFixed(2)) || 0;
 			},
-			totalPrice() {
-				return Number((this.total + this.calcPostage).toFixed(2))
-			}
-		},
-		watch: {
-			defaultAddress(newValue) {
-				// getJoinByAreaId({
-				// 	areaId: newValue.areaId
-				// }).then(res => {
-				// 	console.log(res)
-				// })
-			}
 		},
 		methods: {
 			goBack() {
@@ -225,14 +145,6 @@
 			changeMethod(method) {
 				this.paymentMethod = method
 			},
-			addBezhuBefore(index) {
-				this.bezhuIndex = index;
-				this.beizhu = ''
-				this.show = true;
-			},
-			addBeizhu() {
-				this.close();
-			},
 			close() {
 				this.show = false
 			},
@@ -243,30 +155,7 @@
 					})
 				} else if (provider === 'wxpay') {
 					console.log(data)
-					uni.requestPayment({
-						"provider": "wxpay",
-						"orderInfo": {
-							'appid':data.appid,
-							'noncestr':data.noncestr,
-							'package':data.package,
-							'partnerid':data.partnerid,
-							'timestamp':data.timeStamp,
-							'prepayid':data.prepayid,
-							'sign':data.sign,
-						},
-						success(res) {
-							uni.redirectTo({
-								url: '/pages/payAfter/payAfter?status=' + 1
-							})
-						},
-						fail(err) {
-							console.log(err)
-							uni.$u.toast(err);
-							uni.redirectTo({
-								url: '/pages/payAfter/payAfter?status=' + 0
-							})
-						}
-					})
+
 				} else {
 					if (data === 'success') {
 						uni.redirectTo({
@@ -295,6 +184,17 @@
 					}
 				}
 			},
+			submitOrderBefore() {
+				if (this.paymentMethod === 'Balance' || this.paymentMethod === 'Mix') {
+					this.show = true;
+				} else {
+					this.submitOrder()
+				}
+			},
+			toSubmit() {
+				this.show = false;
+				this.submitOrder();
+			},
 			submitOrder() {
 				if (!this.defaultAddress) {
 					uni.$u.toast('请选择收货地址');
@@ -304,98 +204,68 @@
 					uni.$u.toast('请选择支付方式');
 					return false;
 				}
-				this.loading = true;
-				let list = this.goodsData;
-				let cartIdList = list.map(item => {
-					return item.id
-				});
-				let defaultAddress = this.defaultAddress;
-				let postData
-				if (this.buyNow == 1) {
-					postData = {
-						productId: this.goodsData[0].product.id,
-						quantity: this.goodsData[0].quantity,
-						provinceId: defaultAddress.provinceId,
-						province: defaultAddress.province,
-						cityId: defaultAddress.cityId,
-						city: defaultAddress.city,
-						areaId: defaultAddress.areaId,
-						area: defaultAddress.area,
-						detailedAddress: defaultAddress.detailedAddress,
-						pickupPointId: null,
-						paymentMethod: this.paymentMethod,
-						phone: defaultAddress.phone,
-						mixPayPrice: this.mixPayPrice,
-						name: defaultAddress.name
-					};
-					addOrder(postData).then(res => {
-						uni.request({
-							url:'https://www.guoben.shop/test/index/wxpay',
-							method:'get',
-							success: res => {
-								this.pay(res.data.data, this.paymentMethod.toLowerCase())
-							},
-						})
-						// payment({
-						// 	orderId: res.data
-						// }).then(res => {
-						// 	this.pay(res.data, this.paymentMethod.toLowerCase())
-						// }).catch(err => {
-						// 	uni.$u.toast(err.message);
-						// 	setTimeout(() => {
-						// 		uni.redirectTo({
-						// 			url: '/pages/payAfter/payAfter?status=' + 0
-						// 		})
-						// 	}, 1000)
-						// })
-					}).finally(() => {
-						this.loading = false;
-					})
+				let type;
+				if (this.paymentMethod === 'WxPay') {
+					type = 0
+				} else if (this.paymentMethod === 'Balance') {
+					type = 1
 				} else {
-					postData = {
-						cartIdList: cartIdList,
-						provinceId: defaultAddress.provinceId,
-						province: defaultAddress.province,
-						cityId: defaultAddress.cityId,
-						city: defaultAddress.city,
-						areaId: defaultAddress.areaId,
-						area: defaultAddress.area,
-						detailedAddress: defaultAddress.detailedAddress,
-						pickupPointId: null,
-						paymentMethod: this.paymentMethod,
-						mixPayPrice: this.mixPayPrice,
-						phone: defaultAddress.phone,
-						name: defaultAddress.name
-					};
-					//调用下单
-					addOrderByCart(postData).then(res => {
-						uni.request({
-							url:'https://www.guoben.shop/test/index/wxpay',
-							method:'get',
-							success: res => {
-								this.pay(res.data.data, this.paymentMethod.toLowerCase())
-							},
-						})
-						// payment({
-						// 	orderId: res.data
-						// }).then(res => {
-						// 	this.pay(res.data, this.paymentMethod.toLowerCase())
-						// }).catch(err => {
-						// 	uni.$u.toast(err.message);
-						// 	setTimeout(() => {
-						// 		uni.redirectTo({
-						// 			url: '/pages/payAfter/payAfter?status=' + 0
-						// 		})
-						// 	}, 1000)
-						// })
-					}).finally(() => {
-						this.loading = false;
-					})
+					type = 2
 				}
+				let postData = {
+					products: [],
+					type,
+					paypass: this.paypass
+				}
+				this.goodsData.forEach(item => {
+					postData.products.push({
+						product_id: item.id,
+						count: item.qty
+					})
+				})
+				this.loading = true;
+				placeOrder(postData).then(res => {
+					if (type == 0) {
+						getPreOrder({
+							id: res.data[0].order_id
+						}).then(res => {
+							let data = res.data[0]
+							uni.requestPayment({
+								"provider": "wxpay",
+								"orderInfo": {
+									'appid': data.appid,
+									'noncestr': data.noncestr,
+									'package': data.package,
+									'partnerid': data.partnerid,
+									'timestamp': data.timeStamp,
+									'prepayid': data.prepayid,
+									'sign': data.sign,
+								},
+								success(res) {
+									uni.redirectTo({
+										url: '/pages/payAfter/payAfter?status=' + 1
+									})
+								},
+								fail(err) {
+									uni.$u.toast(err);
+									uni.redirectTo({
+										url: '/pages/payAfter/payAfter?status=' + 0
+									})
+								}
+							})
+						})
+					} else {
+						uni.redirectTo({
+							url: '/pages/payAfter/payAfter?status=' + 1
+						})
+					}
+				}).finally(() => {
+					this.loading = false;
+				})
 			},
 			getList() {
-				getUserAddressList().then(res => {
-					this.addressList = res.data;
+				getUserAddress().then(res => {
+					this.addressList = res.data
 				})
 			}
 		},
@@ -404,13 +274,6 @@
 		},
 		onShow() {
 			this.getList();
-			getConfigValue({
-				groupName: 'order',
-				configName: 'free_shipping'
-			}).then(res => {
-				console.log(res);
-				this.postage = Number(res.data);
-			})
 		}
 	}
 </script>

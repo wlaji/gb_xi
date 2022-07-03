@@ -1,20 +1,27 @@
 <template>
 	<view class="container">
-		<view class="carousel-section">
-			<u-swiper :list="imgList" keyName="url" :autoplay="false" indicator indicatorMode="dot" height="750rpx"
-				radius="0"></u-swiper>
+		<view class="carousel-section" style="height: 600rpx;">
+			<!-- <u-swiper :list="imgList" keyName="url" :autoplay="false" indicator indicatorMode="dot" height="750rpx" radius="0"></u-swiper> -->
+			<u-image :showLoading="true" :src="'https://www.guoben.shop'+productDetailInfo.pic" mode="aspectFit"
+				width="100%" height="600rpx" radius="4px">
+			</u-image>
 		</view>
 		<view class="content">
 			<view class="part introduce-section">
-				<text class="title">{{productDetailInfo.productName}}</text>
+				<text class="title">{{productDetailInfo.product_name}}</text>
 				<view class="price-box">
-					<PriceText :productItem="productDetailInfo"></PriceText>
+					<div style="display: flex;align-items: center;">
+						<u-text mode="price" :text="productDetailInfo.discount_amount" color="#fa436a"></u-text>
+						<u-text mode="price" decoration="line-through" size="12" margin="5"
+							:text="productDetailInfo.product_amount" color="#ccc"></u-text>
+					</div>
 					<!-- <text class="m-price">¥{{productDetailInfo.price}}</text> -->
 				</view>
 				<view class="bot-row">
-					<text>销量: {{productDetailInfo.salesVolume}}</text>
-					<text>库存: {{productDetailInfo.inventory === -1?'无限制':productDetailInfo.inventory}}</text>
-					<text>浏览量: {{productDetailInfo.viewVolume}}</text>
+					<!-- <text>销量: {{productDetailInfo.salesVolume}}</text> -->
+					<!-- <text>库存: {{productDetailInfo.inventory === -1?'无限制':productDetailInfo.inventory}}</text> -->
+					<!-- <text>浏览量: {{productDetailInfo.viewVolume}}</text> -->
+					<text>库存: {{productDetailInfo.stock}}</text>
 				</view>
 			</view>
 
@@ -30,7 +37,7 @@
 			</view> -->
 
 			<!-- 评价 -->
-			<view class="eva-section" v-if="productDetailInfo&&productDetailInfo.commentList.length">
+			<!-- <view class="eva-section" v-if="productDetailInfo&&productDetailInfo.commentList.length">
 				<view class="e-header">
 					<text class="tit">评价</text>
 					<text>({{productDetailInfo.commentList.length}})</text>
@@ -49,14 +56,14 @@
 						</view>
 					</view>
 				</template>
-			</view>
+			</view> -->
 
 			<view class="detail-desc">
 				<view class="d-header">
 					<text>图文详情</text>
 				</view>
 				<view class="d-content">
-					<u-parse :content="productDetailInfo.descriptions"></u-parse>
+					<u-parse :content="productDetailInfo.content"></u-parse>
 				</view>
 			</view>
 
@@ -87,9 +94,10 @@
 		<u-popup :show="show" mode="bottom" closeable @close="close">
 			<view class="popupCon">
 				<view class="title">
-					<u-image :showLoading="true" :src="imgList[0].url" width="150rpx" height="150rpx" radius="4px">
+					<u-image :showLoading="true" :src="'https://www.guoben.shop'+productDetailInfo.pic" width="150rpx"
+						height="150rpx" radius="4px">
 					</u-image>
-					<PriceText :productItem="productDetailInfo" :quantity="quantity"></PriceText>
+					<u-text mode="price" :text="productDetailInfo.discount_amount * quantity" color="#fa436a"></u-text>
 				</view>
 				<view class="con">
 					<u-gap height="1" bgColor="#eee"></u-gap>
@@ -97,18 +105,16 @@
 						<view class="label">
 							<text style="font-size: 16px;">购买数量</text>
 							<text
-								style="color:#909193;margin-left: 10rpx;">{{productDetailInfo.inventory!=0?'有货':'无货'}}</text>
+								style="color:#909193;margin-left: 10rpx;">{{productDetailInfo.stock!=0?'有货':'无货'}}</text>
 						</view>
 						<view class="num">
-							<u-number-box v-model="quantity" integer :min="1"
-								:max="productDetailInfo.inventory===-1?9999:productDetailInfo.inventory">
+							<u-number-box v-model="quantity" integer :min="1" :max="productDetailInfo.stock">
 							</u-number-box>
 						</view>
 					</view>
 				</view>
 				<view class="btn-bottom">
-					<u-button type="primary" text="确定" :loading="loading"
-						:disabled="productDetailInfo.inventory==0||!productDetailInfo.inventory"
+					<u-button type="primary" text="确定" :loading="loading" :disabled="productDetailInfo.stock==0"
 						color="linear-gradient(to right, rgb(255, 85, 0), rgb(240, 76, 0))" @click="addToCart">
 					</u-button>
 				</view>
@@ -120,13 +126,17 @@
 <script>
 	import Avatar from '@/components/Avatar.vue'
 	import PriceText from '@/components/PriceText.vue'
+	// import {
+	// 	getProductInfo
+	// } from '@/api/product.js'
+	// import {
+	// 	addCart,
+	// 	getByNowInfo
+	// } from '@/api/cart.js'
+
 	import {
-		getProductInfo
-	} from '@/api/product.js'
-	import {
-		addCart,
-		getByNowInfo
-	} from '@/api/cart.js'
+		goodinfo
+	} from '@/api/newApi.js'
 	export default {
 		data() {
 			return {
@@ -139,7 +149,7 @@
 					url: ''
 				}],
 				desc: '',
-				btnType: ''
+				btnType: '',
 			};
 		},
 		components: {
@@ -148,16 +158,19 @@
 		},
 		onLoad(options) {
 			this.productId = options.id;
+			this.productType = options.type;
 			this.getPageData()
 		},
 		methods: {
 			getPageData() {
 				//获取产品详情
-				getProductInfo({
+				goodinfo({
 					id: this.productId
 				}).then(res => {
-					this.productDetailInfo = res.data;
-					this.imgList = JSON.parse(res.data.photoPath)
+					console.log(res);
+					this.productDetailInfo = res.data[0];
+					// this.productDetailInfo = res.data;
+					// this.imgList = JSON.parse(res.data.photoPath)
 				})
 			},
 			goHome() {
@@ -178,27 +191,28 @@
 			addToCart() {
 				this.loading = true;
 				if (this.btnType === 1) {
-					addCart({
-						quantity: this.quantity,
-						productId: this.productDetailInfo.id
-					}).then(res => {
-						this.$u.toast('购物车添加成功!');
-						this.show = false;
-					}).finally(() => {
-						this.loading = false;
+					uni.$u.sleep(300).then(() => {
+						this.$store.commit('addCart', Object.assign(this.productDetailInfo, {
+							qty: this.quantity,
+							type: this.productType
+						}));
+						this.$nextTick(()=>{
+							this.$u.toast(this.$store.state.addcartMessage);
+							this.show = false;
+							this.loading = false;
+						})
 					})
 				} else {
-					getByNowInfo({
-						quantity: this.quantity,
-						productId: this.productDetailInfo.id
-					}).then(res => {
+					uni.$u.sleep(300).then(() => {
+						this.$store.commit('updateTempCart', [Object.assign(this.productDetailInfo, {
+							qty: this.quantity,
+							type: this.productType
+						})]);
 						this.show = false;
-						this.$store.commit('updateTempCart', res.data);
+						this.loading = false;
 						uni.navigateTo({
 							url: '/pages/checkout/checkout?buyNow=' + 1
 						})
-					}).finally(() => {
-						this.loading = false;
 					})
 				}
 			},
@@ -218,8 +232,6 @@
 
 <style lang="scss" scoped>
 	.container {
-		padding-bottom: 160rpx;
-
 		.content {
 			padding: 20rpx 10rpx;
 

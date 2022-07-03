@@ -1,12 +1,12 @@
 <template>
 	<view>
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
-			<u-cell title="实名认证" isLink :value="userInfo.identityCard?'已认证':'未认证'"
-				:label="formatName(userInfo.userName)" url="/pages/set/realNameAuthentication/realNameAuthentication">
+			<u-cell title="实名认证" isLink :value="userInfo.is_zsb?'已认证':'未认证'" url="/pages/set/realNameAuthentication/realNameAuthentication">
 			</u-cell>
-			<u-cell title="绑定手机" :label="formatPhone(userInfo.loginTel)" value="更换号码" isLink
-				url="/pages/set/phoneNumberVerification/phoneNumberVerification"></u-cell>
+			<!-- <u-cell title="绑定手机" :label="formatPhone(userInfo.loginTel)" value="更换号码" isLink
+				url="/pages/set/phoneNumberVerification/phoneNumberVerification"></u-cell> -->
 			<u-cell title="设置登录密码" isLink url="/pages/set/setPwd/setPwd"></u-cell>
+			<u-cell title="设置交易密码" isLink url="/pages/set/setPayPwd/setPayPwd"></u-cell>
 		</u-cell-group>
 		<!-- <view class="title">
 			社交账号绑定

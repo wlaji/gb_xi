@@ -3,7 +3,7 @@
 		<u-cell-group :customStyle="{'backgroundColor':'#ffffff','marginBottom':'20rpx'}">
 			<u-cell size="large"
 				:iconStyle="{'width':'80rpx','height':'80rpx','borderRadius':'50%','marginRight':'20rpx'}"
-				:title="userInfo.nickName||userInfo.userName" :label="userInfo.recommendCode" isLink url="/pages/set/infoSet/infoSet">
+				:title="userInfo.mobile" :label="userInfo.recommendCode">
 				<view slot="icon">
 					<Avatar :size="50" :src="userInfo.headImg"></Avatar>
 				</view>

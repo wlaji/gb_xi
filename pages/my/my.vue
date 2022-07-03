@@ -10,30 +10,27 @@
 			</view>
 			<view class="rightArea">
 				<view class="nickname">
-					{{userInfo.nickName||'国本用户'}}
+					{{userInfo.mobile||'国本用户'}}
 				</view>
-				<view class="bh">
+				<!-- <view class="bh">
 					邀请码:{{userInfo.recommendCode}} <i class="iconfont icon-copy" style="font-size:24px"
 						@click="copyCode(userInfo.recommendCode)"></i>
-				</view>
-
+				</view> -->
 			</view>
 		</view>
 		<view class="part part1">
 			<view class="top">
 				<u-icon name="level" size="25" color="#c2a160"></u-icon>
-				<text style="margin-left:10rpx;">国本商城 ({{userInfo.userLevelText}})</text>
-				<text style="margin-left:10rpx;" v-if="userInfo.isFuStar">福星</text>
-				<text style="margin-left:10rpx;" v-if="userInfo.isJoin">合伙人</text>
+				<text style="margin-left:10rpx;">国本商城 ({{ $store.state.partnerLevel[userInfo.partner_level] }})</text>
 			</view>
 			<view class="bottom">
 				<view class="b1">
-					<text>{{userInfo.points}}</text>
-					<text>宝豆</text>
+					<text>{{userInfo.cp}}</text>
+					<text>积分</text>
 				</view>
 				<u-line direction="col" length="50rpx"></u-line>
 				<view class="b1">
-					<text>￥{{userInfo.funds}}</text>
+					<text>￥{{userInfo.balance}}</text>
 					<text>余额</text>
 				</view>
 			</view>
@@ -44,7 +41,7 @@
 					:border="false" url="/pages/set/myOrder/myOrder"></u-cell>
 			</u-cell-group>
 
-			<view class="bottom">
+			<!-- <view class="bottom">
 				<view class="b1" @click="toOrder(1)">
 					<i class="iconfont icon-daifukuan"></i>
 					<text>待付款</text>
@@ -65,7 +62,7 @@
 					<i class="iconfont icon-shouhou"></i>
 					<text>已取消</text>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<view class="part history">
 			<!-- <u-cell-group :border="false">
@@ -88,16 +85,16 @@
 			<u-cell-group :border="false">
 				<u-cell icon="share" iconStyle="color:#9789F7;font-size:24px;" title="分享好友" isLink
 					url="/pages/set/share/share" value="分享赚米"></u-cell>
-				<u-cell icon="man-add" iconStyle="color:#F66D74;font-size:24px;" title="我要加盟" isLink
+				<!-- <u-cell icon="man-add" iconStyle="color:#F66D74;font-size:24px;" title="我要加盟" isLink
 					url="/pages/set/joinUs/joinUs" value="加盟店"></u-cell>
 				<u-cell icon="rmb-circle" iconStyle="color:#F66D74;font-size:24px;" title="营销业绩" isLink
-					url="/pages/set/marketing/marketing" value="查看返佣"></u-cell>
+					url="/pages/set/marketing/marketing" value="查看返佣"></u-cell> -->
 				<u-cell icon="red-packet" iconStyle="color:#F66D74;font-size:24px;" title="余额管理" isLink
 					url="/pages/set/jifenManage/jifenManage"></u-cell>
-				<u-cell icon="man-add-fill" iconStyle="color:#F66D74;font-size:24px;" title="我的团队" isLink
-					url="/pages/set/team/team"></u-cell>
-				<!-- <u-cell icon="plus-people-fill" iconStyle="color:#FFB273;font-size:24px;" title="积分明细" isLink
+				<!-- <u-cell icon="man-add-fill" iconStyle="color:#F66D74;font-size:24px;" title="我的团队" isLink
 					url="/pages/set/team/team"></u-cell> -->
+				<u-cell icon="plus-people-fill" iconStyle="color:#FFB273;font-size:24px;" title="积分明细" isLink
+					url="/pages/set/team/team"></u-cell>
 				<!-- <u-cell icon="star-fill" iconStyle="color:#fa436a;font-size:24px;" title="我的收藏" isLink
 					url="/pages/set/collect/collect"></u-cell>
 				<u-cell icon="bell" iconStyle="color:#54B4EF;font-size:24px;" title="留言管理" isLink
@@ -176,12 +173,9 @@
 				uni.stopPullDownRefresh()
 			}, 1000)
 		},
-		onShow() {
-			getUserInfo().then(res => {
-				let userInfo = res.data;
-				this.$store.commit('updateUserInfo', userInfo)
-			})
-		}
+		onLoad() {
+			console.log(this.$store.state.userInfo)
+		},
 	}
 </script>
 

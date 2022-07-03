@@ -2,99 +2,99 @@
 	<view class="container">
 		<u-modal :show="show" title="取消订单" content='确认取消此订单吗?' closeOnClickOverlay @close="show=false"
 			@confirm="submitCancelForm"></u-modal>
-		<view class="tab">
+		<!-- <view class="tab">
 			<view :class="[{ active: activeIndex===index }, 'tab-item']" v-for="(item,key,index) in tabList"
 				:key="index" @click="tabClick(index)">{{item}}</view>
-		</view>
+		</view> -->
 		<view class="content">
-			<swiper :current="activeIndex" class="swiper-box" duration="300" @change="changeTab" disable-touch>
+			<!-- <swiper :current="activeIndex" class="swiper-box" duration="300" @change="changeTab" disable-touch>
 				<swiper-item class="tab-content" v-for="(tabItem,tabIndex) in tabList" :key="tabIndex">
-					<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
-						<template v-if="productList.length||loadDataStatus">
-							<view v-for="(item, index) in productList" :key="index" class="product-item-wrap"
-								@click="toOrderDetail(item.id)">
-								<view class="product-title u-border-bottom">
-									<text>{{item.createTime}}</text>
-									<text class="status">{{tabList[item.status]}}</text>
-								</view>
-								<view class="product-item" v-for="(citem,cindex) in item.productList" :key="cindex">
-									<view class="left-img">
-										<u-image :showLoading="true" :src="JSON.parse(citem.photoPath)[0].url"
-											width="200rpx" height="200rpx" radius="10px"></u-image>
-									</view>
-									<view class="right-con">
-										<view class="r1">
-											<text class="title u-line-1">{{citem.productName}}</text>
-										</view>
-										<view class="r2">
-											<view class="price">
-												<PriceText :productItem="citem"></PriceText>
-											</view>
-											<view class="num">
-												x{{citem.quantity}}
-											</view>
-										</view>
-									</view>
-								</view>
-								<view class="priceInfo">
-									<text>宝豆:</text>
-									<u-text bold prefixIcon="rmb-circle"
-										iconStyle="color:#c7b033;font-size:18px;margin-right:5rpx;"
-										:text="item.pointPrice" color="#fa436a" style="flex:0"></u-text>
-								</view>
-								<view class="priceInfo">
-									<text>总计:</text>
-									<u-text bold mode="price"
-										:text="(item.orderPrice + item.mixPayPrice +item.shippingPrice).toFixed(2)"
-										color="#fa436a" style="flex:0">
-									</u-text>
-								</view>
-
-								<view class="orderBtnGroup">
-									<view class="left" @click.stop="toOrderDetail(item.id)">
-										<text>更多</text>
-									</view>
-									<view class="right">
-										<!-- <u-count-down :time="formatTime(item.createTime)" format="HH:mm:ss"></u-count-down> -->
-										<!-- 	<button class="u-reset-button">加入购物车</button> -->
-										<template v-if="item.status===1">
-											<button class="u-reset-button"
-												@click.stop="cancelOrderDefault(item.orderId)">取消订单</button>
-											<button class="u-reset-button zf"
-												@click.stop="goZhifu(item.orderId,item.paymentMethod)">立即支付</button>
-										</template>
-										<template v-if="item.status===3">
-											<button class="u-reset-button" @click.stop="viewWuliu(item)">查看物流</button>
-											<button class="u-reset-button zf" @click.stop="confirmShouhuo(item.orderId)">确认收货</button>
-										</template>
-										<!-- <button class="u-reset-button pj" v-if="item.status===4">评价</button> -->
-									</view>
-								</view>
-							</view>
-							<u-loadmore :status="status" height="30px" />
-						</template>
-						<template v-else>
-							<view class="no-result">
-								<u-empty mode="order"></u-empty>
-							</view>
-						</template>
-					</scroll-view>
+					
 				</swiper-item>
-			</swiper>
+			</swiper> -->
+
+			<scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData">
+				<template v-if="productList.length||loadDataStatus">
+					<view v-for="(item, index) in productList" :key="index" class="product-item-wrap">
+						<view class="product-title u-border-bottom">
+							<view>
+								<u-text mode="date" :text="item.createTime" size="12"></u-text>
+								<u-text :text="item.order_no" size="12"></u-text>
+							</view>
+							<text class="status">{{tabList[item.status]}}</text>
+						</view>
+						<view class="product-item">
+							<view class="left-img">
+								<u-image :showLoading="true" :src="'https://www.guoben.shop'+item.snap_img"
+									width="200rpx" height="200rpx" radius="10px"></u-image>
+							</view>
+							<view class="right-con">
+								<view class="r1">
+									<text class="title u-line-1">{{item.snap_name}}</text>
+								</view>
+								<view class="r2">
+									<!-- <view class="price">
+										<u-text mode="price" :text="item.end_price" color="#fa436a"></u-text>
+									</view> -->
+									<view class="num">
+										x{{item.total_count}}
+									</view>
+								</view>
+							</view>
+						</view>
+						<view class="priceInfo">
+							<text>物流状态: </text>
+							<text>{{item.send_out?'已发货':'待发货'}}</text>
+						</view>
+						<view class="priceInfo">
+							<text>总计:</text>
+							<u-text mode="price" :text="item.end_price" color="#fa436a" style="flex:0"></u-text>
+							<u-text mode="price" :text="item.total_price" decoration="line-through" size="12"
+								style="flex:0"></u-text>
+						</view>
+						<view class="orderBtnGroup">
+							<view class="left">
+								<!-- <text>更多</text> -->
+							</view>
+							<view class="right">
+								<template v-if="item.status==1">
+									<!-- <button class="u-reset-button"
+										@click.stop="cancelOrderDefault(item.orderId)">取消订单</button> -->
+									<button class="u-reset-button zf"
+										@click.stop="goZhifu(item.orderId,item.paymentMethod)">立即支付</button>
+								</template>
+								<!-- <template v-if="item.status===3">
+									<button class="u-reset-button" @click.stop="viewWuliu(item)">查看物流</button>
+									<button class="u-reset-button zf" @click.stop="confirmShouhuo(item.orderId)">确认收货</button>
+								</template> -->
+							</view>
+						</view>
+					</view>
+					<u-loadmore :status="status" height="30px" />
+				</template>
+				<template v-else>
+					<view class="no-result">
+						<u-empty mode="order"></u-empty>
+					</view>
+				</template>
+			</scroll-view>
 		</view>
 	</view>
 </template>
 
 <script>
 	import PriceText from '@/components/PriceText.vue'
+	// import {
+	// 	userGetOrderList,
+	// 	editOrderPayment,
+	// 	getOrderInfo,
+	// 	payment,
+	// 	cancelOrder,
+	// 	confirmOrder
+	// } from '@/api/order.js'
 	import {
-		userGetOrderList,
-		editOrderPayment,
-		getOrderInfo,
-		payment,
-		cancelOrder,
-		confirmOrder
-	} from '@/api/order.js'
+		orderlist
+	} from '@/api/newApi.js'
 	export default {
 		data() {
 			return {
@@ -105,11 +105,12 @@
 				status: 'loadmore',
 				form: {
 					page: 1,
-					pageSize: 10,
+					size: 4,
 					status: null,
 				},
 				total: 0,
 				cancelOrderId: '',
+				hasMore: false,
 			};
 		},
 		computed: {
@@ -121,16 +122,16 @@
 			PriceText
 		},
 		methods: {
-			viewWuliu(item){
+			viewWuliu(item) {
 				uni.navigateTo({
 					// url:`/pages/viewWl/viewWl?expressNum=${item.deliverySlipNumber}&phone=${item.address.phone}`
-					url:`/pages/viewWl/viewWl?expressNum=${item.deliverySlipNumber}&phone=${item.address.phone}`
+					url: `/pages/viewWl/viewWl?expressNum=${item.deliverySlipNumber}&phone=${item.address.phone}`
 				})
 			},
-			confirmShouhuo(orderId){
+			confirmShouhuo(orderId) {
 				confirmOrder({
 					orderId
-				}).then(res=>{
+				}).then(res => {
 					uni.$u.toast('确认收货成功');
 					this.form.page = 1;
 					this.productList = [];
@@ -148,10 +149,6 @@
 					this.loadDataStatus = true;
 					this.getList()
 				})
-			},
-			formatTime(time) {
-				console.log(Number(new Date(time)))
-				console.log(Number(new Date()))
 			},
 			cancelOrderDefault(orderId) {
 				this.cancelOrderId = orderId;
@@ -173,13 +170,13 @@
 			},
 			//顶部tab点击
 			tabClick(index) {
-				if(this.loadDataStatus){
+				if (this.loadDataStatus) {
 					return false;
 				}
 				this.activeIndex = index;
 			},
 			loadData() {
-				if (this.productList.length >= this.total) {
+				if (!this.hasMore) {
 					this.status = 'noMore';
 					return;
 				}
@@ -188,19 +185,19 @@
 			},
 			getList() {
 				this.status = 'loading'
-				userGetOrderList(this.form).then(res => {
-					this.productList = this.productList.concat(res.data.list);
-					this.total = res.data.total;
-					if (this.productList.length >= this.total) {
+				orderlist(this.form).then(res => {
+					this.productList = this.productList.concat(res.data[0].data);
+					this.hasMore = res.data[0].has_more
+					if (!this.hasMore) {
 						this.status = 'noMore';
 					}
-					this.$nextTick(()=>{
+					this.$nextTick(() => {
 						this.loadDataStatus = false;
 					})
 				}).finally(() => {
-					setTimeout(()=>{
+					setTimeout(() => {
 						this.loadDataStatus = false;
-					},1000)
+					}, 1000)
 				})
 			},
 			pay(data, provider) {
@@ -330,14 +327,16 @@
 		}
 
 		.content {
+			position: relative;
 			padding-top: 20rpx;
-			height: calc(100% - 40px);
+			height: 100%;
 
 			.swiper-box {
 				height: 100%;
 			}
 
 			.list-scroll-content {
+				position: relative;
 				height: 100%;
 			}
 

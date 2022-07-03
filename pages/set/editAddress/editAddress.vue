@@ -1,8 +1,5 @@
 <template>
 	<view class="container">
-		<u-picker :show="showAddressPicker" ref="uPicker" :closeOnClickOverlay="true" :columns="columns"
-			:loading="loading" keyName="name" :defaultIndex="defaultIndex" @cancel="showAddressPicker=false"
-			@close="showAddressPicker=false" @confirm="confirmAddress" @change="changeHandler"></u-picker>
 		<u-modal :show="showModal" closeOnClickOverlay :content='modalCon' confirmText="确定" confirmColor="#E44273"
 			@confirm="setPermision" @close="showModal=false"></u-modal>
 		<view class="formWrap">
@@ -10,21 +7,21 @@
 				<u-form-item label="联系人" prop="name" borderBottom>
 					<u-input type="text" placeholder="请填写收货人姓名" v-model="form.name" border="none"></u-input>
 				</u-form-item>
-				<u-form-item label="手机号" prop="phone" borderBottom>
-					<u-input type="number" placeholder="请填写收货人手机号" v-model="form.phone" border="none"></u-input>
+				<u-form-item label="手机号" prop="mobile" borderBottom>
+					<u-input type="number" placeholder="请填写收货人手机号" v-model="form.mobile" border="none"></u-input>
 				</u-form-item>
-				<u-form-item label="选择地区" prop="dizhi" borderBottom @click="showAddressPicker = true;">
-					<u-input type="text" placeholder="省、市、区、街道" v-model="form.dizhi" disabled disabledColor="#ffffff"
-						border="none">
-						<template slot="suffix">
-							<u-icon name="arrow-right"></u-icon>
-						</template>
-					</u-input>
-
+				<u-form-item label="选择地区" prop="dizhi" borderBottom>
+					<view class="input" type="text" placeholder="请选择地区">
+						<picker class="pickerList" mode="multiSelector" :range="newProvinceDataList" :value="multiIndex"
+							@change="pickerChange" @columnchange="pickerColumnchange">
+							<!-- <view>{{provinceDataList[0].name}}--{{provinceDataList[0].city[0].name}}--{{provinceDataList[0].city[0].area[0]}}</view> -->
+							<view class="">{{form.dizhi || '选择省市区'}}</view>
+						</picker>
+					</view>
 				</u-form-item>
-				<u-form-item label="详细地址" prop="detailedAddress" borderBottom
+				<u-form-item label="详细地址" prop="detail" borderBottom
 					:customStyle="{'alignItems':'flex-start'}">
-					<u-textarea v-model="form.detailedAddress" placeholder="例如街道、门牌号、小区、楼栋号、单元室等" border="none">
+					<u-textarea v-model="form.detail" placeholder="例如街道、门牌号、小区、楼栋号、单元室等" border="none">
 					</u-textarea>
 					<template slot="right">
 						<view style="display: flex;align-items: center;line-height: 20px;" @click="getLocationInfo">
@@ -33,9 +30,9 @@
 						</view>
 					</template>
 				</u-form-item>
-				<u-form-item label="设为默认">
+<!-- 				<u-form-item label="设为默认">
 					<u-switch v-model="form.isDefault" :activeValue="1" :inactiveValue="0"></u-switch>
-				</u-form-item>
+				</u-form-item> -->
 			</u-form>
 			<view class="add-address-btn">
 				<u-button type="primary" text="保存" @click="save"></u-button>
@@ -45,17 +42,30 @@
 </template>
 
 <script>
+	// import {
+	// 	getProvinceList,
+	// 	getProvinceCityList,
+	// 	getProvinceCityAreaList,
+	// 	editUserAddressList,
+	// 	getUserAddressById
+	// } from '@/api/auth.js';
+	import provinceData from '@/utils/province.js';
 	import {
-		getProvinceList,
-		getProvinceCityList,
-		getProvinceCityAreaList,
-		editUserAddressList,
-		getUserAddressById
-	} from '@/api/auth.js';
-	import {getLocation} from '@/utils/util.js'
+		createOrUpdateAddress
+	} from '@/api/newApi.js'
+	import {
+		getLocation
+	} from '@/utils/util.js'
 	export default {
 		data() {
 			return {
+				oldpProvinceDataList: provinceData.data,
+				newProvinceDataList: [
+					[],
+					[],
+					[]
+				],
+				multiIndex: [0, 0, 0],
 				showAddressPicker: false,
 				showModalType: 0,
 				modalCon: '',
@@ -64,13 +74,13 @@
 				form: {
 					id: '',
 					name: '',
-					phone: '',
+					mobile: '',
 					dizhi: '',
-					detailedAddress: '',
+					detail: '',
 					isDefault: 0,
 				},
 				rules: {
-					'phone': [{
+					'mobile': [{
 							required: true,
 							message: '请输入手机号',
 							trigger: ['change', 'blur'],
@@ -88,7 +98,7 @@
 						message: '请输入名称',
 						trigger: ['change', 'blur'],
 					}],
-					"detailedAddress": [{
+					"detail": [{
 						required: true,
 						message: '请输入详细地址',
 						trigger: ['change', 'blur'],
@@ -99,82 +109,81 @@
 						trigger: ['change', 'blur'],
 					}]
 				},
-				columns: [
-					[],
-					[],
-					[]
-				],
-				defaultIndex: [0, 0, 0],
-				provinceList: [],
-				loading: false,
 			};
 		},
 		methods: {
-			confirmAddress() {
-				this.showAddressPicker = false;
-				let values = this.$refs.uPicker.getValues(),
-					str = '';
-				console.log(values);
-				values.forEach(item => {
-					str = str + ' ' + (item ? item.name : '')
-				})
-				this.form.dizhi = str;
+			// 省市区确认事件
+			pickerChange(e) {
+				this.multiIndex = e.detail.value;
+				this.form.dizhi =
+					`${this.newProvinceDataList[0][this.multiIndex[0]]}--${this.newProvinceDataList[1][this.multiIndex[1]]}--${this.newProvinceDataList[2][this.multiIndex[2]]}`
 			},
-			async changeHandler(e) {
-				const {
-					value,
-					values, // values为当前变化列的数组内容
-					columnIndex,
-					index,
-					// 微信小程序无法将picker实例传出来，只能通过ref操作
-					picker = this.$refs.uPicker
-				} = e
-				console.log(value, values);
-				if (columnIndex === 0) {
-					let provinceId = values[columnIndex][index].provinceId;
-					let cityList = await getProvinceCityList({
-						id: provinceId
-					});
-					picker.setColumnValues(1, cityList.data);
-					let cityId = cityList.data.length ? cityList.data[0].cityId : null;
-					if (!cityId) {
-						picker.setColumnValues(2, []);
-						return false;
+			pickerColumnchange(e) {
+				// 第几列滑动
+				// console.log(e.detail.column);
+				// 第几列滑动的下标
+				// console.log(e.detail.value)
+				// 第一列滑动
+				if (e.detail.column === 0) {
+					this.multiIndex[0] = e.detail.value
+					// console.log('第一列滑动');
+					// this.newProvinceDataList[1] = [];
+					this.newProvinceDataList[1] = this.oldpProvinceDataList[this.multiIndex[0]].city.map((item, index) => {
+						// console.log(item)
+						return item.name
+					})
+					// console.log(this.multiIndex)
+					if (this.oldpProvinceDataList[this.multiIndex[0]].city.length === 1) {
+						this.newProvinceDataList[2] = this.oldpProvinceDataList[this.multiIndex[0]].city[0].area.map((item,
+							index) => {
+							// console.log(item)
+							return item
+						})
+					} else {
+						this.newProvinceDataList[2] = this.oldpProvinceDataList[this.multiIndex[0]].city[this.multiIndex[
+							1]].area.map((item, index) => {
+							// console.log(item)
+							return item
+						})
 					}
-					let areaList = await getProvinceCityAreaList({
-						id: cityId
-					})
-					picker.setColumnValues(2, areaList.data);
-				} else if (columnIndex === 1) {
-					let cityId = values[columnIndex][index].cityId;
-					let areaList = await getProvinceCityAreaList({
-						id: cityId
-					})
-					picker.setColumnValues(2, areaList.data)
+					// 第一列滑动  第二列 和第三列 都变为第一个
+					this.multiIndex.splice(1, 1, 0)
+					this.multiIndex.splice(2, 1, 0)
+				}
+				// 第二列滑动
+				if (e.detail.column === 1) {
+					this.multiIndex[1] = e.detail.value
+					// console.log('第二列滑动');
+					// console.log(this.multiIndex)
+					this.newProvinceDataList[2] = this.oldpProvinceDataList[this.multiIndex[0]].city[this.multiIndex[1]]
+						.area.map((item, index) => {
+							// console.log(item)
+							return item
+						})
+					// 第二列 滑动 第三列 变成第一个
+					this.multiIndex.splice(2, 1, 0)
+				}
+				// 第三列滑动
+				if (e.detail.column === 2) {
+					this.multiIndex[2] = e.detail.value
+					// console.log('第三列滑动')
+					// console.log(this.multiIndex)
 				}
 			},
 			save() {
 				this.$refs.form.validate().then(() => {
-					let values = this.$refs.uPicker.getValues(),
+					let province = this.newProvinceDataList[0][this.multiIndex[0]],
+						city = this.newProvinceDataList[1][this.multiIndex[1]],
+						country = this.newProvinceDataList[2][this.multiIndex[2]],
 						form = this.form;
-					let provinceId = values[0] ? values[0].provinceId : null,
-						province = values[0] ? values[0].name : null,
-						cityId = values[1] ? values[1].cityId : null,
-						city = values[1] ? values[1].name : null,
-						areaId = values[2] ? values[2].areaId : null,
-						area = values[2] ? values[2].name : null;
-					console.log(values);
-					editUserAddressList({
-						cityId: cityId,
+					createOrUpdateAddress({
 						city: city,
-						areaId: areaId,
-						area: area,
-						provinceId: provinceId,
+						country: country,
 						province: province,
-						detailedAddress: form.detailedAddress,
+						detail: form.detail,
 						isDefault: form.isDefault,
 						name: form.name,
-						phone: form.phone,
+						mobile: form.mobile,
 						id: form.id
 					}).then(res => {
 						uni.navigateBack()
@@ -183,20 +192,19 @@
 					console.log(err)
 				})
 			},
-			hideKeyboard() {
-				uni.hideKeyboard()
-			},
-			getLocationInfo(){
-				getLocation((data)=>{
+
+			getLocationInfo() {
+				getLocation((data) => {
 					console.log(data);
-					if(data.code==200){
-						this.form.detailedAddress = data.data.address;
-					}else if(data.code==401){
+					if (data.code == 200) {
+						this.form.detail = data.data.address;
+					} else if (data.code == 401) {
 						this.modalCon = data.msg;
 						this.showModal = true;
 					}
 				})
 			},
+
 			setPermision() {
 				this.showModal = false;
 				if (this.showModalType === 2) {
@@ -210,21 +218,20 @@
 					})
 				}
 			},
-			async getList() {
-				let provinceList = await getProvinceList();
-				let defaultProvinceId = provinceList.data[0].provinceId;
-				let cityList = await getProvinceCityList({
-					id: defaultProvinceId
-				});
-				let defaultCityId = cityList.data[0].cityId;
-				let areaList = await getProvinceCityAreaList({
-					id: defaultCityId
-				});
-				this.columns = [provinceList.data, cityList.data, areaList.data]
-			}
 		},
 		onLoad(options) {
-			console.log(options)
+			for (let i = 0; i < this.oldpProvinceDataList.length; i++) {
+				// console.log(this.oldpProvinceDataList[i].name);
+				this.newProvinceDataList[0].push(this.oldpProvinceDataList[i].name);
+			}
+			for (let i = 0; i < this.oldpProvinceDataList[0].city.length; i++) {
+				// console.log(this.oldpProvinceDataList[0].city[i].name)
+				this.newProvinceDataList[1].push(this.oldpProvinceDataList[0].city[i].name);
+			}
+			for (let i = 0; i < this.oldpProvinceDataList[0].city[0].area.length; i++) {
+				// console.log(this.oldpProvinceDataList[0].city[0].area)
+				this.newProvinceDataList[2].push(this.oldpProvinceDataList[0].city[0].area[i]);
+			}
 			if (options.type === 'add') {
 				uni.setNavigationBarTitle({
 					title: '新增收货地址'
@@ -241,9 +248,9 @@
 					this.form = {
 						id: res.data.id,
 						name: res.data.name,
-						phone: res.data.phone,
+						mobile: res.data.mobile,
 						dizhi: '',
-						detailedAddress: res.data.detailedAddress,
+						detail: res.data.detail,
 						isDefault: res.data.isDefault,
 					}
 					let defaultProvinceId = res.data.provinceId;
@@ -279,8 +286,6 @@
 					})
 					console.log(this.defaultIndex)
 				})
-			} else {
-				this.getList();
 			}
 		},
 		onReady() {

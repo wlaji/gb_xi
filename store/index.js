@@ -4,9 +4,12 @@ import {
 	getCookie
 } from '@/utils/util'
 Vue.use(Vuex)
-
+import {
+	userinfo
+} from '@/api/newApi.js'
 const store = new Vuex.Store({
 	state: {
+		addcartMessage:'',
 		hasLogin: false,
 		userInfo: null,
 		newVersionCode: 0,
@@ -37,18 +40,54 @@ const store = new Vuex.Store({
 			}
 		],
 		orderStatus: {
-			0: '全部',
-			1: '待付款',
-			2: '待发货',
-			3: '待收货',
-			4: '已签收',
-			5: '已取消',
+			1: '未支付',
+			2: '已支付',
+			3: '已支付,但库存不够'
+		},
+		partnerLevel: {
+			0: '注册会员',
+			1: '普通会员',
+			2: '合伙人'
 		},
 		tempCart: uni.getStorageSync('tempCart') || [],
+		cart: uni.getStorageSync('cart') || [],
 	},
 	mutations: {
 		setDefaultAddress(state, data) {
 			state.defaultAddress = data;
+		},
+		addCart(state, data) {
+			if(!state.cart.length){
+				state.cart.push(data);
+			}else{
+				let findType = state.cart.find(item=>{
+					return item.type == data.type
+				})
+				if(!findType){
+					state.addcartMessage = '不能添加不同类型的商品';
+					return false;
+				}
+				state.addcartMessage = '购物车添加成功'
+				let findInd = state.cart.findIndex(item => {
+					return item.id == data.id
+				})
+				if (findInd >= 0) {
+					let oldQty = state.cart[findInd].qty
+					state.cart[findInd] = data;
+					state.cart[findInd].qty = oldQty + state.cart[findInd].qty
+				} else {
+					state.cart.push(data);
+				}
+			}
+			uni.setStorageSync('cart', state.cart)
+		},
+		updateCart(state, data) {
+			state.cart = data;
+			uni.setStorageSync('cart', state.cart)
+		},
+		delCart(state, data) {
+			state.cart.splice(data, 1);
+			uni.setStorageSync('cart', state.cart)
 		},
 		updateTempCart(state, data) {
 			state.tempCart = data;
@@ -92,7 +131,21 @@ const store = new Vuex.Store({
 		}
 	},
 	actions: {
-
+		updateUserInfo({
+			commit
+		}) {
+			return new Promise(resolve=>{
+				userinfo().then(res => {
+					commit('updateUserInfo', res.data[0]);
+					resolve()
+				}).catch(err=>{
+					commit('logout');
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
+				})
+			})
+		}
 	}
 })
 

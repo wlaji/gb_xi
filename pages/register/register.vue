@@ -129,13 +129,7 @@
 						required: true,
 						message: '请输入密码',
 						trigger: ['blur'],
-					},{
-							validator: (rule, value, callback) => {
-								return uni.$u.test.code(value, 10);
-							},
-							message: '密码长度不能小于10位',
-							trigger: ['blur'],
-						}]
+					}]
 				},
 			}
 		},
