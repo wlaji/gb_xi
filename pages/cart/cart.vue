@@ -106,11 +106,11 @@
 				if (this.empty !== empty) {
 					this.empty = empty;
 				}
-			}
+			},
 		},
 		methods: {
 			getPageData() {
-				this.cartList = this.$store.state.cart;
+				this.cartList = JSON.parse(JSON.stringify(this.$store.state.cart));
 				this.calcTotal(); //计算总价
 			},
 			goDetail() {

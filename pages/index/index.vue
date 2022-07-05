@@ -121,11 +121,15 @@
 				</view>
 			</template>
  -->
+			<view class="carousel-section">
+				<u-swiper class="swiper" :list="carouselList" keyName="pic" circular indicator height="400rpx"
+					radius="5"></u-swiper>
+			</view>
 			<!-- 推荐 -->
 			<view class="hot-header" v-if="bdGoodList.length">
 				<u-icon name="share" color="#fa436a" size="30" style="margin-right: 20rpx"></u-icon>
 				<view class="tit-box">
-					<text class="tit">报单专区</text>
+					<text class="tit">爆单专区</text>
 				</view>
 				<u-icon name="arrow-right"></u-icon>
 			</view>
@@ -158,7 +162,8 @@
 	import ProductItem from '@/components/ProductItem.vue';
 	import BindInfo from '@/components/BindInfo.vue'
 	import {
-		goodlist
+		goodlist,
+		bannerlist
 	} from '@/api/newApi.js'
 	export default {
 		data() {
@@ -197,10 +202,16 @@
 				return this.$store.getters.isLogin
 			}
 		},
+		onShow() {
+			setTimeout(()=>{
+				this.$store.commit('logout')
+			},100)
+		},
 
 		onLoad() {
 			this.getPageData();
 			checkUpdateApp();
+			this.$store.dispatch('updateUserInfo');
 		},
 		methods: {
 			tozq(productType, cateName) {
@@ -226,6 +237,15 @@
 					this.jfGoodList.forEach(item => {
 						item.type = 1
 					})
+				})
+
+				//获取banner
+				bannerlist().then(res => {
+					let carouselList = res.data[0];
+					carouselList.forEach(item=>{
+						item.pic = 'https://www.guoben.shop' +item.pic
+					})
+					this.carouselList = carouselList
 				})
 			},
 			toLogin() {

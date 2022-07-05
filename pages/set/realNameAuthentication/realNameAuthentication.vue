@@ -61,7 +61,7 @@
 					this.loading = true;
 					checkId(this.bindIdCardForm).then(async res => {
 						uni.$u.toast('身份证绑定成功');
-						await store.dispatch('updateUserInfo');
+						await this.$store.dispatch('updateUserInfo');
 						this.$nextTick(()=>{
 							uni.navigateBack()
 						})

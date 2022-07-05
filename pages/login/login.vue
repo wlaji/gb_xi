@@ -52,14 +52,14 @@
 			</view>
 		</view>
 		<view class="register-section">
-			<view style="text-align: center;margin-bottom: 40px;">
+			<!-- <view style="text-align: center;margin-bottom: 40px;">
 				<view style="font-size: 12px;margin-bottom: 10px;">其他登录方式</view>
 				<view>
 					<u-button type="primary" color="#888" iconColor="#3c9cff"
 						:customStyle="{'borderRadius':'50%','width':'30px','height':'30px','padding':'10px'}" plain
 						icon="weixin-fill" @click="wxLogin"></u-button>
 				</view>
-			</view>
+			</view> -->
 			还没有账号?
 			<text @click="toRegist">马上注册</text>
 		</view>
@@ -194,7 +194,7 @@
 					login(Object.assign(this.form, {
 						type: this.status
 					})).then(res => {
-						console.log(res);
+						uni.setStorageSync('isLogin', 'yes')
 						this.$store.commit('login', res.data[0]); // vuex的方法
 						uni.switchTab({
 							url: '/pages/index/index'

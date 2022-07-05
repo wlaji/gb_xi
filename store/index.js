@@ -64,10 +64,10 @@ const store = new Vuex.Store({
 					return item.type == data.type
 				})
 				if(!findType){
-					state.addcartMessage = '不能添加不同类型的商品';
+					state.cart = [];
+					state.cart.push(data);
 					return false;
 				}
-				state.addcartMessage = '购物车添加成功'
 				let findInd = state.cart.findIndex(item => {
 					return item.id == data.id
 				})
@@ -138,11 +138,6 @@ const store = new Vuex.Store({
 				userinfo().then(res => {
 					commit('updateUserInfo', res.data[0]);
 					resolve()
-				}).catch(err=>{
-					commit('logout');
-					uni.navigateTo({
-						url:'/pages/login/login'
-					})
 				})
 			})
 		}

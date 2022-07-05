@@ -136,7 +136,7 @@
 						token: this.smsToken
 					}).then(async res => {
 						uni.$u.toast('支付密码已重置');
-						await store.dispatch('updateUserInfo');
+						await this.$store.dispatch('updateUserInfo');
 						this.$nextTick(()=>{
 							uni.navigateBack()
 						})

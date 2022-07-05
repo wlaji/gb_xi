@@ -2,8 +2,8 @@
 	<view class="container">
 		<view class="carousel-section" style="height: 600rpx;">
 			<!-- <u-swiper :list="imgList" keyName="url" :autoplay="false" indicator indicatorMode="dot" height="750rpx" radius="0"></u-swiper> -->
-			<u-image :showLoading="true" :src="'https://www.guoben.shop'+productDetailInfo.pic" mode="aspectFit"
-				width="100%" height="600rpx" radius="4px">
+			<u-image :lazyLoad="false" :src="'https://www.guoben.shop'+productDetailInfo.pic" mode="aspectFit" width="100%"
+				height="600rpx" radius="4px">
 			</u-image>
 		</view>
 		<view class="content">
@@ -196,8 +196,8 @@
 							qty: this.quantity,
 							type: this.productType
 						}));
-						this.$nextTick(()=>{
-							this.$u.toast(this.$store.state.addcartMessage);
+						this.$nextTick(() => {
+							this.$u.toast('购物车添加成功');
 							this.show = false;
 							this.loading = false;
 						})
@@ -220,6 +220,12 @@
 				this.show = false
 			}
 		},
+		onPullDownRefresh() {
+			this.getPageData()
+			setTimeout(() => {
+				uni.stopPullDownRefresh()
+			}, 1000)
+		},
 		// #ifndef MP
 		onNavigationBarSearchInputClicked: async function(e) {
 			uni.navigateTo({
@@ -234,6 +240,7 @@
 	.container {
 		.content {
 			padding: 20rpx 10rpx;
+			padding-bottom: 80px;
 
 			.part {
 				background-color: #fff;

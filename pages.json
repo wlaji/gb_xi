@@ -25,7 +25,6 @@
 			"meta": {
 				"loginAuth": true
 			},
-			"name": "productDetail",
 			"style": {
 				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "商品详情"
@@ -87,7 +86,7 @@
 			},
 			"style": {
 				"navigationBarTitleText": "产品列表",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 		}, {
 			"path": "pages/checkout/checkout",
@@ -201,7 +200,7 @@
 				"loginAuth": true
 			},
 			"style": {
-				"navigationBarTitleText": "积分明细",
+				"navigationBarTitleText": "我的团队",
 				"enablePullDownRefresh": false
 			}
 		}, {
@@ -475,7 +474,20 @@
 				"enablePullDownRefresh": false
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/set/jfInfo/jfInfo",
+			"name" : "jfInfo",
+			"meta": {
+				"loginAuth": true
+			},
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "积分明细",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"tabBar": {
 		"color": "#606266",
 		"selectedColor": "#E44273",

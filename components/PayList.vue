@@ -50,7 +50,7 @@
 							'color': '#adbe5e',
 							'font-size': '20px'
 						},
-						showType:[0,1]
+						showType:[1]
 					},
 				],
 				payMentMethod: '',

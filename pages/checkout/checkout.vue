@@ -1,7 +1,7 @@
 <template>
 	<view class="container" :style="{paddingTop:customBar+'px'}">
 		<u-navbar leftText="返回" title="确认订单" fixed @leftClick="goBack"></u-navbar>
-		<BindPayPwd></BindPayPwd>
+		<BindPayPwd :showBindPayPwd="showBindPayPwd" @closeModal="showBindPayPwd=false"></BindPayPwd>
 		<view class="part" style="margin-top: 20rpx;">
 			<u-cell-group :border="false" v-if="defaultAddress">
 				<u-cell size="large" icon="map-fill" :border="false" :iconStyle="{color:'red'}"
@@ -95,7 +95,8 @@
 				paymentMethod: '',
 				buyNow: 0,
 				mixPayPrice: '',
-				paypass: ''
+				paypass: '',
+				showBindPayPwd:false,
 			}
 		},
 		components: {
@@ -143,7 +144,7 @@
 				}
 			},
 			changeMethod(method) {
-				this.paymentMethod = method
+				this.paymentMethod = method;
 			},
 			close() {
 				this.show = false
@@ -171,7 +172,7 @@
 								})
 							},
 							fail(err) {
-								uni.$u.toast(err);
+								uni.$u.toast('微信支付失败');
 								uni.redirectTo({
 									url: '/pages/payAfter/payAfter?status=' + 0
 								})
@@ -186,7 +187,11 @@
 			},
 			submitOrderBefore() {
 				if (this.paymentMethod === 'Balance' || this.paymentMethod === 'Mix') {
-					this.show = true;
+					if(this.userInfo.payPass){
+						this.show = true;
+					}else{
+						this.showBindPayPwd = true;
+					}
 				} else {
 					this.submitOrder()
 				}
@@ -247,7 +252,7 @@
 									})
 								},
 								fail(err) {
-									uni.$u.toast(err);
+									uni.$u.toast('微信支付失败');
 									uni.redirectTo({
 										url: '/pages/payAfter/payAfter?status=' + 0
 									})

@@ -57,11 +57,11 @@
 								<!-- <text>更多</text> -->
 							</view>
 							<view class="right">
-								<template v-if="item.status==1">
+								<template v-if="item.status==1&&item.type==0">
 									<!-- <button class="u-reset-button"
 										@click.stop="cancelOrderDefault(item.orderId)">取消订单</button> -->
 									<button class="u-reset-button zf"
-										@click.stop="goZhifu(item.orderId,item.paymentMethod)">立即支付</button>
+										@click.stop="goZhifu(item)">立即支付</button>
 								</template>
 								<!-- <template v-if="item.status===3">
 									<button class="u-reset-button" @click.stop="viewWuliu(item)">查看物流</button>
@@ -93,7 +93,8 @@
 	// 	confirmOrder
 	// } from '@/api/order.js'
 	import {
-		orderlist
+		orderlist,
+		getPreOrder
 	} from '@/api/newApi.js'
 	export default {
 		data() {
@@ -249,18 +250,35 @@
 					}
 				}
 			},
-			goZhifu(orderId, paymentMethod) {
-				payment({
-					orderId
+			goZhifu(item) {
+				console.log(item);
+				getPreOrder({
+					id: item.id
 				}).then(res => {
-					this.pay(res.data, paymentMethod.toLowerCase())
-				}).catch(err => {
-					uni.$u.toast(err.message);
-					setTimeout(() => {
-						uni.redirectTo({
-							url: '/pages/payAfter/payAfter?status=' + 0
-						})
-					}, 1000)
+					let data = res.data[0]
+					uni.requestPayment({
+						"provider": "wxpay",
+						"orderInfo": {
+							'appid': data.appid,
+							'noncestr': data.noncestr,
+							'package': data.package,
+							'partnerid': data.partnerid,
+							'timestamp': data.timeStamp,
+							'prepayid': data.prepayid,
+							'sign': data.sign,
+						},
+						success(res) {
+							uni.redirectTo({
+								url: '/pages/payAfter/payAfter?status=' + 1
+							})
+						},
+						fail(err) {
+							uni.$u.toast('微信支付失败');
+							uni.redirectTo({
+								url: '/pages/payAfter/payAfter?status=' + 0
+							})
+						}
+					})
 				})
 			},
 		},

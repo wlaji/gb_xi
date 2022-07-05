@@ -1,5 +1,13 @@
 import request from '@/utils/request';
 
+//获取首页banner
+export const bannerlist = function(data) {
+	return request({
+		url: '/v1/index/bannerlist',
+		method: 'get',
+		params: data
+	})
+}
 //获取用户信息
 export const userinfo = function(data) {
 	return request({
@@ -171,5 +179,14 @@ export const appInfo = function(data) {
 		url: '/v1/login/appInfo',
 		method: 'get',
 		params:data
+	})
+}
+
+//获取我的团队
+export const myTeam = function(data) {
+	return request({
+		url: '/v1/user/myTeam',
+		method: 'post',
+		data
 	})
 }

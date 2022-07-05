@@ -12,7 +12,7 @@
 				<div class="jf-wrap">
 					<view class="jf-item" v-for="item in logList" :key="item.id">
 						<text style="width: 30%;text-align: center;">
-							<u-text mode="date" :text="item.create_time" block size="12"></u-text>
+							<u-text style="display: inline-block;" mode="date" :text="item.create_time" block size="12"></u-text>
 						</text>
 						<text style="width: 30%;text-align: center;">{{item.type===1?'+':'-'}}{{item.amount}}</text>
 						<text style="width: 30%;text-align: center;">{{item.name}}</text>

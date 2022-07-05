@@ -1,10 +1,12 @@
 import axios from 'axios'
 import store from '../store/index.js'
-import {getCookie} from '@/utils/util'
+import {
+	getCookie
+} from '@/utils/util'
 // 创建axios实例
 const service = axios.create({
 	baseURL: process.env.NODE_ENV === 'development' ?
-		'https://www.guoben.shop' : 'http://139.196.204.139:8088',//https://app.guoben.shop/
+		'https://www.guoben.shop' : 'https://www.guoben.shop', //https://app.guoben.shop/
 	timeout: 100000,
 	// transformRequest: [(data) => {
 	// 	data = JSON.stringify(data);
@@ -35,9 +37,9 @@ service.interceptors.request.use(
 	}
 );
 
-function getErrMessage(message){
-	let errmsg =''
-	for(let i in message){
+function getErrMessage(message) {
+	let errmsg = ''
+	for (let i in message) {
 		errmsg = message[i];
 		break
 	}
@@ -48,11 +50,31 @@ function getErrMessage(message){
 service.interceptors.response.use(
 	(res) => {
 		let success = res.data.success
-		if(success){
+		if (success) {
 			return res.data
-		}else{
-			uni.$u.toast(getErrMessage(res.data.message));
-			return Promise.reject(res.data)
+		} else {
+			let isLogin = uni.getStorageSync('isLogin')
+			if (res.status === 401 && isLogin === 'yes') {
+				uni.showModal({
+					title: '提示',
+					content: '登录过期了, 请重新登录',
+					showCancel: false,
+					confirmText: '我知道了',
+					success: function(res) {
+						if (res.confirm) {
+							store.commit('logout')
+							uni.navigateTo({
+								url: '/pages/login/login'
+							})
+						}
+					}
+				});
+				//这句代码很重要，是为了防止401后再继续调用接口
+				uni.setStorageSync('isLogin', 'no');
+			} else if (res.status !== 401) {
+				uni.$u.toast(getErrMessage(res.data.message));
+				return Promise.reject(res.data)
+			}
 		}
 		// if (res.status === 200) {
 		// 	if (code === 401) {
@@ -116,7 +138,6 @@ axios.defaults.adapter = function(config) {
 					header: response.header,
 					config: config
 				};
-				console.log(response)
 				settle(resolve, reject, response);
 			}
 		})
