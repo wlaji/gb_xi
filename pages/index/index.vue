@@ -202,12 +202,6 @@
 				return this.$store.getters.isLogin
 			}
 		},
-		onShow() {
-			setTimeout(()=>{
-				this.$store.commit('logout')
-			},100)
-		},
-
 		onLoad() {
 			this.getPageData();
 			checkUpdateApp();
